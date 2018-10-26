@@ -8,6 +8,11 @@ my @archives = qw(win2005 fall2005 sum2005 spr2005 win2004 fall2004 sum2004 spr2
 # fall2017 sum2017 spr2017 win2016 fall2016 sum2016 spr2016 win2015 fall2015 sum2015 spr2015 win2014 fall2014 sum2014 spr2014 win2013 fall2013 sum2013 spr2013 win2012 fall2012 sum2012 spr2012 win2011 fall2011 sum2011 spr2011 win2010 fall2010 sum2010 spr2010 win2009 fall2009 sum2009 spr2009 win2008 fall2008 sum2008 spr2008 win2007 fall2007 sum2007 spr2007 win2006 fall2006 sum2006 spr2006
 my $location = "..\\data\\";
 
+sub uniq {
+    my %seen;
+    grep !$seen{$_}++, @_;
+}
+
 for(my $j = 0; $j < @archives; $j++) {
 	my $base = "http://plato.stanford.edu/archives/".$archives[$j];
 	my $article_list = $location.$archives[$j]."_node_list.txt";
@@ -39,6 +44,7 @@ for(my $j = 0; $j < @archives; $j++) {
 		print $base . "/" . $article_links[$i]->url()."\n";
 		my @edge_links = $article->find_all_links(url_regex => qr/[a-z]*-?[a-z]*/);
 		if(@edge_links) {
+			@edge_links = uniq(@edge_links);
 			foreach(@edge_links) {
 				my $target_node = $_->url();
 				if($target_node =~ /^\.{2}\/[A-Za-z0-9]*-?[A-Za-z0-9]*-?[A-Za-z0-9]*\//){
