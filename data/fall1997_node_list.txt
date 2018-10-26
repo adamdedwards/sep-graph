@@ -1,4 +1,3 @@
-nodes,id
 bosanquet,bosanquet
 bradley,bradley
 category-theory,category-theory
