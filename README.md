@@ -15,4 +15,4 @@ The [Stanford Encyclopedia of Philosophy][1] (hereafter, SEP) is a "dynamic refe
 See [this link][2] for an example graph of the SEP Winter 1997 archive.
 
 [1]: https://plato.stanford.edu
-[2]: https://adamdedwards.github.io/sep-graph/examplegraph.html
+[2]: https://adamdedwards.github.io/sep-graph/Net1.html
