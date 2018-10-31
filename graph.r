@@ -5,14 +5,28 @@ library(magrittr)
 library(threejs)
 
 ##############################     Load Data    ##############################
+load.data <- function(season,year) 
+{
+  if(missing(season))      { loc <- paste("data/win",year,"_edge_list.txt",sep="")
+  } else if(missing(year)) { loc <- paste("data/",season,"1997_edge_list.txt",sep="")
+  } else                   { loc <- paste("data/",season,year,"_edge_list.txt",sep="")
+  }
+  
+  edges <- read.csv(loc, header = TRUE)
+  return(edges)
+}
 
-nodes <- read.csv("data/win1997_node_list.txt", header = TRUE)
-edges <- read.csv("data/win1997_edge_list.txt", header = TRUE)
+edgelist <- load.data(year=2016)
 
 ##############################  Create Graphs   ##############################
 
-gg <- graph_from_edgelist(as.matrix(edges), directed = FALSE)                 # load edge csv data.frame into an igraph object
-gg <- simplify(gg, remove.multiple = TRUE, remove.loops = TRUE)              # simplify igraph object; remove dups and loops
+create.graph <- function(data) {
+  gg <- graph_from_edgelist(as.matrix(data), directed = FALSE)               # load edge csv data.frame into an igraph object
+  gg <- simplify(gg, remove.multiple = TRUE, remove.loops = TRUE)            # simplify igraph object; remove dups and loops
+  return(gg)
+}
+
+gg <- create.graph(edgelist)
 
 ############################## Graph Attributes ##############################
 
