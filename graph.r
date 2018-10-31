@@ -3,9 +3,6 @@ library(networkD3)
 library(igraph)
 
 # Load data
-#source <- read.csv("data/win1997_source_edge_list.txt", header = FALSE)
-#target <- read.csv("data/win1997_target_edge_list.txt", header = FALSE)
-
 nodes <- read.csv("data/win1997_node_list.txt", header = TRUE)
 edges <- read.csv("data/win1997_edge_list.txt", header = TRUE)
 
@@ -36,4 +33,3 @@ forceNetwork(Links = graph_d3$links,
              fontFamily = "sans-serif",
              fontSize = 14,
              zoom = TRUE)
-
