@@ -27,11 +27,6 @@ push @archives,$season.$year;
 
 my $location = cwd."\\data\\";
 
-sub uniq {
-    my %seen;
-    grep !$seen{$_}++, @_;
-}
-
 for(my $j = 0; $j < @archives; $j++) {
 	print "Collecting data from the ".$archives[$j]." edition of the SEP.\n";
 	my $base = "http://plato.stanford.edu/archives/".$archives[$j];
@@ -71,16 +66,18 @@ for(my $j = 0; $j < @archives; $j++) {
 		my $article = WWW::Mechanize->new( autocheck => 1 );
 		$article->get( $base ."/". $article_links[$i]->url());
 		print $base . "/" . $article_links[$i]->url()."\n";
-		my @edge_links = $article->find_all_links(url_regex => qr/[a-z]*-?[a-z]*/);
-#		foreach(@edge_links) {print $_->url()."\n";}
+		my @edge_links = $article->find_all_links(url_regex => qr/\.{2}\/[\w-]+\/$/);
 		if(@edge_links) {
-			@edge_links = uniq(@edge_links);
-			foreach(@edge_links) {
+      foreach(@edge_links) {
 				my $target_node = $_->url();
-				if($target_node =~ /^\.{2}\/([\w-]+)((index.html)?#\w*){0}\//){
+				if($target_node =~ /^\.{2}\/([\w-]+)((index\.html)?#\w*){0}\//){
           my $source_node = $article_links[$i]->url();
           $source_node =~ s/entries\/(.*)\//$1/g;
-          $target_node =~ s/\.{2}|((index.html)?#\w*)?\///g;
+          $target_node =~ s/\.{2}//g;
+          $target_node =~ s/index\.html//g;
+          $target_node =~ s/\#\w+//g;
+          $target_node =~ s/\/*//g; #ugh
+
           my $s = $source_node;
           my $t = $target_node;
           print "Link between ".$source_node." and ".$target_node."\n";
