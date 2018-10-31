@@ -10,4 +10,9 @@ The [Stanford Encyclopedia of Philosophy][1] (hereafter, SEP) is a "dynamic refe
 + A directed edge connects a source and target node iff the article represented by the source contains a hyperlink to the article represented by the target.
 + Otherwise, nodes are not directly connected.
 
-[1]: http://plato.stanford.edu
+## Example Graph
+
+See [this link][2] for an example graph of the SEP Winter 1997 archive.
+
+[1]: https://plato.stanford.edu
+[2]: https://adamdedwards.github.io/sep-graph/examplegraph.html
