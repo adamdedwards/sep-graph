@@ -33,9 +33,10 @@ gg <- create.graph(edgelist)
 
 # igraph/threejs
 
-gg <- set_vertex_attr(gg,"label",index = V(gg),V(gg)$name)
+gg <- set_vertex_attr(gg,"label",index = V(gg),V(gg)$name)                   # add labels
 
 i <- cluster_edge_betweenness(gg)$membership                                 # create a "group" attribute and load it into node attributes
+i <- cluster_fast_greedy(gg)$membership
 gg <- set_vertex_attr(gg,"group",index = V(gg),i)
 
 c <- rainbow(max(V(gg)$group))                                               # add node/edge colors based on group membership
