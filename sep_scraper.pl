@@ -80,11 +80,11 @@ for(my $j = 0; $j < @archives; $j++) {
 
           my $s = $source_node;
           my $t = $target_node;
-          print "Link between ".$source_node." and ".$target_node."\n";
+          #print "Link between ".$source_node." and ".$target_node."\n";
 
 					print EDGES $s.",".$t."\n";
-					print SOURCE $s."\n";
-					print TARGET $t."\n";
+					#print SOURCE $s."\n";
+					#print TARGET $t."\n";
 				}
 			}
 		}
