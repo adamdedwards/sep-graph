@@ -48,6 +48,7 @@ forceNetwork(Links = graph_d3$links,
 
 
 graph <- graphjs(gg)
+gg
 
 graphjs(gg, layout=layout_with_fr(gg, dim=3))
 
