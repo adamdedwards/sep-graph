@@ -46,6 +46,6 @@ forceNetwork(Links = graph_d3$links,
              opacity = 1,
              fontFamily = "sans-serif",
              fontSize = 14,
-             opacityNoHover = TRUE,
+             opacityNoHover = 0.3,
              zoom = TRUE)
 ```

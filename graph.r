@@ -2,11 +2,12 @@
 library(networkD3)
 library(igraph)
 
-# Load data
-nodes <- read.csv("data/win1999_node_list.txt", header = TRUE)
-edges <- read.csv("data/win1999_edge_list.txt", header = TRUE)
+#################### Load data
 
-# Create Graphs
+nodes <- read.csv("data/win1997_node_list.txt", header = TRUE)
+edges <- read.csv("data/win1997_edge_list.txt", header = TRUE)
+
+#################### Create Graphs
 
 gg <- graph_from_edgelist(matrix(unlist(lapply(edges, as.character)), ncol = 2, byrow = TRUE), directed = TRUE)
 
@@ -24,14 +25,16 @@ forceNetwork(Links = graph_d3$links,
              Target = "target",
              Group = "group",
              height = 500,
-             width = 500,
+             width = 750,
              NodeID = "name", 
              Nodesize = "btwn",
+             charge = -50,
              arrows = FALSE,
              legend = FALSE,
              bounded = TRUE,
              opacity = 1,
              fontFamily = "sans-serif",
              fontSize = 14,
-             opacityNoHover = TRUE,
-             zoom = TRUE)
+#             opacityNoHover = .2,
+             zoom = TRUE
+             )
