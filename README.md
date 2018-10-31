@@ -12,7 +12,7 @@ The [Stanford Encyclopedia of Philosophy][SEP] (hereafter, SEP) is a "dynamic re
 
 ## Example Graph
 
-See these links ([[1]][2],[[2]][2],[[3]][2]) for an example graph of the SEP Winter 1997 archive.
+See these links ([1][2],[2][2],[3][2]) for an example graph of the SEP Winter 1997 archive.
 
 [SEP]: https://plato.stanford.edu
 [1]: https://adamdedwards.github.io/sep-graph/Net1.html
