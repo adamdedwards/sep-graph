@@ -46,6 +46,13 @@ b <- betweenness(gg, v=V(gg))                                                # a
 b <- b/max(b)*10
 gg <- set_vertex_attr(gg, "size", index = V(gg),b[i])
 
+simple.graphics <- function(graph) {
+  graph <- set_vertex_attr(graph, "color", index = V(graph),"red")
+  graph <- set_edge_attr(graph, "color", index = E(graph), "red")
+  graph <- set_vertex_attr(graph, "size", index = V(graph),1)
+}
+
+gg <- simple.graphics(gg)
 
 # networkd3
 
