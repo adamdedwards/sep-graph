@@ -11,9 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Example Graph -- Winter 1997
 
-
-
 ```{r graph, echo=FALSE}
+
 library(networkD3)
 library(igraph)
 
@@ -26,10 +25,9 @@ edges <- read.csv("data/win1997_edge_list.txt", header = TRUE)
 
 # Create Graphs
 
-gg <- graph_from_edgelist(matrix(unlist(lapply(edges, as.character)), ncol = 2, byrow = TRUE), directed = TRUE)
+gg <- graph_from_edgelist(matrix(unlist(lapply(edges, as.character)), ncol = 2, byrow = TRUE), directed = FALSE)
+members <- membership(cluster_optimal(gg))
 
-wc <- cluster_optimal(gg)
-members <- membership(wc)
 graph_d3 <- igraph_to_networkD3(gg,group = members)
 
 # Plot
@@ -38,7 +36,7 @@ forceNetwork(Links = graph_d3$links,
              Source = "source",
              Target = "target",
              Group = "group",
-             NodeID = "name")
-
-
+             NodeID = "name", 
+             opacity = 0.8,
+             zoom = TRUE)
 ```
