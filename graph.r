@@ -4,6 +4,7 @@ library(igraph)
 library(magrittr)
 library(threejs)
 
+
 ##############################     Load Data    ##############################
 load.data <- function(season,year) 
 {
@@ -54,7 +55,7 @@ graph_d3$nodes$btwn <- as.character(betweenness(gg, v = V(gg), directed = TRUE))
 
 ##############################        Plot      ############################## 
 
-graphjs(gg, layout=layout_with_fr(gg, dim=3),main="SEP Winter 1997",vertex.label=V(gg)$label)                                # Visualize graph with threejs
+graphjs(gg, layout=layout_with_fr(gg, dim=3),vertex.label=V(gg)$label)       # Visualize graph with threejs
 
 forceNetwork(Links = graph_d3$links,
              Nodes = graph_d3$nodes,
