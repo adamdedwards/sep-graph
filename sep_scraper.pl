@@ -35,15 +35,19 @@ sub uniq {
 for(my $j = 0; $j < @archives; $j++) {
 	print "Collecting data from the ".$archives[$j]." edition of the SEP.\n";
 	my $base = "http://plato.stanford.edu/archives/".$archives[$j];
-	my $article_list = $location.$archives[$j]."_node_list.csv";
-	my $edge_list = $location.$archives[$j]."_edge_list.csv";
-  my $source_edge_list = $location.$archives[$j]."_source_edge_list.csv";
-  my $target_edge_list = $location.$archives[$j]."_target_edge_list.csv";
+	my $article_list = $location.$archives[$j]."_node_list.txt";
+	my $edge_list = $location.$archives[$j]."_edge_list.txt";
+  my $source_edge_list = $location.$archives[$j]."_source_edge_list.txt";
+  my $target_edge_list = $location.$archives[$j]."_target_edge_list.txt";
 
 	open (NODES,">",$article_list) or die $!;
 	open (EDGES,">",$edge_list) or die $!;
   open (SOURCE,">",$source_edge_list) or die $!;
   open (TARGET,">",$target_edge_list) or die $!;
+  print NODES "name,label\n";
+  print EDGES "source,target\n";
+  print SOURCE "\n";
+  print TARGET "\n";
 
 	# scrape the archive for all article links
 	my $start = WWW::Mechanize->new( autocheck => 1 );
