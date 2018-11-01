@@ -31,9 +31,9 @@ create.graph <- function(data) {
 # igraph/threejs
 
 simple.graphics <- function(g) {
-  g <- set_vertex_attr(g, "color","red")
-  g <- set_edge_attr(g, "color","red")
-  g <- set_vertex_attr(g, "size",1)
+  g <- set_vertex_attr(g, "color",value="red")
+  g <- set_edge_attr(g, "color",value="red")
+  g <- set_vertex_attr(g, "size",value=1)
 }
 
 complicated.graphics <-function(g) {
@@ -51,12 +51,6 @@ complicated.graphics <-function(g) {
   g <- set_vertex_attr(g, "size",value = b)
 }
 
-overlapping.graphics <-function(g){
-  
-  
-  
-}
-
 # networkd3
 
 graph_d3 <- igraph_to_networkD3(gg,group = i)
@@ -65,25 +59,43 @@ graph_d3$nodes$btwn <- as.character(betweenness(gg, v = V(gg), directed = TRUE))
 
 ##############################         Run      ##############################
 
-sp.edgelist <- load.data(season="spr",year=1998)
-su.edgelist <- load.data(season="sum",year=1998)
-fa.edgelist <- load.data(season="fall",year=1998)
-wi.edgelist <- load.data(season="win",year=1998)
+years <- 1998:2016
+seasons <- c("spr","sum","fall","win")
+sep <- vector("list", length(years)*length(seasons))
+sep.graphs <- vector("list", length(years)*length(seasons))
 
-gg.1 <- create.graph(sp.edgelist)
-gg.2 <- create.graph(su.edgelist)
-gg.3 <- create.graph(fa.edgelist)
-gg.4 <- create.graph(wi.edgelist)
+for(i in 0:(length(sep)-1)) {
+  sep[i] <- load.data(season=seasons[(i%%4)+1],year=years[(i+4)%/%4])
+}
+
+for(i in 0:(length(sep)-1)) {
+  sep.graphs[i] <- create.graph(sep[i])
+}
+
+gg.14 <- intersection(gg.4,intersection(gg.3,intersection(gg.2,gg.1) ) )  
+gg.21 <- union(gg.14,gg.2) 
+gg.31 <- union(gg.21,gg.3) 
+gg.41 <- union(gg.31,gg.4) 
+
+print(paste(length(V(gg.14)),length(V(gg.21)),length(V(gg.31)),length(V(gg.41))))
+
+gg.14 <- simple.graphics(gg.14)
+gg.21 <- simple.graphics(gg.21)
+gg.31 <- simple.graphics(gg.31)
+gg.41 <- simple.graphics(gg.41)
 
 
 gg <- simple.graphics(gg)
 gg <- complicated.graphics(gg)
 
+gg.1 <- simple.graphics(gg.1)
+gg.2 <- simple.graphics(gg.2)
+gg.3 <- simple.graphics(gg.3)
+gg.4 <- simple.graphics(gg.4)
 gg.1 <- complicated.graphics(gg.1)
 gg.2 <- complicated.graphics(gg.2)
 gg.3 <- complicated.graphics(gg.3)
 gg.4 <- complicated.graphics(gg.4)
-
 
 
 ##############################        Plot      ############################## 
@@ -97,13 +109,10 @@ graphjs(gg.3, layout=layout_with_fr(gg.3, dim=3),vertex.label=V(gg.3)$label)
 graphjs(gg.4, layout=layout_with_fr(gg.4, dim=3),vertex.label=V(gg.4)$label)
 
 #Animated Graph
-graphjs(list(gg.1,
-             gg.2),
- layout=list(layout_with_fr(gg.1, dim=3),
-             layout_with_fr(gg.2, dim=3)),
-   main=list("Phase 1",
-             "Phase 2"),
-    fpl=300)
+graphjs(list(gg.14,gg.21,gg.31,gg.41),
+   main=list("98","04","08","12"),
+   vertex.color=list("red","red","red","red"),
+   fpl=100)
 
 
 
