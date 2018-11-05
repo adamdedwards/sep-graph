@@ -5,6 +5,7 @@ library(magrittr)
 library(threejs)
 library(htmlwidgets)
 library(intergraph)
+library(scatterplot3d)
 
 
 ##############################     Load Data    ##############################
@@ -75,13 +76,13 @@ graphics <-function(g) {
 
 ##############################         CREATE IGRAPH OBJECTS      ##############################
 
-years <- 1998:2000
-seasons <- c("spr","sum","fall","win")
+years <- 1998:2002
+seasons <- c("spr","sum","fall","win") #
 iterations <- length(years)*length(seasons)
 sep.graphs <- vector("list", iterations) 
 
 for(i in 0:(iterations-1)) {
-   x <- create.graph(load.data(season=seasons[(i%%4)+1],year=years[(i%/%4)+1]))
+   x <- create.graph(load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1]))
    sep.graphs[[i+1]] <- x
 }
 
@@ -98,7 +99,7 @@ for(i in 2:length(sep.graphs)) {
 
 for(i in 1:iterations) {
   big.union.graph <- union(big.intersect.graph,sep.graphs[[i]])
-  each.year[[i]] <- graphics(big.union.graph)
+  each.year[[i]] <- simple.graphics(big.union.graph)
   
 }
 
@@ -121,16 +122,16 @@ graphjs(each.year,
 
 ###################################DYNAMIC NETWORK ANIMATIONS WITH NDTV###################################
 
-sep.graphs.network <- vector("list",12)
+sep.graphs.network <- vector("list",iterations)
 
-for(i in 1:12) {
+for(i in 1:iterations) {
   sep.graphs.network[[i]] <- as.network(asNetwork(sep.graphs[[i]]))
 }
 
-dynet <- networkDynamic(as.network(asNetwork(big.intersect.graph)),network.list =sep.graphs.network,vertex.pid="vertex.names")
+dynet <- networkDynamic(sep.graphs.network[[iterations]],network.list =sep.graphs.network,vertex.pid="vertex.names")
 
 
-d3.options <- list( animationDuration=800, 
+d3.options <- list( animationDuration=2000, 
                     scrubDuration=0, 
                     enterExitAnimationFactor=0, 
                     nodeSizeFactor=0.01, 
@@ -146,7 +147,15 @@ render.par <- list(tween.frames=10,
                    extraPlotCmds=NULL,
                    initial.coords=0)
 
-render.d3movie(dynet, filename=tempfile(fileext = '.html'), 
+anim <- compute.animation(dynet)
+anim <- compute.animation(dynet,animation.mode='kamadakawai')
+
+render.d3movie(anim, 
+               vertex.tooltip = paste("<b>Article:</b>", (dynet %v% 'vertex.names')),
+               edge.col = '#444444',
+               vertex.border = '#000000',
+               vertex.col = '#000000',
+               filename=tempfile(fileext = '.html'), 
                render.par,
                plot.par=list(bg='white'),
                d3.options, 
@@ -156,12 +165,12 @@ render.d3movie(dynet, filename=tempfile(fileext = '.html'),
                verbose=TRUE)
 
 
+timePrism(anim,at=c(0,3,6,9),
+          displaylabels=F,planes = TRUE,
+          label.cex=0.5)
 
 
-
-
-
-
+timeline(anim)
 
 
 
