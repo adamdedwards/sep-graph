@@ -17,7 +17,7 @@ load.data <- function(season,year)
   } else                     { loc <- paste("data/",season,year,"_edge_list.txt",sep="")
   }
   print(paste("opening ",loc))
-  edges <- read.csv(loc, header = FALSE) #should be TRUE?
+  edges <- read.csv(loc, header = TRUE) 
   return(edges)
 }
 
@@ -34,49 +34,88 @@ create.graph <- function(data) {
 
 # igraph/threejs
 
-simple.graphics <- function(g) {
-  g <- set_vertex_attr(g, "color",value=rgb(1,0,0,1))
-  g <- set_vertex_attr(g, "size",value=1)
-  
+hide.isolated.vertices <- function(g) {
   for(v in 1:length(V(g))) {                                                 # hide all isolated vertices
     if(degree(g)[v]==0) {
-      g <- set_vertex_attr(g, "color", index = v, value=rgb(0,0,0,0.01))
+      if("igraph" %in% (.packages())){
+        g <- igraph::set_vertex_attr(g, "color", index = v, value=rgb(0,0,0,0.01))
+      }
+      else {
+        g <- network::set.vertex.attribute(g, "color", index = v, value=rgb(0,0,0,0.01))
+      }
+      
     }
   }
-  
-  g <- set_edge_attr(g, "color",value=rgb(1,0,0,1))
+  return(g)
 }
 
-graphics <-function(g) {	
-  g <- set_vertex_attr(g, "color",value=rgb(1,0,0,1))
-  g <- set_vertex_attr(g, "stroke",value=NULL)
-  g <- set_vertex_attr(g, "size",value=1)
+simple.graphics <- function(g) {
   
-  for(v in 1:length(V(g))) {                                                 # hide all isolated vertices
-    if(degree(g)[v]==0) {
-      g <- set_vertex_attr(g, "color", index = v, value=rgb(0,0,0,0.01))
-    }
+  if("igraph" %in% (.packages())){
+    g <- set_vertex_attr(g, "color" ,value = rgb(1,0,0,1))
+    g <- set_vertex_attr(g, "stroke",value = NULL)
+    g <- set_vertex_attr(g, "size"  ,value = 1)
+    g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
+    
+    g <- hide.isolated.vertices(g)
+    
+    g <- set_edge_attr(g, "color",value=rgb(1,0,0,1))
   }
-  
+  else {
+    g <- set.vertex.attribute(g, "color" ,value = rgb(1,0,0,1))
+    g <- set.vertex.attribute(g, "stroke",value = NULL)
+    g <- set.vertex.attribute(g, "size"  ,value = 1)
+    g <- set.vertex.attribute(g, "label" ,value = V(g)$name)                           # add labels
+    
+    g <- hide.isolated.vertices(g)
+    
+    g <- set.edge.attribute(g, "color",value=rgb(1,0,0,1))
+  }
+  return(g)
+}
+
+graphics <-function(g,comm) {	
+  if("igraph" %in% (.packages())){
+  g <- set_vertex_attr(g, "color" ,value = rgb(1,0,0,1))
+  g <- set_vertex_attr(g, "stroke",value = NULL)
+  g <- set_vertex_attr(g, "size"  ,value = 1)
+  g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
+
   g <- set_edge_attr(g, "color",value=rgb(1,0,0,1))
   
-  g <- set_vertex_attr(g,"label",value = V(g)$name)                           # add labels
   
-#  i <- cluster_fast_greedy(g)$membership                                      # create a "group" attribute and load it into node attributes
-#  g <- set_vertex_attr(g,"group",value = i)
-#  c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
-#  g <- set_vertex_attr(g, "color",value = c[i])
-#  g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
+  g <- set_vertex_attr(g,"group",value = comm$membership)
+  c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
+  g <- set_vertex_attr(g, "color",value = c[comm$membership])
+  g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
   
-  b <-  unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
+  b <- unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
   g <- set_vertex_attr(g, "size",value = b)
-  
+  }
+  else {
+    g <- set.vertex.attribute(g, "color" ,value = rgb(1,0,0,1))
+    g <- set.vertex.attribute(g, "stroke",value = NULL)
+    g <- set.vertex.attribute(g, "size"  ,value = 1)
+    g <- set.vertex.attribute(g, "label" ,value = V(g)$name)                           # add labels
 
+    g <- set.edge.attribute(g, "color",value=rgb(1,0,0,1))
+    
+    
+    g <- set.vertex.attribute(g,"group",value = comm$membership)
+    c <- rainbow(max(get.vertex.attribute(g,"group")))                                               # add node/edge colors based on group membership
+    g <- set.vertex.attribute(g, "color",value = c[comm$membership])
+    g <- set.edge.attribute(g, "color",value = get.edge.attribute(g,"color"))
+    
+    b <- unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
+    g <- set.vertex.attribute(g, "size",value = b)
+  }
+  g <- hide.isolated.vertices(g)
+  return(g)
 }
 
 ##############################         CREATE IGRAPH OBJECTS      ##############################
 
-years <- 1998:2002
+years <- 1998:2000
 seasons <- c("spr","sum","fall","win") #
 iterations <- length(years)*length(seasons)
 sep.graphs <- vector("list", iterations) 
@@ -89,57 +128,66 @@ for(i in 0:(iterations-1)) {
 
 ################################### CONSTRUCT GRAPH LIST FOR GRAPHJS ###################################
 
-big.intersect.graph <- sep.graphs[[1]]
-big.union.graph     <- graph.empty(directed=FALSE)
-each.year <- vector("list", iterations)
+big.intersect.graph  <- sep.graphs[[1]]
+big.union.graph      <- graph.empty(directed=FALSE)
+full.node.set.graphs <- vector("list", iterations)
 
 for(i in 2:length(sep.graphs)) {
   big.intersect.graph <- intersection(big.intersect.graph,sep.graphs[[i]])
 }
 
+#top.level.communities <- cluster_fast_greedy(full.node.set.graphs[[iterations]])
+
+top.level.communities <- igraph::cluster_walktrap(full.node.set.graphs[[iterations]])
+
 for(i in 1:iterations) {
   big.union.graph <- union(big.intersect.graph,sep.graphs[[i]])
-  each.year[[i]] <- simple.graphics(big.union.graph)
+#  full.node.set.graphs[[i]] <- simple.graphics(big.union.graph)                                         # edits graphics to color and hide nodes
+  full.node.set.graphs[[i]] <- graphics(big.union.graph,top.level.communities)                                         # edits graphics to color and hide nodes
   
 }
 
 # Static Graph Images
-graphjs(sep.graphs[[x]], layout=layout_with_fr(sep.graphs[[x]], dim=3),vertex.label=V(sep.graphs[[x]])$label)       # Visualize graph with threejs
+graphjs(full.node.set.graphs[[x]], layout=layout_with_fr(full.node.set.graphs[[x]], dim=3),vertex.label=V(full.node.set.graphs[[x]])$label)       # Visualize graph with threejs
 
-graphjs(sep.graphs[[1]], layout=layout_with_fr(sep.graphs[[1]], dim=3),vertex.label=V(sep.graphs[[1]])$label)       # TODO: Replace with loop
-graphjs(sep.graphs[[2]], layout=layout_with_fr(sep.graphs[[2]], dim=3),vertex.label=V(sep.graphs[[2]])$label)
-graphjs(sep.graphs[[3]], layout=layout_with_fr(sep.graphs[[3]], dim=3),vertex.label=V(sep.graphs[[3]])$label)
-graphjs(sep.graphs[[4]], layout=layout_with_fr(sep.graphs[[4]], dim=3),vertex.label=V(sep.graphs[[4]])$label)
+graphjs(full.node.set.graphs[[1]], layout=layout_with_fr(full.node.set.graphs[[1]], dim=3),vertex.label=V(full.node.set.graphs[[1]])$label)       # TODO: Replace with loop
+graphjs(full.node.set.graphs[[2]], layout=layout_with_fr(full.node.set.graphs[[2]], dim=3),vertex.label=V(full.node.set.graphs[[2]])$label)
+graphjs(full.node.set.graphs[[3]], layout=layout_with_fr(full.node.set.graphs[[3]], dim=3),vertex.label=V(full.node.set.graphs[[3]])$label)
+graphjs(full.node.set.graphs[[4]], layout=layout_with_fr(full.node.set.graphs[[4]], dim=3),vertex.label=V(full.node.set.graphs[[4]])$label)
 
 # Dynamic Graph Animation
-graphjs(each.year,
+graphjs(full.node.set.graphs,
         main=rep(years,each=4),
         bg="white",
-        vertex.shape="sphere",
-        edge.curved=1,
         fpl=50)
 
 
 ###################################DYNAMIC NETWORK ANIMATIONS WITH NDTV###################################
 
+design.sep.graphs <- vector("list",iterations)
+
+full.node.set.graphs[[i]]
+
+for(i in 1:iterations) {
+  design.sep.graphs[[i]] <- graphics(full.node.set.graphs[[i]],top.level.communities)
+}
+
 sep.graphs.network <- vector("list",iterations)
 
 for(i in 1:iterations) {
-  sep.graphs.network[[i]] <- as.network(asNetwork(sep.graphs[[i]]))
+  sep.graphs.network[[i]] <- asNetwork(design.sep.graphs[[i]])
 }
 
-dynet <- networkDynamic(sep.graphs.network[[iterations]],network.list =sep.graphs.network,vertex.pid="vertex.names")
+dynet <- networkDynamic(sep.graphs.network[[iterations]],network.list =sep.graphs.network,vertex.pid="label")
 
 
-d3.options <- list( animationDuration=2000, 
-                    scrubDuration=0, 
+d3.options <- list( animationDuration=2000,
                     enterExitAnimationFactor=0, 
                     nodeSizeFactor=0.01, 
                     playControls=TRUE, 
                     animateOnLoad=TRUE, 
                     slider=TRUE, 
-                    debugFrameInfo=FALSE, 
-                    debugDurationControl=FALSE)
+                    debugFrameInfo=FALSE)
 
 render.par <- list(tween.frames=10,
                    show.time=TRUE,
@@ -151,10 +199,10 @@ anim <- compute.animation(dynet)
 anim <- compute.animation(dynet,animation.mode='kamadakawai')
 
 render.d3movie(anim, 
-               vertex.tooltip = paste("<b>Article:</b>", (dynet %v% 'vertex.names')),
+               vertex.tooltip = paste("<b>Article:</b>", (anim %v% 'label')),
                edge.col = '#444444',
-               vertex.border = '#000000',
-               vertex.col = '#000000',
+               vertex.cex = 1,
+               vertex.col = dynet %v% 'color',
                filename=tempfile(fileext = '.html'), 
                render.par,
                plot.par=list(bg='white'),
@@ -165,14 +213,16 @@ render.d3movie(anim,
                verbose=TRUE)
 
 
-timePrism(anim,at=c(0,3,6,9),
+timePrism(anim,at=c(0,1,2,3,4,5,6,7,8,9,10,11,12),
           displaylabels=F,planes = TRUE,
           label.cex=0.5)
 
 
-timeline(anim)
+timeline(dynet)
 
-
+filmstrip(dynet, displaylabels=F,
+          slice.par=list(start=0, end=11, interval=4, 
+                         aggregate.dur=4, rule='any'))
 
 
 

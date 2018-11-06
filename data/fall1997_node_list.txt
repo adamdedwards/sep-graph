@@ -1,5 +1,4 @@
 name,label
-
 bosanquet,bosanquet
 bradley,bradley
 category-theory,category-theory

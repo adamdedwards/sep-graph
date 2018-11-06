@@ -1,4 +1,3 @@
-name,label
 abstract-objects,abstract-objects
 action,action
 actualism,actualism
