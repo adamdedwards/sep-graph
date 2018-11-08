@@ -1,4 +1,4 @@
-nodes,id
+name,label
 aquinas,aquinas
 aristotle-politics,aristotle-politics
 artifact,artifact

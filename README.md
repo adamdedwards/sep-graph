@@ -12,9 +12,16 @@ The [Stanford Encyclopedia of Philosophy][SEP] (hereafter, SEP) is a "dynamic re
 
 ## Example Graph
 
-See these links ([1][1],[2][2],[3][3]) for an example graph of the SEP Winter 1997 archive.
+See [this example graph of the Fall 2000 SEP archive][1] for an example of a visualization in threejs.
+
+
+## Thanks
+
+Thanks to the developers of [threejs][2], [statnet][3], [d3][4], and [igraph][5] (and everyone working on R I forgot to mention). 
 
 [SEP]: https://plato.stanford.edu
-[1]: https://adamdedwards.github.io/sep-graph/Net1.html
-[2]: https://adamdedwards.github.io/sep-graph/Net2.html
-[3]: https://adamdedwards.github.io/sep-graph/Net3.html
+[1]: https://adamdedwards.github.io/sep-graph/pages/fall2000
+[2]: https://github.com/bwlewis/rthreejs
+[3]: http://statnet.csde.washington.edu/
+[4]: https://github.com/d3
+[5]: https://github.com/igraph
