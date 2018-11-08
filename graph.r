@@ -1,121 +1,174 @@
-
+library(ndtv)
 library(networkD3)
 library(igraph)
 library(magrittr)
 library(threejs)
+library(htmlwidgets)
+library(intergraph)
+library(scatterplot3d)
+library(tsna,ergm)
 
+source("util.r")
+##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-##############################     Load Data    ##############################
-load.data <- function(season,year) 
-{
-  if(missing(season))      { loc <- paste("data/fall",year,"_edge_list.txt",sep="")
-  } else if(missing(year)) { loc <- paste("data/",season,"1997_edge_list.txt",sep="")
-  } else                   { loc <- paste("data/",season,year,"_edge_list.txt",sep="")
-  }
-  
-  edges <- read.csv(loc, header = TRUE)
-  return(edges)
+years <- 1998:2010
+seasons <- c("spr") # ,"sum","fall","win"
+iterations <- length(years)*length(seasons)
+sep.igraphs <- vector("list", iterations) 
+sep.netgraphs <- vector("list", iterations) 
+
+for(i in 0:(iterations-1)) {
+  x <- create.igraph(load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1]))
+  sep.igraphs[[i+1]] <- x
+}
+
+for(i in 0:(iterations-1)) {
+  x <- create.netgraph(load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1]))
+  sep.netgraphs[[i+1]] <- x
 }
 
 
-##############################  Create Graphs   ##############################
+################################### CONSTRUCT GRAPH LIST FOR GRAPHJS ###################################
 
-create.graph <- function(data) {
-  gg <- graph_from_edgelist(as.matrix(data), directed = FALSE)               # load edge csv data.frame into an igraph object
-  gg <- simplify(gg, remove.multiple = TRUE, remove.loops = TRUE)            # simplify igraph object; remove dups and loops
-  return(gg)
+big.intersect.graph  <- sep.igraphs[[1]]
+big.union.graph      <- graph.empty(directed=FALSE)
+full.node.set.igraphs <- vector("list", iterations)
+
+for(i in 2:length(sep.igraphs)) {
+  big.intersect.graph <- intersection(big.intersect.graph,sep.igraphs[[i]])
 }
 
-############################## Graph Attributes ##############################
-
-# igraph/threejs
-
-simple.graphics <- function(g) {
-  g <- set_vertex_attr(g, "color",value="red")
-  g <- set_edge_attr(g, "color",value="red")
-  g <- set_vertex_attr(g, "size",value=1)
+for(i in 1:iterations) {
+  full.node.set.igraphs[[i]] <- union(big.intersect.graph,sep.igraphs[[i]])
 }
 
-complicated.graphics <-function(g) {
-  g <- set_vertex_attr(g,"label",value = V(g)$name)                                # add labels
-  
-#  i <- cluster_edge_betweenness(g)$membership                                 # create a "group" attribute and load it into node attributes
-  i <- cluster_fast_greedy(g)$membership
-  g <- set_vertex_attr(g,"group",value = i)
-  
-  c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
-  g <- set_vertex_attr(g, "color",value = c[i])
-  g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
-  
-  b <-  unlist((evcent(g)$vector*10)+1)                                           # add node size based on eigenvector centrality
-  g <- set_vertex_attr(g, "size",value = b)
+#top.level.communities <- cluster_fast_greedy(full.node.set.graphs[[iterations]])
+top.level.communities <- cluster_walktrap(full.node.set.igraphs[[iterations]])
+
+for(i in 1:iterations) {
+  full.node.set.igraphs[[i]] <- graphics(full.node.set.igraphs[[i]],top.level.communities)                                         # edits graphics to color and hide nodes
 }
+
+
+# Static Graph Images
+graphjs(full.node.set.igraphs[[x]], layout=layout_with_fr(full.node.set.igraphs[[x]], dim=3),vertex.label=V(full.node.set.igraphs[[x]])$label)       # Visualize graph with threejs
+
+graphjs(full.node.set.igraphs[[1]], layout=layout_with_fr(full.node.set.igraphs[[1]], dim=3),vertex.label=V(full.node.set.igraphs[[1]])$label)       # TODO: Replace with loop
+graphjs(full.node.set.igraphs[[2]], layout=layout_with_fr(full.node.set.igraphs[[2]], dim=3),vertex.label=V(full.node.set.igraphs[[2]])$label)
+graphjs(full.node.set.igraphs[[3]], layout=layout_with_fr(full.node.set.igraphs[[3]], dim=3),vertex.label=V(full.node.set.igraphs[[3]])$label)
+graphjs(full.node.set.igraphs[[4]], layout=layout_with_fr(full.node.set.igraphs[[4]], dim=3),vertex.label=V(full.node.set.igraphs[[4]])$label)
+
+# Dynamic Graph Animation
+graphjs(full.node.set.igraphs,
+        main=rep(years,each=4),
+        bg="white",
+        fpl=100)
+
+#write.table(igraph::betweenness(full.node.set.igraphs[[1]]),file="btw.csv",sep = ",")
+
+###################################DYNAMIC NETWORK ANIMATIONS WITH NDTV###################################
+
+
+for(i in 1:iterations) {                                                                                       # simplify and create graph series w/ graphics
+  temp.communities <- cluster_fast_greedy(simplify(asIgraph(sep.netgraphs[[i]])))
+  sep.netgraphs[[i]] <- graphics(sep.netgraphs[[i]],temp.communities)
+}
+
+dynet <- networkDynamic(network.list = sep.netgraphs, vertex.pid="vertex.names")                               # create the dynamic network
+
+final.slice.communities <- cluster_fast_greedy(simplify(asIgraph(sep.netgraphs[[iterations]])))                # this adds an attribute to force all groups to be based on the last slice
+network::set.vertex.attribute(dynet,"group.static",as.vector(membership(final.slice.communities)))
+
+for(i in 1:iterations) {                                                                                       # this loop assigns group as a dynamic attribute
+  current.groups <- network::get.vertex.attribute(sep.netgraphs[[i]],"group")
+  res <- rep(0, length(as.vector(membership(final.slice.communities))))
+  where <- match(sep.netgraphs[[i]]%v%"vertex.names", dynet%v%"vertex.names")
+  res[where] <- current.groups
+  res <- ifelse(res==0,NA,res)
+  activate.vertex.attribute(dynet,"group",value=res,onset=i-1,terminus=i)
+}
+
+fixed.group.colors <- rainbow(max(get.vertex.attribute.active(dynet,"group",at=11)))                           # assigns global colors for groups
+
+
+
+########################### ANIMATION CONTROLS ##################################
+
+d3.options <- list(animationDuration=800,
+                   enterExitAnimationFactor=0, 
+                   nodeSizeFactor=0.01, 
+                   playControls=TRUE, 
+                   animateOnLoad=TRUE, 
+                   slider=TRUE)
+
+render.par <- list(tween.frames=10,
+                   show.time=FALSE,
+                   show.stats="~edges",
+                   extraPlotCmds=NULL,
+                   initial.coords=0)
+
+anim <- compute.animation(dynet,animation.mode='kamadakawai')
+
+anim%n%'slice.par'<-list(start=0,
+                         end=19,
+                         interval=1, 
+                         aggregate.dur=1,
+                         rule='latest')
+
+#saveVideo and  render.cache='none'
+render.d3movie(anim, 
+               main = function(s) {paste("Season:",long.season.names(seasons)[((s-1)%%length(seasons))+1],"Year:",years[((s-1)%/%length(seasons))+1],sep=" ")},
+               vertex.tooltip = function(slice){ network::network.vertex.names(slice) },
+               displaylabels  = F,
+               edge.col       = '#bbbbbb',
+               vertex.cex     = function(slice){ (sna::betweenness(slice,rescale=TRUE)*10)+0.4  },
+               #vertex.col     = function(slice){ ifelse(!is.na(slice%v%"group"),fixed.group.colors[slice%v%"group"],'white') },
+               vertex.col     = function(slice){  rainbow(max(dynet%v%"group.static"))[slice%v%"group.static"]},
+               vertex.lwd     = 0,
+               filename       = tempfile(fileext = '.html'), 
+               render.par,
+               plot.par       = list(bg='white'),
+               d3.options, 
+               output.mode    ='HTML',
+               script.type    = 'embedded',
+               launchBrowser  = TRUE,
+               verbose        = TRUE)
+
+
+
+
+
+
+timePrism(anim,at=c(0,5,10,15),
+          displaylabels=F,planes = TRUE,
+          label.cex=0.5)
+
+
+timeline(dynet)
+tErgmStats(dynet,"edges")
+tErgmStats(dynet,"meandeg")
+
+plot( tEdgeFormation(dynet) )
+
+
+tSnaStats(dynet,
+          'connectedness',
+          start=0,
+          end = 12)
+
+filmstrip(dynet, displaylabels=F,
+          slice.par=list(start=0, end=11, interval=4, aggregate.dur=4, rule='any'))
+
+
+
+
+##############################    networkd3 Plots     ############################## 
 
 # networkd3
 
 graph_d3 <- igraph_to_networkD3(gg,group = i)
 graph_d3$nodes$degree <- as.character(degree(gg, v = V(gg)))
 graph_d3$nodes$btwn <- as.character(betweenness(gg, v = V(gg), directed = TRUE))
-
-##############################         Run      ##############################
-
-years <- 1998:2016
-seasons <- c("spr","sum","fall","win")
-sep <- vector("list", length(years)*length(seasons))
-sep.graphs <- vector("list", length(years)*length(seasons))
-
-for(i in 0:(length(sep)-1)) {
-  sep[i] <- load.data(season=seasons[(i%%4)+1],year=years[(i+4)%/%4])
-}
-
-for(i in 0:(length(sep)-1)) {
-  sep.graphs[i] <- create.graph(sep[i])
-}
-
-gg.14 <- intersection(gg.4,intersection(gg.3,intersection(gg.2,gg.1) ) )  
-gg.21 <- union(gg.14,gg.2) 
-gg.31 <- union(gg.21,gg.3) 
-gg.41 <- union(gg.31,gg.4) 
-
-print(paste(length(V(gg.14)),length(V(gg.21)),length(V(gg.31)),length(V(gg.41))))
-
-gg.14 <- simple.graphics(gg.14)
-gg.21 <- simple.graphics(gg.21)
-gg.31 <- simple.graphics(gg.31)
-gg.41 <- simple.graphics(gg.41)
-
-
-gg <- simple.graphics(gg)
-gg <- complicated.graphics(gg)
-
-gg.1 <- simple.graphics(gg.1)
-gg.2 <- simple.graphics(gg.2)
-gg.3 <- simple.graphics(gg.3)
-gg.4 <- simple.graphics(gg.4)
-gg.1 <- complicated.graphics(gg.1)
-gg.2 <- complicated.graphics(gg.2)
-gg.3 <- complicated.graphics(gg.3)
-gg.4 <- complicated.graphics(gg.4)
-
-
-##############################        Plot      ############################## 
-
-# Static Graph
-graphjs(gg, layout=layout_with_fr(gg, dim=3),vertex.label=V(gg)$label)       # Visualize graph with threejs
-
-graphjs(gg.1, layout=layout_with_fr(gg.1, dim=3),vertex.label=V(gg.1)$label)
-graphjs(gg.2, layout=layout_with_fr(gg.2, dim=3),vertex.label=V(gg.2)$label)
-graphjs(gg.3, layout=layout_with_fr(gg.3, dim=3),vertex.label=V(gg.3)$label)
-graphjs(gg.4, layout=layout_with_fr(gg.4, dim=3),vertex.label=V(gg.4)$label)
-
-#Animated Graph
-graphjs(list(gg.14,gg.21,gg.31,gg.41),
-   main=list("98","04","08","12"),
-   vertex.color=list("red","red","red","red"),
-   fpl=100)
-
-
-
 
 
 forceNetwork(Links = graph_d3$links,
@@ -134,4 +187,4 @@ forceNetwork(Links = graph_d3$links,
              fontSize = 14,
              opacityNoHover = 0,
              zoom = TRUE
-             )                                                               # Visualize graph with networkD3
+)                                                               # Visualize graph with networkD3

@@ -1,3 +1,4 @@
+source,target
 actualism,prior
 actualism,logic-classical
 actualism,logic-modal
@@ -11,21 +12,13 @@ aristotle-logic,logic-relevance
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,square
 aristotle-logic,square
-aristotle-logic,aristotle-psychology#7
 aristotle-logic,aristotle-metaphysics
-aristotle-logic,aristotle-metaphysicsindex.html#Cat
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,logic-relevance
 aristotle-logic,square
 aristotle-logic,stoicism
-aristotle-metaphysics,aristotle-logicindex.html#categories
-aristotle-metaphysics,aristotle-logicindex.html#noncontradiction
-aristotle-metaphysics,aristotle-logicindex.html#essence
-aristotle-metaphysics,aristotle-psychologyindex.html#3
-aristotle-metaphysics,aristotle-logicindex.html#division
-aristotle-metaphysics,aristotle-psychologyindex.html#2
 aristotle-metaphysics,aristotle-logic
 aristotle-metaphysics,aristotle-psychology
 behaviorism,cognitive-science
@@ -52,7 +45,6 @@ conscience-medieval,practical-reason-med
 consciousness-animal,behaviorism
 consciousness-animal,epiphenomenalism
 consciousness-animal,folkpsych-theory
-consciousness-animal,qualiaindex.html
 contractarianism,feminism-self
 contractarianism,contractarianism-contemporary
 contractarianism,liberalism
@@ -215,8 +207,6 @@ properties,universals-medieval
 properties,tropes
 properties,vagueness
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#puzzles
-prop-attitude-reports,fregeindex.html#sense
 prop-attitude-reports,russell
 prop-attitude-reports,frege
 prop-attitude-reports,russell

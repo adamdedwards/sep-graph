@@ -1,3 +1,4 @@
+name,label
 analogy-medieval,analogy-medieval
 aquinas,aquinas
 aristotle-politics,aristotle-politics

@@ -1,3 +1,4 @@
+source,target
 abstract-objects,frege-logic
 abstract-objects,properties
 actualism,prior
@@ -16,21 +17,13 @@ aristotle-logic,logic-relevance
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,square
 aristotle-logic,square
-aristotle-logic,aristotle-psychology#7
 aristotle-logic,aristotle-metaphysics
-aristotle-logic,aristotle-metaphysicsindex.html#Cat
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,logic-relevance
 aristotle-logic,square
 aristotle-logic,stoicism
-aristotle-metaphysics,aristotle-logicindex.html#categories
-aristotle-metaphysics,aristotle-logicindex.html#noncontradiction
-aristotle-metaphysics,aristotle-logicindex.html#essence
-aristotle-metaphysics,aristotle-psychologyindex.html#3
-aristotle-metaphysics,aristotle-logicindex.html#division
-aristotle-metaphysics,aristotle-psychologyindex.html#2
 aristotle-metaphysics,aristotle-logic
 aristotle-metaphysics,aristotle-psychology
 aristotle-politics,aristotle-ethics
@@ -136,7 +129,6 @@ descartes-ontological,descartes-works
 descartes-ontological,existence
 descartes-ontological,ontological-arguments
 descartes-ontological,russell
-diagrams,frege-logicindex.html#FregeNotation
 diagrams,cognitive-science
 diagrams,frege-logic
 diagrams,mental-imagery
@@ -356,7 +348,6 @@ marsilius-inghen,gregory-rimini
 mathematics-constructive,logic-intuitionistic
 mathematics-inconsistent,logic-paraconsistent
 mental-illness,neuroscience
-mental-imagery,aristotle-psychologysupp7.html
 mental-imagery,aristotle-psychology
 mental-imagery,behaviorism
 mental-imagery,cognitive-science
@@ -521,8 +512,6 @@ properties,tropes
 properties,universals-medieval
 properties,vagueness
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#puzzles
-prop-attitude-reports,fregeindex.html#sense
 prop-attitude-reports,russell
 prop-attitude-reports,frege
 prop-attitude-reports,indexicals
@@ -546,10 +535,8 @@ qm,kochen-specker
 qm-bohm,qt-entangle
 qm-bohm,kochen-specker
 qm-bohm,qt-measurement
-qm-bohm,qmindex.html#innerproduct
 qm-bohm,kochen-specker
 qm-bohm,kochen-specker
-qm-bohm,qmindex.html#eigenvector
 qm-bohm,physics-holism
 qm-bohm,qm
 qm-bohm,kochen-specker
@@ -639,7 +626,6 @@ sorites-paradox,logic-paraconsistent
 sorites-paradox,vagueness
 spacetime-bebecome,logic-temporal
 spacetime-bebecome,time-experience
-spacetime-bebecome,spacetime-holeargindex.html#1
 spacetime-bebecome,spacetime-holearg
 spacetime-bebecome,causation-backwards
 spacetime-bebecome,sellars
