@@ -94,9 +94,6 @@ graphics <-function(g,comm) {
   g <- set_vertex_attr(g, "size"  ,value = 1)
   g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
 
-  g <- set_edge_attr(g, "color",value=rgb(1,0,0,1))
-  
-  
   g <- set_vertex_attr(g,"group",value = comm$membership)
   c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
   g <- set_vertex_attr(g, "color",value = c[comm$membership])
@@ -111,15 +108,12 @@ graphics <-function(g,comm) {
     g <- network::set.vertex.attribute(g, "size"  ,value = 1)
     g <- network::set.vertex.attribute(g, "label" ,value = network.vertex.names(g))                           # add labels
 
-    g <- network::set.edge.attribute(g, "color",value=rgb(1,0,0,1))
-    
-    
     g <- network::set.vertex.attribute(g,"group",value = comm$membership)
-    c <- rainbow(max(get.vertex.attribute(g,"group")))                                               # add node/edge colors based on group membership
+    c <- rainbow(max(network::get.vertex.attribute(g,"group")))                                               # add node/edge colors based on group membership
     g <- network::set.vertex.attribute(g, "color",value = c[comm$membership])
-    g <- network::set.edge.attribute(g, "color",value = get.edge.attribute(g,"color"))
+    g <- network::set.edge.attribute(g, "color",value = network::get.edge.attribute(g,"color"))
     
-    b <- unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
+    b <- unlist((sna::evcent(g)*10)+1)                                       # add node size based on eigenvector centrality
     g <- network::set.vertex.attribute(g, "size",value = b)
   }
   else {print("ERROR NOT A GRAPH")}
@@ -129,8 +123,8 @@ graphics <-function(g,comm) {
 
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- 1998:2004
-seasons <- c("spr","sum","fall","win") #
+years <- 1998:2002
+seasons <- c("spr","sum","fall","win") # 
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
 sep.netgraphs <- vector("list", iterations) 
@@ -186,10 +180,12 @@ graphjs(full.node.set.igraphs,
 ###################################DYNAMIC NETWORK ANIMATIONS WITH NDTV###################################
 
 
-design.sep.netgraphs <- vector("list",iterations)
+design.sep.netgraphs <- vector("list",iterations-1)
 
-for(i in 1:iterations) {
-  design.sep.netgraphs[[i]] <- simple.graphics(sep.netgraphs[[i]])
+final.slice.communities <- cluster_fast_greedy(simplify(asIgraph(sep.netgraphs[[iterations]])))
+
+for(i in 2:iterations) {
+  design.sep.netgraphs[[i-1]] <- simple.graphics(sep.netgraphs[[i]])
 }
 
 dynet <- networkDynamic(base.net = design.sep.netgraphs[[1]],
@@ -214,13 +210,20 @@ render.par <- list(tween.frames=10,
 #anim <- compute.animation(dynet)
 anim <- compute.animation(dynet,animation.mode='kamadakawai')
 
+anim%n%'slice.par'<-list(start=1,
+                         end=10,
+                         interval=1, 
+                         aggregate.dur=1,
+                         rule='latest')
+
 render.d3movie(anim, 
+               main = function(s) {paste("Season:",seasons[(s%%length(seasons))],"Year:",years[(s%/%length(seasons))],sep=" ")},
                vertex.tooltip = function(slice){ network::network.vertex.names(slice) },
                displaylabels  = F,
-               edge.col       = '#444444',
-               vertex.cex     = function(slice){ sna::degree(slice)*.1 },
-               vertex.col     = dynet %v% 'color',
-               vertex.border  = dynet %v% 'color',
+               edge.col       = '#bbbbbb',
+               vertex.cex     = function(slice){ (sna::betweenness(slice,rescale=TRUE)*10)+0.4  },
+               vertex.col     = "#ff0000",
+               vertex.border  = "#ff0000",
                filename       = tempfile(fileext = '.html'), 
                render.par,
                plot.par       = list(bg='white'),
@@ -230,7 +233,7 @@ render.d3movie(anim,
                launchBrowser  = TRUE,
                verbose        = TRUE)
 
-
+function(slice){ rainbow(max(anim%v%"group"))[slice%v%"group"] }
 
 
 
