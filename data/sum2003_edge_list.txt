@@ -1,3 +1,4 @@
+source,target
 actualism,prior
 analogy-medieval,aquinas
 analysis,knowledge-analysis
@@ -11,9 +12,7 @@ aristotle-logic,logic-relevance
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,square
 aristotle-logic,square
-aristotle-logic,aristotle-psychology#7
 aristotle-logic,aristotle-metaphysics
-aristotle-logic,aristotle-metaphysicsindex.html#Cat
 aristotle-logic,aristotle-rhetoric
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
@@ -22,11 +21,6 @@ aristotle-logic,aristotle-rhetoric
 aristotle-logic,logic-relevance
 aristotle-logic,square
 aristotle-logic,stoicism
-aristotle-metaphysics,aristotle-logicindex.html#categories
-aristotle-metaphysics,aristotle-logicindex.html#noncontradiction
-aristotle-metaphysics,aristotle-logicindex.html#essence
-aristotle-metaphysics,aristotle-psychologyindex.html#3
-aristotle-metaphysics,aristotle-psychologyindex.html#2
 aristotle-metaphysics,aristotle-logic
 aristotle-metaphysics,aristotle-psychology
 aristotle-politics,aristotle-ethics
@@ -63,7 +57,6 @@ biology-self,biology-self
 biology-self,feminism-self
 bosanquet,bradley
 bosanquet,liberalism
-boyle,cambridge-platonists#cudworth
 boyle,cambridge-platonists
 boyle,bayle
 boyle,hume
@@ -338,7 +331,6 @@ determinism-causal,russell
 determinism-causal,spacetime-supertasks
 determinism-causal,spacetime-holearg
 determinism-causal,time-thermo
-diagrams,frege-logicindex.html#FregeNotation
 diagrams,cognitive-science
 diagrams,frege-logic
 diagrams,mental-imagery
@@ -372,7 +364,6 @@ biodiversity,species
 biodiversity,ethics-environmental
 biodiversity,popper
 biodiversity,species
-edwards,scottish-18thindex.html#2
 edwards,scottish-18th
 edwards,cambridge-platonists
 edwards,freewill
@@ -562,7 +553,6 @@ game-theory,game-evolutionary
 game-theory,prisoner-dilemma
 game-evolutionary,game-theory
 game-evolutionary,game-theory
-game-evolutionary,game-theoryindex.html#solution
 game-evolutionary,game-theory
 game-evolutionary,prisoner-dilemma
 genrel-early,equivME
@@ -866,7 +856,6 @@ logic-paraconsistent,logic-relevance
 logic-paraconsistent,mathematics-inconsistent
 logic-provability,logic-modal
 logic-provability,logic-modal
-logic-provability,prop-attitude-reportsdere.html
 logic-provability,logic-classical
 logic-provability,logic-intuitionistic
 logic-provability,logic-modal
@@ -969,7 +958,6 @@ content-nonconceptual,qualia
 mental-illness,freewill
 mental-illness,freewill
 mental-illness,neuroscience
-mental-imagery,aristotle-psychologysuppl4.html
 mental-imagery,aristotle-psychology
 mental-imagery,behaviorism
 mental-imagery,cognitive-science
@@ -1243,10 +1231,7 @@ problem-of-many,identity-relative
 problem-of-many,intrinsic-extrinsic
 problem-of-many,vagueness
 problem-of-many,sorites-paradox
-problem-of-many,vagueness#4
-problem-of-many,vagueness#4
 problem-of-many,sorites-paradox
-problem-of-many,indexicals#3.4
 problem-of-many,prop-attitude-reports
 problem-of-many,propositions-singular
 problem-of-many,logic-fuzzy
@@ -1272,8 +1257,6 @@ properties,tropes
 properties,universals-medieval
 properties,vagueness
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#puzzles
-prop-attitude-reports,fregeindex.html#sense
 prop-attitude-reports,russell
 prop-attitude-reports,frege
 prop-attitude-reports,indexicals
@@ -1323,10 +1306,8 @@ qm,qm-relational
 qm-bohm,qt-entangle
 qm-bohm,kochen-specker
 qm-bohm,qt-measurement
-qm-bohm,qmindex.html#innerproduct
 qm-bohm,kochen-specker
 qm-bohm,kochen-specker
-qm-bohm,qmindex.html#eigenvector
 qm-bohm,qm-manyworlds
 qm-bohm,physics-holism
 qm-bohm,qm
@@ -1430,8 +1411,6 @@ relations-medieval,universals-medieval
 relativism,connectionism
 relativism,physics-Rpcc
 relativism,feminism-epistemology
-relativism,davidson#Tru
-relativism,davidson#Bel
 relativism,davidson
 relativism,feminism-epistemology
 relativism,feyerabend
@@ -1535,9 +1514,7 @@ self-knowledge,prop-attitude-reports
 set-theory,frege-logic
 set-theory,logic-classical
 set-theory,russell-paradox
-shaftesbury,scottish-18thindex.html#2
 shaftesbury,scottish-18th
-shaftesbury,cambridge-platonistsindex.html#whichcote
 shaftesbury,cambridge-platonists
 shaftesbury,contractarianism
 shaftesbury,egoism
@@ -1583,7 +1560,6 @@ sovereignty,nationalism
 sovereignty,rights-human
 spacetime-bebecome,logic-temporal
 spacetime-bebecome,time-experience
-spacetime-bebecome,spacetime-holeargindex.html#1
 spacetime-bebecome,spacetime-holearg
 spacetime-bebecome,causation-backwards
 spacetime-bebecome,sellars
@@ -1698,7 +1674,6 @@ truth-revision,truth-coherence
 truth-revision,truth-correspondence
 truth-revision,truth-deflationary
 truth-revision,truth-identity
-truth-revision,peirce-logicvita.html
 truthlikeness,popper
 truthlikeness,properties
 turing,church-turing
