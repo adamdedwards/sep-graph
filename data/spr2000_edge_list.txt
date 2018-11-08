@@ -1,3 +1,4 @@
+source,target
 analogy-medieval,aquinas
 aquinas,maritain
 aristotle-logic,square
@@ -139,8 +140,6 @@ properties,russell-paradox
 properties,tropes
 properties,vagueness
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#puzzles
-prop-attitude-reports,fregeindex.html#sense
 prop-attitude-reports,russell
 prop-attitude-reports,frege
 prop-attitude-reports,russell

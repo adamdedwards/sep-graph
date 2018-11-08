@@ -1,3 +1,4 @@
+name,label
 aristotle-politics,aristotle-politics
 artifact,artifact
 bosanquet,bosanquet

@@ -1,3 +1,4 @@
+name,label
 aristotle-politics,aristotle-politics
 bosanquet,bosanquet
 bradley,bradley
