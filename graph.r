@@ -11,7 +11,7 @@ library(tsna,ergm)
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- 1998:2010
+years <- 1998:2007
 seasons <- c("spr") # ,"sum","fall","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
@@ -49,18 +49,26 @@ for(i in 1:iterations) {
   full.node.set.igraphs[[i]] <- graphics(full.node.set.igraphs[[i]],top.level.communities)                                         # edits graphics to color and hide nodes
 }
 
+write.table(betweenness(full.node.set.igraphs[[10]]),"btw2007.csv",sep=",")
 
 # Static Graph Images
-graphjs(full.node.set.igraphs[[x]], layout=layout_with_fr(full.node.set.igraphs[[x]], dim=3),vertex.label=V(full.node.set.igraphs[[x]])$label)       # Visualize graph with threejs
-
-graphjs(full.node.set.igraphs[[1]], layout=layout_with_fr(full.node.set.igraphs[[1]], dim=3),vertex.label=V(full.node.set.igraphs[[1]])$label)       # TODO: Replace with loop
-graphjs(full.node.set.igraphs[[2]], layout=layout_with_fr(full.node.set.igraphs[[2]], dim=3),vertex.label=V(full.node.set.igraphs[[2]])$label)
-graphjs(full.node.set.igraphs[[3]], layout=layout_with_fr(full.node.set.igraphs[[3]], dim=3),vertex.label=V(full.node.set.igraphs[[3]])$label)
-graphjs(full.node.set.igraphs[[4]], layout=layout_with_fr(full.node.set.igraphs[[4]], dim=3),vertex.label=V(full.node.set.igraphs[[4]])$label)
+for(i in 1:4) { #length(full.node.set.igraphs)
+  g <- full.node.set.igraphs[[i]]
+  l <- layout_with_kk(g,dim=3)
+  l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
+  
+  gjs <- graphjs(g, 
+                 layout=l*0.2,
+                 vertex.label=V(g)$label,
+                 minx = NULL, maxx = 300, 
+                 miny = NULL, maxy = 300, 
+                 minz = NULL, maxz = 300)
+  saveNetwork(gjs,paste("Spring_",years[i],"_Graph.html",sep=""), selfcontained = TRUE)
+}
 
 # Dynamic Graph Animation
 graphjs(full.node.set.igraphs,
-        main=rep(years,each=4),
+        main=rep(years,each=1),
         bg="white",
         fpl=100)
 
