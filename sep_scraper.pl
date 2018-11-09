@@ -8,7 +8,8 @@ use HTML::TreeBuilder;
 
 use Cwd qw(cwd);
 
-my @archives = qw(spr2002);
+my @input = @ARGV;
+my @archives = qw(spr2003 spr2004 spr2005 spr2006 spr2007);
 
 # add these to array to get different archived versions of the SEP
 # win2018 fall2018 sum2018 spr2018 win2018 fall2017 sum2017 spr2017
