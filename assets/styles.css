@@ -7,3 +7,9 @@ p { font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; 
 iframe {
   border: solid 2px black;
 }
+
+.center {
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
