@@ -3,3 +3,7 @@ h2 { font-family: 'Inconsolata', monospace; font-size: 30px; font-style: normal;
 h3 { font-family: 'Inconsolata', monospace; font-size: 27px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 32px; }
 
 p { font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 1.2em; }
+
+iframe {
+  border: solid 2px black;
+}
