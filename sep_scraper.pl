@@ -9,7 +9,7 @@ use HTML::TreeBuilder;
 use Cwd qw(cwd);
 
 my @input = @ARGV;
-my @archives = qw(spr2003 spr2004 spr2005 spr2006 spr2007);
+my @archives = qw(fall2018);
 
 # add these to array to get different archived versions of the SEP
 # win2018 fall2018 sum2018 spr2018 win2018 fall2017 sum2017 spr2017
@@ -17,6 +17,8 @@ my @archives = qw(spr2003 spr2004 spr2005 spr2006 spr2007);
 # win2011 fall2011 sum2011 spr2011 win2010 fall2010 sum2010 spr2010 win2009 fall2009 sum2009 spr2009 win2008 fall2008 sum2008 spr2008 win2007 fall2007 sum2007 spr2007
 # win2006 fall2006 sum2006 spr2006 win2005 fall2005 sum2005 spr2005 win2004 fall2004 sum2004 spr2004 win2003 fall2003 sum2003 spr2003 win2002 fall2002 sum2002 spr2002
 # win2001 fall2001 sum2001 spr2001 win2000 fall2000 sum2000 spr2000 win1999 fall1999 sum1999 spr1999 win1998 fall1998 sum1998 spr1998 win1997 fall1997
+
+# DONE:: win2011 fall2011 sum2011 spr2011 win2010 fall2010 sum2010 spr2010 win2009 fall2009 sum2009 spr2009 win2008
 
 sub user_input{
 print "What year do you want to collect?\n";
