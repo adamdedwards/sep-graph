@@ -1,3 +1,4 @@
+source,target
 abelard,relations-medieval
 abelard,medieval-syllogism
 abelard,universals-medieval
@@ -102,7 +103,6 @@ albo-joseph,prophecy
 albo-joseph,providence-divine
 albo-joseph,spinoza
 albo-joseph,time
-albo-joseph,albo-josephvita.html
 alcmaeon,aristotle
 alcmaeon,empedocles
 alcmaeon,philolaus
@@ -210,7 +210,6 @@ anselm,medieval-philosophy
 anselm,ontological-arguments
 antiochus-ascalon,skepticism-ancient
 antiochus-ascalon,arcesilaus
-antiochus-ascalon,stoicismindex.html
 antiochus-ascalon,carneades
 antiochus-ascalon,carneades
 antiochus-ascalon,stoicism
@@ -401,7 +400,6 @@ aristotle-biology,aristotle-logic
 aristotle-biology,aristotle-metaphysics
 aristotle-biology,aristotle-causality
 aristotle-biology,ancient-soul
-aristotle-categories,aristotle-metaphysicssupp1.html
 aristotle-categories,aristotle-metaphysics
 aristotle-categories,aristotle
 aristotle-categories,aristotle-metaphysics
@@ -412,9 +410,7 @@ aristotle-logic,logic-relevance
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,square
 aristotle-logic,square
-aristotle-logic,aristotle-psychologyindex.html
 aristotle-logic,aristotle-metaphysics
-aristotle-logic,aristotle-metaphysicsindex.html#Cat
 aristotle-logic,aristotle-rhetoric
 aristotle-logic,aristotle-metaphysics
 aristotle-logic,aristotle-metaphysics
@@ -425,13 +421,8 @@ aristotle-logic,logic-ancient
 aristotle-logic,logic-relevance
 aristotle-logic,square
 aristotle-logic,stoicism
-aristotle-metaphysics,aristotle-logicindex.html#Cat
-aristotle-metaphysics,aristotle-logicindex.html#NonMet
-aristotle-metaphysics,aristotle-logicindex.html#DefEss
 aristotle-metaphysics,aristotle-psychology
-aristotle-metaphysics,aristotle-logicindex.html#MetDiv
 aristotle-metaphysics,aristotle-natphil
-aristotle-metaphysics,aristotle-psychologyindex.html
 aristotle-metaphysics,aristotle-categories
 aristotle-metaphysics,aristotle-logic
 aristotle-metaphysics,aristotle-psychology
@@ -457,7 +448,6 @@ aristotle-mathematics,aristotle-logic
 aristotle-mathematics,aristotle-logic
 aristotle-mathematics,aristotle
 aristotle-mathematics,aristotle-logic
-aristotle-natphil,aristotle-psychologysuppl3.html
 aristotle-natphil,aristotle-biology
 aristotle-natphil,aristotle-biology
 aristotle-natphil,aristotle-logic
@@ -879,7 +869,6 @@ boundary,realism
 boundary,sorites-paradox
 boundary,spacetime-holearg
 boundary,vagueness
-boyle,cambridge-platonistsindex.html#RalCud
 boyle,cambridge-platonists
 boyle,afterlife
 boyle,arnauld
@@ -916,7 +905,6 @@ brentano,husserl
 brentano,intentionality
 brentano,lvov-warsaw
 brentano,phenomenology
-brentano-judgement,brentanoindex.html#Oth
 brentano-judgement,brentano
 brentano-judgement,assertion
 brentano-judgement,brentano
@@ -1226,7 +1214,6 @@ cognition-animal,behaviorism
 cognition-animal,pragmatics
 cognition-animal,folkpsych-theory
 cognition-animal,folkpsych-simulation
-cognition-animal,moral-psych-emp#EgoVsAlt
 cognition-animal,altruism-biological
 cognition-animal,altruism-biological
 cognition-animal,moral-animal
@@ -1287,7 +1274,6 @@ collingwood,collingwood-aesthetics
 collingwood,davidson
 collingwood,gadamer
 collingwood,mental-causation
-collingwood-aesthetics,collingwoodindex.html#Bib
 collingwood-aesthetics,collingwood
 collingwood-aesthetics,croce-aesthetics
 collingwood-aesthetics,davidson
@@ -2431,11 +2417,7 @@ eternity,christiantheology-philosophy
 eternity,god-necessary-being
 eternity,time
 ethics-ancient,plato
-ethics-ancient,platoindex.html#Soc
-ethics-ancient,platoindex.html#HisSocEarMidLatDia
 ethics-ancient,plato
-ethics-ancient,platoindex.html#Soc
-ethics-ancient,platoindex.html#PlaInd
 ethics-ancient,aristotle-ethics
 ethics-ancient,pyrrho
 ethics-ancient,aristotle-ethics
@@ -2594,7 +2576,6 @@ federalism,hume
 federalism,mill
 federalism,montesquieu
 federalism,sovereignty
-feminism-approaches,feminism-topicsindex.html#2
 feminism-approaches,femapproach-analytic
 feminism-approaches,femapproach-continental
 feminism-approaches,femapproach-pragmatism
@@ -2728,7 +2709,6 @@ feminism-metaphysics,feminist-sex-markets
 feminism-metaphysics,feminism-self
 feminism-language,femapproach-analy-cont
 feminism-language,femapproach-prag-cont
-feminism-language,feminism-topicsindex.html#FemDivWom
 feminism-language,feminism-topics
 feminism-language,feminism-epistemology
 feminism-language,femapproach-prag-cont
@@ -2824,7 +2804,6 @@ feyerabend,vienna-circle
 feyerabend,wittgenstein
 johann-fichte,maimon
 johann-fichte,karl-reinhold
-fictionalism,moral-cognitivism#EmbPro
 fictionalism,fictionalism-modal
 fictionalism,mathphil-indis
 fictionalism,abstract-objects
@@ -2945,14 +2924,11 @@ frege-logic,russell
 frege-logic,russell-paradox
 friendship,love
 friendship,love
-friendship,loveindex.html#LovUni
 friendship,love
-friendship,loveindex.html#LovUni
 friendship,love
 friendship,consequentialism
 friendship,consequentialism-rule
 friendship,moral-cognitivism
-friendship,moral-cognitivismindex.html#MotIntActChaMorJud
 friendship,aristotle-ethics
 friendship,moral-character
 friendship,moral-cognitivism
@@ -3019,7 +2995,6 @@ game-ethics,game-evolutionary
 game-ethics,prisoner-dilemma
 game-evolutionary,game-theory
 game-evolutionary,game-theory
-game-evolutionary,game-theoryindex.html#solution
 game-evolutionary,evolution-cultural
 game-evolutionary,game-theory
 game-evolutionary,prisoner-dilemma
@@ -3089,7 +3064,6 @@ geometry-finitism,vagueness
 geometry-finitism,paradox-zeno
 geometry-19th,apriori
 geometry-19th,spacetime-holearg
-geometry-19th,geometry-19thvita.html
 18thGerman-preKant,leibniz
 18thGerman-preKant,locke
 gersonides,maimonides
@@ -3371,7 +3345,6 @@ hume-aesthetics,hume
 hume-aesthetics,scottish-18th
 hume-moral,hume
 hume-moral,property
-hume-newton,humeindex.html
 hume-newton,ayer
 hume-newton,mathphil-indis
 hume-newton,newton-philosophy
@@ -3717,7 +3690,6 @@ integrity,ethics-virtue
 integrity,impartiality
 integrity,moral-psych-emp
 intensional-trans-verbs,prop-attitude-reports
-intensional-trans-verbs,fregeindex.html#FreLan
 intensional-trans-verbs,prop-attitude-reports
 intensional-trans-verbs,frege
 intensional-trans-verbs,prop-attitude-reports
@@ -3838,24 +3810,14 @@ justification-public,original-position
 justification-public,liberalism
 justification-public,contractarianism-contemporary
 kant-reason,rationalism-empiricism
-kant-reason,kant-judgmentindex.html#1.3
-kant-reason,kant-aestheticsindex.html#3
 kant-reason,kant-science
 kant-reason,kant-metaphysics
 kant-reason,kant-hume-causality
-kant-reason,kant-moralindex.html#ForUniLawNat
-kant-reason,kant-moralindex.html#CatHypImp
-kant-reason,kant-hume-moralityindex.html#ReaMot
-kant-reason,kant-moralindex.html#Aut
-kant-reason,kant-moralindex.html#ForUniLawNat
 kant-reason,hobbes-moral
 kant-reason,kant-religion
-kant-reason,kant-aestheticsindex.html#3
-kant-reason,kant-social-politicalindex.html#RepEnlDem
 kant-reason,practical-reason
 kant-reason,reasons-internal-external
 kant-reason,communitarianism
-kant-reason,moral-non-naturalismindex.html#Int
 kant-reason,autonomy-moral
 kant-reason,kant-aesthetics
 kant-reason,kant-hume-causality
@@ -4284,11 +4246,6 @@ law-limits,republicanism
 law-limits,torture
 justus-lipsius,montaigne
 locke,locke-political
-locke,locke-political#StaNat
-locke,locke-political#LawNat
-locke,locke-political#Pro
-locke,locke-political#ConPolOblEndGov
-locke,locke-political#Tol
 locke,berkeley
 locke,hume
 locke,leibniz
@@ -4298,9 +4255,6 @@ locke,lady-masham
 locke,identity-personal
 locke,substance
 locke,tropes
-locke-political,lockeindex.html#HisBacLocLif
-locke-political,lockeindex.html#TwoTreGov
-locke-political,lockeindex.html#LocRelTol
 locke-political,locke
 locke-political,contractarianism
 locke-political,grotius
@@ -4344,13 +4298,9 @@ logic-classical,logic-temporal
 logic-combinatory,logic-higher-order
 logic-combinatory,recursive-functions
 logic-combinatory,russell-paradox
-logic-combinatory,set-theoryZF.html
-logic-combinatory,settheory-alternativeindex.html#ClaTheOveZFC
 logic-combinatory,goedel
 logic-combinatory,category-theory
 logic-combinatory,logic-intuitionistic
-logic-combinatory,proof-theory-developmentindex.html#NatDedSeqCal
-logic-combinatory,dedekind-foundationsindex.html#FouAri/
 logic-combinatory,goedel
 logic-combinatory,goedel
 logic-combinatory,turing
@@ -4410,9 +4360,7 @@ logic-hybrid,actualism
 logic-hybrid,logic-modal
 logic-hybrid,logic-temporal
 logic-hybrid,prior
-logic-inductive,probability-interpretindex.html#LogPro
 logic-inductive,probability-interpret
-logic-inductive,probability-interpretindex.html#SubPro
 logic-inductive,probability-interpret
 logic-inductive,bayes-theorem
 logic-inductive,epistemology-bayesian
@@ -4488,7 +4436,6 @@ logic-dynamic,logic-epistemic
 logic-dynamic,logic-modal
 logic-dynamic,logic-temporal
 logic-provability,logic-modal
-logic-provability,prop-attitude-reportsdere.html
 logic-provability,logic-classical
 logic-provability,logic-intuitionistic
 logic-provability,logic-modal
@@ -4729,7 +4676,6 @@ justice-bad-luck,equal-opportunity
 justice-bad-luck,justice-distributive
 justice-bad-luck,moral-luck
 justice-bad-luck,moral-responsibility
-justice-bad-luck,justice-bad-luckvita.html
 moral-luck,aristotle-ethics
 moral-luck,causation-law
 moral-luck,moral-character
@@ -4829,10 +4775,7 @@ problem-of-many,identity-relative
 problem-of-many,intrinsic-extrinsic
 problem-of-many,vagueness
 problem-of-many,sorites-paradox
-problem-of-many,vaguenessindex.html#Sup
-problem-of-many,vaguenessindex.html#Sup
 problem-of-many,sorites-paradox
-problem-of-many,indexicalsindex.html#DirRefRigDes
 problem-of-many,prop-attitude-reports
 problem-of-many,propositions-singular
 problem-of-many,logic-fuzzy
@@ -5270,7 +5213,6 @@ content-nonconceptual,perception-contents
 content-nonconceptual,propositions-structured
 content-nonconceptual,prop-attitude-reports
 content-nonconceptual,belief
-content-nonconceptual,perception-contents#7
 content-nonconceptual,consciousness-representational
 content-nonconceptual,content-teleological
 content-nonconceptual,belief
@@ -5337,7 +5279,6 @@ mental-representation,perception-contents
 mental-representation,perception-problem
 mental-representation,qualia
 mental-representation,reference
-representation-medieval,auriolindex.html#CogReaConEssApp
 representation-medieval,auriol
 representation-medieval,aquinas
 representation-medieval,aristotle-psychology
@@ -5377,7 +5318,6 @@ merleau-ponty,husserl
 merleau-ponty,nietzsche
 merleau-ponty,phenomenology
 merleau-ponty,sartre
-merleau-ponty,merleau-pontyvita.html
 metaethics,moral-cognitivism
 metaethics,freewill
 metaethics,moral-epistemology
@@ -5540,23 +5480,9 @@ mohism,xunzi
 mohist-canons,mohism
 mohist-canons,school-names
 mohist-canons,mohism
-mohist-canons,mohismindex.html#SeaObjSta
-mohist-canons,mohismindex.html#fa
-mohist-canons,mohismindex.html#threefa
-mohist-canons,mohismindex.html#heaven
-mohist-canons,mohismindex.html#ethics
-mohist-canons,mohismindex.html#inclusive
-mohist-canons,mohismindex.html#ethics
-mohist-canons,mohismindex.html#heaven
-mohist-canons,mohismindex.html#assessment2
-mohist-canons,mohismindex.html#epistemology
-mohist-canons,mohismindex.html#epistemology
 mohist-canons,xunzi
 mohist-canons,zhuangzi
-mohist-canons,school-namesindex.html#huishi
-mohist-canons,mohismindex.html#fa
 mohist-canons,mencius
-mohist-canons,mohismindex.html#doctrines
 mohist-canons,xunzi
 mohist-canons,confucius
 mohist-canons,xunzi
@@ -5708,9 +5634,6 @@ moral-realism,moral-epistemology
 moral-realism,moral-particularism
 moral-realism,moral-relativism
 moral-realism,moral-non-naturalism
-moral-relativism,relativismindex.html#4
-moral-relativism,moral-epistemologyindex.html#PsyMorMot
-moral-relativism,aristotle-ethicsindex.html#HumGooFunArg
 moral-relativism,ethics-virtue
 moral-relativism,moral-cognitivism
 moral-relativism,metaethics
@@ -5758,7 +5681,6 @@ mysticism,james
 mysticism,perception-problem
 mysticism,schleiermacher
 names,tarski-truth
-names,descriptions#RusTheDes
 names,rigid-designators
 names,content-externalism
 names,propositions-structured
@@ -6203,7 +6125,6 @@ peirce,universals-medieval
 peirce,whewell
 peirce,whitehead
 peirce-logic,peirce
-peirce-logic,peirce-logicvita.html
 peirce-semiotics,peirce
 peirce-semiotics,peirce-logic
 peirce-semiotics,semiotics-medieval
@@ -6781,9 +6702,7 @@ prophecy,providence-divine
 prophecy,religion-epistemology
 prop-attitude-reports,intensional-trans-verbs
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#FrePuz
 prop-attitude-reports,frege
-prop-attitude-reports,fregeindex.html#FreTheSenDen
 prop-attitude-reports,frege
 prop-attitude-reports,anaphora
 prop-attitude-reports,russell
@@ -6813,7 +6732,6 @@ propositions,propositions-singular
 propositions,propositions-structured
 propositions,states-of-affairs
 propositions-singular,propositions-structured
-propositions-singular,frege#FreLan
 propositions-singular,russell
 propositions-singular,knowledge-acquaindescrip
 propositions-singular,descriptions
@@ -6900,7 +6818,6 @@ pythagoreanism,philolaus
 pythagoreanism,archytas
 pythagoreanism,alcmaeon
 pythagoreanism,philolaus
-pythagoreanism,pythagorasindex.html#ChrChaSouPyt
 pythagoreanism,archytas
 pythagoreanism,archytas
 pythagoreanism,philolaus
@@ -6967,10 +6884,8 @@ qm-bohm,qt-entangle
 qm-bohm,kochen-specker
 qm-bohm,qt-measurement
 qm-bohm,qm-decoherence
-qm-bohm,qmindex.html#innerproduct
 qm-bohm,kochen-specker
 qm-bohm,kochen-specker
-qm-bohm,qmindex.html#eigenvector
 qm-bohm,qm-manyworlds
 qm-bohm,physics-holism
 qm-bohm,qm
@@ -7444,8 +7359,6 @@ relations-medieval,universals-medieval
 relativism,connectionism
 relativism,physics-Rpcc
 relativism,feminism-epistemology
-relativism,davidsonindex.html#Tru
-relativism,davidsonindex.html#Bel
 relativism,davidson
 relativism,feminism-epistemology
 relativism,feyerabend
@@ -7619,13 +7532,7 @@ rights-group,rights-children
 rights-human,legal-rights
 rights-human,rights
 rights-human,rights-children
-rigid-designators,actualismindex.html#IndivEssences
 rigid-designators,indexicals
-rigid-designators,referenceindex.html#Ind
-rigid-designators,propositions-structuredindex.html#PosWorStrPro
-rigid-designators,propositions-structuredindex.html#PosWorStrPro
-rigid-designators,referenceindex.html#DesThe
-rigid-designators,descriptionsindex.html#DesTheProNam
 rigid-designators,mind-identity
 rigid-designators,actualism
 rigid-designators,apriori
@@ -7863,7 +7770,6 @@ reduction-biology,concepts
 reduction-biology,scientific-explanation
 reduction-biology,scientific-unity
 reduction-biology,scientific-progress
-reduction-biology,thomas-kuhn#6.2
 reduction-biology,molecular-genetics
 reduction-biology,molecular-biology
 reduction-biology,teleology-biology
@@ -7873,7 +7779,6 @@ reduction-biology,mereology
 reduction-biology,aristotle-biology
 reduction-biology,teleology-biology
 reduction-biology,descartes-physics
-reduction-biology,atomism-modern#2
 reduction-biology,boyle
 reduction-biology,kant-aesthetics
 reduction-biology,epigenesis
@@ -7883,24 +7788,17 @@ reduction-biology,heredity
 reduction-biology,scientific-explanation
 reduction-biology,feyerabend
 reduction-biology,thomas-kuhn
-reduction-biology,thomas-kuhn#6.2
 reduction-biology,molecular-biology
 reduction-biology,models-science
 reduction-biology,molecular-genetics
 reduction-biology,gene
-reduction-biology,scientific-explanation#4
-reduction-biology,scientific-explanation#3.4
 reduction-biology,biology-individual
 reduction-biology,multiple-realizability
 reduction-biology,davidson
 reduction-biology,supervenience
-reduction-biology,physicalism#6
-reduction-biology,scientific-unity#NonRedModUni
-reduction-biology,molecular-biology#2.1
 reduction-biology,properties-emergent
 reduction-biology,feminism-epistemology
 reduction-biology,scientific-knowledge-social
-reduction-biology,scientific-unity#Dis
 reduction-biology,biology-individual
 reduction-biology,epigenesis
 reduction-biology,properties-emergent
@@ -8090,7 +7988,6 @@ settheory-early,russell-paradox
 settheory-early,set-theory
 settheory-early,whitehead
 nonwellfounded-set-theory,set-theory
-nonwellfounded-set-theory,set-theoryprimer.html
 nonwellfounded-set-theory,set-theory
 nonwellfounded-set-theory,settheory-alternative
 nonwellfounded-set-theory,category-theory
@@ -8098,8 +7995,6 @@ nonwellfounded-set-theory,algebra
 nonwellfounded-set-theory,category-theory
 nonwellfounded-set-theory,set-theory
 nonwellfounded-set-theory,settheory-alternative
-shaftesbury,scottish-18thindex.html#HutAes
-shaftesbury,cambridge-platonistsindex.html#BenWhi
 shaftesbury,aesthetics-18th-british
 shaftesbury,contractarianism
 shaftesbury,creationism
@@ -8215,15 +8110,12 @@ skepticism-moral,moral-relativism
 skepticism-moral,moral-non-naturalism
 skepticism-moral,skepticism-ancient
 social-construction-naturalistic,feminism-gender
-social-construction-naturalistic,feminism-gender#GenSocCon
 social-construction-naturalistic,analytic-synthetic
-social-construction-naturalistic,reference#CauThe
 social-construction-naturalistic,naturalism
 social-construction-naturalistic,scientific-knowledge-social
 social-construction-naturalistic,epistemology-social
 social-construction-naturalistic,nietzsche-moral-political
 social-construction-naturalistic,evolution-cultural
-social-construction-naturalistic,evolutionary-psychology#MasModHyp
 social-construction-naturalistic,analytic-synthetic
 social-construction-naturalistic,epistemology-social
 social-construction-naturalistic,events
@@ -8279,7 +8171,6 @@ sorites-paradox,vagueness
 sorites-paradox,logic-paraconsistent
 sorites-paradox,lvov-warsaw
 sorites-paradox,logic-manyvalued
-sorites-paradox,logic-paraconsistentindex.html#ManSys
 sorites-paradox,logic-fuzzy
 sorites-paradox,problem-of-many
 sorites-paradox,logic-fuzzy
@@ -8298,8 +8189,6 @@ sortals,properties
 sortals,species
 ancient-soul,philolaus
 ancient-soul,aristotle-psychology
-ancient-soul,aristotle-psychologyindex.html#Bib
-ancient-soul,plotinusindex.html#Bib
 ancient-soul,aristotle-psychology
 ancient-soul,plato-ethics
 ancient-soul,plato-ethics-politics
@@ -8334,7 +8223,6 @@ spacetime-theories,paradox-zeno
 spacetime-bebecome,time
 spacetime-bebecome,logic-temporal
 spacetime-bebecome,time-experience
-spacetime-bebecome,spacetime-holeargindex.html#ModSpaTheBegGui
 spacetime-bebecome,spacetime-holearg
 spacetime-bebecome,causation-backwards
 spacetime-bebecome,sellars
@@ -8447,7 +8335,6 @@ states-of-affairs,actualism
 states-of-affairs,properties
 states-of-affairs,russell
 states-of-affairs,tropes
-states-of-affairs,states-of-affairsvita.html
 statphys-Boltzmann,ernst-mach
 statphys-Boltzmann,physics-interrelate
 statphys-Boltzmann,probability-interpret
@@ -8863,7 +8750,6 @@ types-tokens,properties
 types-tokens,realism
 type-theory,principia-mathematica
 type-theory,principia-mathematica
-type-theory,russell/
 type-theory,category-theory
 type-theory,frege
 type-theory,frege-logic
