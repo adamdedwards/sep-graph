@@ -10,5 +10,5 @@ function prevcomm() {
 
 function nextcomm() {
     community = community + 1;
-
+    document.getElementById('comm_frame').src = "pages/graphs/community_"+community+".html";
 }
