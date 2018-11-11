@@ -7,9 +7,10 @@ p { font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; 
 iframe {
   border: solid 2px black;
 }
+
 button {
-  padding-left: 2em;
-  padding-right: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
 }
 
 .center {
