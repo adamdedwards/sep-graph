@@ -218,7 +218,7 @@ philosophical.communities <- function(g) {
 
 communities_for_analysis <- philosophical.communities(fall2018)
 
-for (i in 19:length(communities_for_analysis)) {
+for (i in 1:length(communities_for_analysis)) {
   
   g <- graphics(communities_for_analysis[[i]],color=rainbow(length(communities_for_analysis))[i])
   
@@ -233,4 +233,5 @@ for (i in 19:length(communities_for_analysis)) {
                  minz = NULL, maxz = 300)
   
   saveNetwork(gjs,paste("community_",i,".html",sep=""), selfcontained = TRUE)
+  print(paste("Status: Generating visualization for community ",i,sep=""))
 }
