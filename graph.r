@@ -11,8 +11,8 @@ library(tsna,ergm)
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- 1998:2007
-seasons <- c("spr") # ,"sum","fall","win"
+years <- 2018:2018
+seasons <- c("fall") # ,"sum","spr","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
 sep.netgraphs <- vector("list", iterations) 
@@ -34,7 +34,7 @@ big.intersect.graph  <- sep.igraphs[[1]]
 big.union.graph      <- graph.empty(directed=FALSE)
 full.node.set.igraphs <- vector("list", iterations)
 
-for(i in 2:length(sep.igraphs)) {
+for(i in 1:length(sep.igraphs)) {
   big.intersect.graph <- intersection(big.intersect.graph,sep.igraphs[[i]])
 }
 
@@ -49,10 +49,10 @@ for(i in 1:iterations) {
   full.node.set.igraphs[[i]] <- graphics(full.node.set.igraphs[[i]],top.level.communities)                                         # edits graphics to color and hide nodes
 }
 
-write.table(betweenness(full.node.set.igraphs[[10]]),"btw2007.csv",sep=",")
+write.table(betweenness(full.node.set.igraphs[[1]]),"btw2018.csv",sep=",")
 
 # Static Graph Images
-for(i in 1:4) { #length(full.node.set.igraphs)
+for(i in 1:1) { #length(full.node.set.igraphs)
   g <- full.node.set.igraphs[[i]]
   l <- layout_with_kk(g,dim=3)
   l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
@@ -63,7 +63,7 @@ for(i in 1:4) { #length(full.node.set.igraphs)
                  minx = NULL, maxx = 300, 
                  miny = NULL, maxy = 300, 
                  minz = NULL, maxz = 300)
-  saveNetwork(gjs,paste("Spring_",years[i],"_Graph.html",sep=""), selfcontained = TRUE)
+  saveNetwork(gjs,paste("/pages/graphs/Fall_",years[i],"_Graph.html",sep=""), selfcontained = TRUE)
 }
 
 # Dynamic Graph Animation
@@ -196,3 +196,42 @@ forceNetwork(Links = graph_d3$links,
              opacityNoHover = 0,
              zoom = TRUE
 )                                                               # Visualize graph with networkD3
+
+
+
+
+#################################### REVIEW FALL 2018 ###################################
+
+fall2018 <- sep.igraphs[[1]]
+
+philosophical.communities <- function(g) {
+  
+  pc <- cluster_walktrap(g)
+  cv <- vector("list",length = length(pc))
+  
+  for(i in 1:length(pc)) {
+    subg <- induced.subgraph(g,pc[[i]])
+    cv[[i]] <- subg
+  }
+  return(cv)
+}
+
+communities_for_analysis <- philosophical.communities(fall2018)
+
+for (i in 1:length(communities_for_analysis)) {
+  
+  g <- graphics(communities_for_analysis[[i]],color=rainbow(length(communities_for_analysis))[i])
+  
+  l <- layout_with_kk(g,dim=3)
+  l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
+  
+  gjs <- graphjs(g, 
+                 layout=l*0.2,
+                 vertex.label=V(g)$label,
+                 minx = NULL, maxx = 300, 
+                 miny = NULL, maxy = 300, 
+                 minz = NULL, maxz = 300)
+  
+  saveNetwork(gjs,paste("community_",i,".html",sep=""), selfcontained = TRUE)
+  print(paste("Status: Generating visualization for community ",i,sep=""))
+}

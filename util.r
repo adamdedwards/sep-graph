@@ -77,18 +77,19 @@ simple.graphics <- function(g) {
   return(g)
 }
 
-graphics <-function(g,comm) {	
+graphics <-function(g,color="red",comm=NULL) {	
   if(class(g)=="igraph"){
-    g <- set_vertex_attr(g, "color" ,value = rgb(1,0,0,1))
+    g <- set_vertex_attr(g, "color" ,value = color)
     g <- set_vertex_attr(g, "stroke",value = NULL)
     g <- set_vertex_attr(g, "size"  ,value = 1)
     g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
     
-    g <- set_vertex_attr(g,"group",value = comm$membership)
-    c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
-    g <- set_vertex_attr(g, "color",value = c[comm$membership])
-    g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
-    
+    if(is.null(comm)==FALSE) {
+      g <- set_vertex_attr(g,"group",value = comm$membership)
+      c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
+      g <- set_vertex_attr(g, "color",value = c[comm$membership])
+      g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
+    }
     b <- unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
     g <- set_vertex_attr(g, "size",value = b)
   }
