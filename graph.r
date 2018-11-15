@@ -1,7 +1,3 @@
-# install.packages("data.table")
-# install.packages("dplyr")
- install.packages("visNetwork")
-
 library(ndtv)
 library(networkD3)
 library(igraph)
