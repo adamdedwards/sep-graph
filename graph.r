@@ -1,3 +1,7 @@
+# install.packages("data.table")
+# install.packages("dplyr")
+ install.packages("visNetwork")
+
 library(ndtv)
 library(networkD3)
 library(igraph)
@@ -7,6 +11,11 @@ library(htmlwidgets)
 library(intergraph)
 library(scatterplot3d)
 library(tsna,ergm)
+library(RColorBrewer)
+
+library("data.table")
+library(dplyr)
+library(visNetwork)
 
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
@@ -17,13 +26,17 @@ iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
 sep.netgraphs <- vector("list", iterations) 
 
+
+
 for(i in 0:(iterations-1)) {
-  x <- create.igraph(load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1]))
+  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
+  x <- create.igraph(data)
   sep.igraphs[[i+1]] <- x
 }
 
 for(i in 0:(iterations-1)) {
-  x <- create.netgraph(load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1]))
+  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
+  x <- create.netgraph(data)
   sep.netgraphs[[i+1]] <- x
 }
 
@@ -173,32 +186,60 @@ filmstrip(dynet, displaylabels=F,
 ##############################    networkd3 Plots     ############################## 
 
 # networkd3
+ig <- sep.igraphs[[1]]
 
-graph_d3 <- igraph_to_networkD3(gg,group = i)
-graph_d3$nodes$degree <- as.character(degree(gg, v = V(gg)))
-graph_d3$nodes$btwn <- as.character(betweenness(gg, v = V(gg), directed = TRUE))
-
-
-forceNetwork(Links = graph_d3$links,
-             Nodes = graph_d3$nodes,
-             Source = "source",
-             Target = "target",
-             Group = "group",
-             NodeID = "name", 
-             Nodesize = "degree",
-             charge = -50,
-             arrows = FALSE,
-             legend = FALSE,
-             bounded = FALSE,
-             opacity = 1,
-             fontFamily = "sans-serif",
-             fontSize = 14,
-             opacityNoHover = 0,
-             zoom = TRUE
-)                                                               # Visualize graph with networkD3
+V(ig)$label <- V(ig)$name
+V(ig)$degree <- degree(ig)
+V(ig)$betweenness <- betweenness(ig,V(ig),directed=TRUE)
 
 
+i  <- cluster_walktrap(ig)
+c1 <- induced.subgraph(ig,i[[5]])
 
+class(gg)
+
+gg <- igraph_to_networkD3(c1,membership(cluster_walktrap(c1)))
+gg$nodes$deg <- as.character(degree(c1, v = V(c1)))
+gg$nodes$btw <- as.character(betweenness(c1, v = V(c1), directed = TRUE))
+gg$nodes$clo <-as.character(closeness(c1, v = V(c1),mode="all"))
+gg$nodes$eig <-as.character(eigen_centrality(c1, directed = TRUE)[[1]])
+gg$nodes$size <- as.character("1")
+gg$nodes$id <- row.names(gg$nodes)
+
+rename("from"=source, "to"=target)
+
+
+gg$nodes <- setorder(gg$nodes,"name")
+
+
+
+nd3 <- forceNetwork(Links       = gg$links,
+                    Nodes       = gg$nodes,
+                    Source      = "source",
+                    Target      = "target",
+                    Group       = "group",
+                    NodeID      = "name", 
+                    Nodesize    = "size",
+                    radiusCalculation = JS("0"),
+                    charge      = -200,
+                    arrows      = FALSE,
+                    legend      = TRUE,
+                    bounded     = FALSE,
+                    opacity     = 1,
+                    colourScale = JS("d3.scaleOrdinal(d3.schemeCategory20);"),
+                    linkColour = as.character("#00000011"),
+                    fontFamily  = "monospace",
+                    fontSize    = 14,
+                    opacityNoHover = 1,
+                    zoom = TRUE)                                                               # Visualize graph with networkD3
+
+saveNetwork(nd3,"test.html", selfcontained = TRUE)
+saveNetwork(visIgraph(c1),"test2.html",selfcontained=TRUE)
+saveNetwork(visNetwork(nodes=gg$nodes,edges=gg$links),"test3.html",selfcontained=TRUE)
+
+
+
+visIgraph(c1)
 
 #################################### REVIEW FALL 2018 ###################################
 
