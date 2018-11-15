@@ -14,8 +14,8 @@ library(tsna,ergm)
 library(RColorBrewer)
 
 library("data.table")
-library("dplyr")
-library("visNetwork")
+library(dplyr)
+library(visNetwork)
 
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
@@ -188,9 +188,15 @@ filmstrip(dynet, displaylabels=F,
 # networkd3
 ig <- sep.igraphs[[1]]
 
+V(ig)$label <- V(ig)$name
+V(ig)$degree <- degree(ig)
+V(ig)$betweenness <- betweenness(ig,V(ig),directed=TRUE)
+
+
 i  <- cluster_walktrap(ig)
 c1 <- induced.subgraph(ig,i[[5]])
 
+class(gg)
 
 gg <- igraph_to_networkD3(c1,membership(cluster_walktrap(c1)))
 gg$nodes$deg <- as.character(degree(c1, v = V(c1)))
@@ -205,12 +211,6 @@ rename("from"=source, "to"=target)
 
 gg$nodes <- setorder(gg$nodes,"name")
 
-netm <- as_adjacency_matrix(ig, sparse=F)
-colnames(netm) <- V(ig)$name
-rownames(netm) <- V(ig)$name
-
-palf <- colorRampPalette(c("gold", "dark orange")) 
-heatmap(netm[1:100,100:1], Rowv = NA, Colv = NA, col = palf(100), scale="none", margins=c(10,10) )
 
 
 nd3 <- forceNetwork(Links       = gg$links,
@@ -239,13 +239,7 @@ saveNetwork(visNetwork(nodes=gg$nodes,edges=gg$links),"test3.html",selfcontained
 
 
 
-visNetwork(
-  gg$nodes %>% 
-    rename("label"=name) %>% 
-    mutate(id = seq_len(nrow(gg$nodes))-1),
-  gg$links %>% 
-    rename("from"=source, "to"=target)
-)
+visIgraph(c1)
 
 #################################### REVIEW FALL 2018 ###################################
 

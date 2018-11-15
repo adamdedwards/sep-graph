@@ -8,17 +8,10 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-list.of.packages <- c("igraph","networkD3","visNetwork","RColorBrewer")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)>0) install.packages(new.packages,repos = "http://cran.us.r-project.org")
-
-#library(shiny)
 library(igraph)
-#library(threejs)
 library(networkD3)
-library(visNetwork)
+
 library(RColorBrewer)
-#library(extrafont)
 
 ```
 
@@ -28,7 +21,6 @@ First, we need to load the data into R and create a data frame.
 
 ```{r load data}
 data <- read.csv("data/fall1998_edge_list.txt", header = TRUE)
-as.data.frame(data)
 ```
 
 Once the data is loaded, we can create an "igraph" object. We also want to create an edge weight of 1 for each link so that we can combine multiple links into linearly weighted edges. The `simplify` function will also eliminate self-loops.
@@ -39,15 +31,26 @@ E(g)$weight <- 1
 g <- simplify(g, edge.attr.comb=list(weight="sum"))
 ```
 
+### Nodes
+
+```{r}
+V(g)
+```
+
+### Edges
+```{r}
+E(g)
+```
+
 The igraph package has several functions that allow us to compute vertex-level and edge-level attributes for the graph. For now, we'll add node labels, degree, betweenness, and group membership using the `cluster_walktrap` function to assign group membership based on short, randow walks around the graph
 
 ```{r igraph attributes,echo=FALSE, warning=FALSE}
-V(g)$label <- V(g)$name
-V(g)$degree <- degree(g)
-V(g)$betweenness <- betweenness(g,V(g),directed=TRUE)
-#V(g)$closeness <- closeness(g,mode="all")
+V(g)$label        <- V(g)$name
+V(g)$degree       <- degree(g, mode = "all")
+V(g)$betweenness  <- betweenness(g,V(g),directed=TRUE)
+#V(g)$closeness   <- closeness(g,mode="all")
 #V(g)$eigenvector <- eigen_centrality(g, directed = TRUE, weights=E(g)$weight)[[1]]
-V(g)$group <- membership(cluster_walktrap(g))
+V(g)$group        <- membership(cluster_walktrap(g))
 
 pc <- cluster_walktrap(g)
 colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
@@ -56,7 +59,6 @@ colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
 We can see the graph object with these new properties and the communities that the clustering algorithm has identified. One interesting feature of this data set is how the clustering algorithm identifies what I take to be the major areas that professional philosophers identify as subfields. There's no expert knowledge applied to these graphs; it's an emergent feature of how the SEP is organized.
 
 ```{r igraph}
-g
 
 communities(cluster_walktrap(g))
 ```
@@ -67,7 +69,7 @@ We can do some pre-analysis of the graph by looking at the distributions of the 
 
 ```{r pre-analysis, echo=FALSE}
 hist <- hist(V(g)$degree,xlab = "Degree",main = "Degree Centrality",col=colors[3])
-V(g)$name[match(tail(sort(V(g)$degree),10),V(g)$degree)]
+match(tail(sort(V(g)$degree),10),V(g)$degree)
 
 hist <- hist(V(g)$betweenness,xlab = "Betweenness",main = "Betweenness Centrality",col=colors[9])
 V(g)$name[match(tail(sort(V(g)$betweenness),10),V(g)$betweenness)]
@@ -79,7 +81,7 @@ V(g)$name[match(tail(sort(V(g)$betweenness),10),V(g)$betweenness)]
 
 ## Visualizations
 
-With igraph
+### igraph
 
 ```{r igraph viz, echo=FALSE}
 
@@ -90,22 +92,9 @@ E(g)$edge.color <- "gray80"
 
 
 plot(g,vertex.label=NA)
-
-plot(pc,g,vertex.label=NA)
-
 ```
 
-```{r threejs viz, echo=FALSE}
-
-#l <- layout_with_kk(g,dim=3)
-#l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
-  
-#gjs <- graphjs(g,layout=l*0.2,vertex.label=V(g)$label,
-#                 minx = NULL, maxx = 300, miny = NULL, maxy = 300, minz = NULL, maxz = 300)
-#gjs
-```
-
-With NetworkD3
+### networkD3
 
 ```{r networkd3, echo=FALSE}
 
@@ -134,12 +123,14 @@ nd3 <- forceNetwork(Links       = gd3$links,
 nd3
 ```
 
-With visNetwork
+
+
+### visNetwork
 
 ```{r visNetwork, echo=FALSE}
-
+library(visNetwork)
 visIgraph(g)
-
+detach(package:visNetwork)
 ```
 
 ## References/Acknowledgements
