@@ -1,39 +1,31 @@
-library(ndtv)
+#library(ndtv)
+library(network)
 library(networkD3)
 library(igraph)
-library(magrittr)
-library(threejs)
-library(htmlwidgets)
-library(intergraph)
-library(scatterplot3d)
-library(tsna,ergm)
+#library(threejs)
+#library(intergraph)
+#library(scatterplot3d)
+#library(tsna,ergm)
 library(RColorBrewer)
 
-library("data.table")
-library(dplyr)
+#library("data.table")
+#library(dplyr)
 library(visNetwork)
 
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- 2018:2018
-seasons <- c("fall") # ,"sum","spr","win"
+years <- as.character(2002:2008)
+seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
 sep.netgraphs <- vector("list", iterations) 
 
-
-
 for(i in 0:(iterations-1)) {
-  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
-  x <- create.igraph(data)
-  sep.igraphs[[i+1]] <- x
-}
-
-for(i in 0:(iterations-1)) {
-  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
-  x <- create.netgraph(data)
-  sep.netgraphs[[i+1]] <- x
+       edges <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
+  data.edges <- as.data.frame(edges)
+  sep.igraphs[[i+1]]   <- create.igraph(data.edges)
+  sep.netgraphs[[i+1]] <- create.netgraph(data.edges)
 }
 
 
@@ -271,4 +263,43 @@ for (i in 1:length(communities_for_analysis)) {
   
   saveNetwork(gjs,paste("community_",i,".html",sep=""), selfcontained = TRUE)
   print(paste("Status: Generating visualization for community ",i,sep=""))
+}
+
+
+####################### vizNetwork ###################
+
+
+for(i in 1:length(sep.igraphs)) {
+  g <- sep.igraphs[[i]]
+  
+  V(g)$label        <- V(g)$name
+  V(g)$degree       <- degree(g, mode = "all")
+  V(g)$betweenness  <- betweenness(g,V(g),directed=TRUE,normalized=TRUE)
+  #V(g)$closeness    <- closeness(g,mode="all",normalized = TRUE)
+  #V(g)$eigenvector <- eigen_centrality(g, directed = TRUE, weights=E(g)$weight)[[1]]
+  V(g)$group        <- membership(cluster_walktrap(g))
+  
+  colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
+  
+  V(g)$color        <- colors[V(g)$group]
+  V(g)$size         <- 20
+  V(g)$label.family	<- "mono"
+  V(g)$label.cex	  <- 1
+  
+  E(g)$color        <- colors[tail_of(g,E(g))$group]
+  E(g)$arrow.size	  <- 0.1
+  E(g)$curved       <- 0.3
+  
+  l <- layout_with_fr(g)
+  l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
+  
+  
+  visnet <- toVisNetworkData(as.undirected(g))
+  
+  visnet$nodes$font <- "14px monospace black"
+  
+  saveNetwork(visNetwork(nodes = visnet$nodes, edges = visnet$edges, main=paste("Spring",years[i],sep=" ")) %>%
+                visClusteringByGroup(visnet,visnet$nodes$group) %>%
+                visPhysics(solver = "forceAtlas2Based", forceAtlas2Based = list(gravitationalConstant = -100),stabilization=FALSE) %>%
+                visOptions(highlightNearest = TRUE, selectedBy = "group"),paste("spring_",years[i],".html",sep=""),selfcontained=TRUE)
 }

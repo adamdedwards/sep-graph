@@ -1,15 +1,18 @@
 ---
 title: "SEP Analysis"
 author: "Adam Edwards"
-date: "November 12, 2018"
+date: "November 14, 2018"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+library(rmarkdown)
+library(formatR)
 library(igraph)
 library(networkD3)
+library(visNetwork)
 
 library(RColorBrewer)
 
@@ -17,62 +20,65 @@ library(RColorBrewer)
 
 ## R Code
 
-First, we need to load the data into R and create a data frame.
+First, we need to load the data into an R data frame.
 
 ```{r load data}
-data <- read.csv("../data/fall1998_edge_list.txt", header = TRUE)
+data <- read.csv("../data/2001_fall_edge_list.csv", header = TRUE)
 ```
 
 Once the data is loaded, we can create an "igraph" object. We also want to create an edge weight of 1 for each link so that we can combine multiple links into linearly weighted edges. The `simplify` function will also eliminate self-loops.
 
 ```{r create igraph}
-g <- graph_from_data_frame(as.data.frame(data), directed = TRUE)
+g <- graph_from_data_frame(data, directed = TRUE)
 E(g)$weight <- 1
 g <- simplify(g, edge.attr.comb=list(weight="sum"))
 ```
 
-### Nodes
-
-```{r}
-V(g)
-```
-
-### Edges
-```{r}
-E(g)
-```
-
-The igraph package has several functions that allow us to compute vertex-level and edge-level attributes for the graph. For now, we'll add node labels, degree, betweenness, and group membership using the `cluster_walktrap` function to assign group membership based on short, randow walks around the graph
+The igraph package has several functions that allow us to compute vertex-level and edge-level attributes for the graph. For now, we'll add node labels, degree, betweenness, and group membership using the `cluster_walktrap` function to assign group membership based on short, random walks around the graph
 
 ```{r igraph attributes,echo=FALSE, warning=FALSE}
 V(g)$label        <- V(g)$name
 V(g)$degree       <- degree(g, mode = "all")
-V(g)$betweenness  <- betweenness(g,V(g),directed=TRUE)
-#V(g)$closeness   <- closeness(g,mode="all")
+V(g)$betweenness  <- betweenness(g,V(g),directed=TRUE,normalized=TRUE)
+#V(g)$closeness    <- closeness(g,mode="all",normalized = TRUE)
 #V(g)$eigenvector <- eigen_centrality(g, directed = TRUE, weights=E(g)$weight)[[1]]
 V(g)$group        <- membership(cluster_walktrap(g))
 
-pc <- cluster_walktrap(g)
 colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
+
+V(g)$color        <- colors[V(g)$group]
+
+#toVisNetworkData(as.undirected(g))$nodes
 ```
 
 We can see the graph object with these new properties and the communities that the clustering algorithm has identified. One interesting feature of this data set is how the clustering algorithm identifies what I take to be the major areas that professional philosophers identify as subfields. There's no expert knowledge applied to these graphs; it's an emergent feature of how the SEP is organized.
-
-```{r igraph}
-
-communities(cluster_walktrap(g))
-```
 
 ## Some Charts
 
 We can do some pre-analysis of the graph by looking at the distributions of the different properties:
 
 ```{r pre-analysis, echo=FALSE}
-hist <- hist(V(g)$degree,xlab = "Degree",main = "Degree Centrality",col=colors[3])
-match(tail(sort(V(g)$degree),10),V(g)$degree)
+plot(x=0:max(degree(g)),
+     y = 1-degree_distribution(g, cumulative=T, mode="all"),
+     xlab = "Degree",
+     ylab = "Cumulative Frequency",
+     main = "Degree Distribution",
+     pch  = 20,
+     col  = colors[1])
 
-hist <- hist(V(g)$betweenness,xlab = "Betweenness",main = "Betweenness Centrality",col=colors[9])
-V(g)$name[match(tail(sort(V(g)$betweenness),10),V(g)$betweenness)]
+plot(sort(V(g)$betweenness),
+     xlab = "Node",
+     ylab = "Betweenness",
+     main = "Betweenness Centrality",
+     pch  = 20,
+     col  = colors[6])
+
+#plot(x=V(g), y=V(g)$closeness,
+#     xlab = "Node",
+#     ylab = "Closeness",
+#     main = "Closeness Centrality",
+#     pch  = 20,
+#     col  = colors[11])
 
 #hist <- hist(V(g)$eigenvector,xlab = "Eigenvector",main = "Eigenvector Centrality")
 #V(g)$name[match(tail(sort(V(g)$eigenvector),10),V(g)$eigenvector)]
@@ -96,7 +102,7 @@ plot(g,vertex.label=NA)
 
 ### networkD3
 
-```{r networkd3, echo=FALSE}
+```{r animation/interaction with networkd3, echo=FALSE, eval=FALSE}
 
 gd3 <- igraph_to_networkD3(g,V(g)$group)
 gd3$nodes$deg <- as.character(degree(g, v = V(g)))
@@ -128,9 +134,14 @@ nd3
 ### visNetwork
 
 ```{r visNetwork, echo=FALSE}
-library(visNetwork)
-visIgraph(g)
-detach(package:visNetwork)
+visnet <- toVisNetworkData(as.undirected(g))
+
+visNetwork(nodes = visnet$nodes, edges = visnet$edges) %>%
+  visPhysics(solver = "forceAtlas2Based", 
+             forceAtlas2Based = 
+             list(gravitationalConstant = -200),
+             stabilization=FALSE) %>%
+  visOptions(highlightNearest = TRUE, selectedBy = "group")
 ```
 
 ## References/Acknowledgements
