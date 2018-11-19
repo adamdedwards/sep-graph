@@ -310,7 +310,7 @@ sep.viznet <- function() {
                edges      = visnet$edges, 
                main       = list(text=paste("<h1>The SEP in the year ",years[i],"</h1>",sep=""),style="font-family: \"Inconsolata\", monospace;"),
                height     = "700px", 
-               width      = "80%",
+               width      = "100%",
                background = "rgba(0, 0, 0, 0)",
                footer     = list(text=paste("<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality</a>:</h3><p>",d.top10,"</p>",
                                             "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality</a>:</h3><p>",b.top10,"</p>",
