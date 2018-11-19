@@ -1,39 +1,32 @@
-library(ndtv)
+#library(ndtv)
+library(network)
 library(networkD3)
 library(igraph)
-library(magrittr)
-library(threejs)
-library(htmlwidgets)
-library(intergraph)
-library(scatterplot3d)
-library(tsna,ergm)
+#library(threejs)
+#library(intergraph)
+#library(scatterplot3d)
+#library(tsna,ergm)
 library(RColorBrewer)
 
-library("data.table")
-library(dplyr)
+#library("data.table")
+#library(dplyr)
 library(visNetwork)
 
+if(getwd() != "C:/Users/adame/Dropbox/git/sep-graph") {setwd("C:/Users/adame/Dropbox/git/sep-graph")}
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- 2018:2018
-seasons <- c("fall") # ,"sum","spr","win"
+years <- as.character(1998:2008)
+seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
 sep.netgraphs <- vector("list", iterations) 
 
-
-
 for(i in 0:(iterations-1)) {
-  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
-  x <- create.igraph(data)
-  sep.igraphs[[i+1]] <- x
-}
-
-for(i in 0:(iterations-1)) {
-  data <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
-  x <- create.netgraph(data)
-  sep.netgraphs[[i+1]] <- x
+       edges <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
+  data.edges <- as.data.frame(edges)
+  sep.igraphs[[i+1]]   <- create.igraph(data.edges)
+  sep.netgraphs[[i+1]] <- create.netgraph(data.edges)
 }
 
 
@@ -272,3 +265,72 @@ for (i in 1:length(communities_for_analysis)) {
   saveNetwork(gjs,paste("community_",i,".html",sep=""), selfcontained = TRUE)
   print(paste("Status: Generating visualization for community ",i,sep=""))
 }
+
+
+####################### vizNetwork ###################
+
+sep.viznet <- function() {
+  for(i in 1:length(sep.igraphs)) {
+    g <- sep.igraphs[[i]]
+    g <- as.undirected(g)
+    
+    V(g)$label        <- V(g)$name
+    V(g)$degree       <- degree(g, mode = "all")
+    V(g)$betweenness  <- betweenness(g,V(g),directed=FALSE,normalized=TRUE)
+  #  V(g)$closeness    <- closeness(g,mode="all",normalized = TRUE)
+    V(g)$eigenvector <- eigen_centrality(g, directed = FALSE, weights=E(g)$weight)[[1]]
+    V(g)$group        <- membership(cluster_walktrap(g))
+    
+    colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
+    
+    V(g)$color        <- colors[V(g)$group]
+    V(g)$size         <- 5 + 20*round((V(g)$betweenness/max(V(g)$betweenness)),digits=3)
+    V(g)$label.family	<- "mono"
+    V(g)$label.cex	  <- 1
+    
+    E(g)$color        <- adjustcolor(colors[tail_of(g,E(g))$group],alpha.f = 0.4)
+    E(g)$arrow.size	  <- 0.1
+    E(g)$curved       <- 0.3
+    
+    visnet <- toVisNetworkData(g)
+    
+    visnet$nodes$font <- "14px monospace black"
+    visnet$nodes$title <- paste("<h4><a href=\"https://plato.stanford.edu/archives/spr",years[i],"/entries/",visnet$nodes$label,"/\">SEP/",visnet$nodes$label,"</a></h4>",
+                                "<p><b>Degree Centrality: </b>",visnet$nodes$degree,"&emsp;<b>Max: </b>",max(visnet$nodes$degree),"</p>",
+                                "<p><b>Betweenness Centrality: </b>",round((visnet$nodes$betweenness/max(visnet$nodes$betweenness)),digits=3),"</p>",
+                                "<p><b>Eigenvector Centrality: </b>",round((visnet$nodes$eigenvector/max(visnet$nodes$eigenvector)),digits=3),"</p>",
+                                "<p><b>Group: </b>",visnet$nodes$group,"</p>",sep="")
+    
+    
+    d.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$degree)]),10),sep="",collapse=", ") # list of nodes in order of degree/betweenness/etc centrality
+    b.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$betweenness)]),10),sep="",collapse=", ")
+    e.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$eigenvector)]),10),sep="",collapse=", ")
+    
+    visNetwork(nodes = visnet$nodes, 
+               edges      = visnet$edges, 
+               main       = list(text=paste("<h1>The SEP in the year ",years[i],"</h1>",sep=""),style="font-family: \"Inconsolata\", monospace;"),
+               height     = "700px", 
+               width      = "80%",
+               background = "rgba(0, 0, 0, 0)",
+               footer     = list(text=paste("<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality</a>:</h3><p>",d.top10,"</p>",
+                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality</a>:</h3><p>",b.top10,"</p>",
+                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality</a>:</h3><p>",e.top10,"</p>",sep=""),style="font-family: \"Inconsolata\", monospace;")) %>%
+    visEdges(smooth = FALSE) %>%
+    visIgraphLayout(layout = "layout_with_kk",physics = TRUE,randomSeed = 8128) %>%
+  # visLayout(randomSeed = 12, 
+  #           improvedLayout = TRUE,
+  #           hierarchical = FALSE) %>%
+  # visClusteringByGroup(c(1:length(visnet$nodes$group))) %>%
+    visPhysics(solver = "forceAtlas2Based", #barnesHut forceAtlas2Based
+               forceAtlas2Based = list(gravitationalConstant = -80,centralGravity=.01,avoidOverlap=1,springConstant=0.1,damping=1),
+               minVelocity = 1,
+               stabilization=FALSE) %>%
+    visOptions(selectedBy       = list(variable="group",style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;'), 
+               highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE, hideColor = "rgba(0,0,0,.1)",labelOnly = FALSE), 
+               nodesIdSelection = list(enabled = TRUE, style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;')) %>%
+   visInteraction(keyboard = TRUE, hideEdgesOnDrag = TRUE, tooltipDelay=200, tooltipStyle='font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;') %>%
+   visSave(file = paste("viz/spring_",years[i],".html",sep=""))
+  }
+}
+
+sep.viznet()

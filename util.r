@@ -1,12 +1,17 @@
 ##############################     Load Data    ##############################
 load.data <- function(season,year) 
 {
-  if(missing(season) & missing(year))      { loc <- "data/fall1998_edge_list.txt"
-  } else if(missing(year))   { loc <- paste("data/",season,"1998_edge_list.txt",sep="")
-  } else if(missing(season)) { loc <- paste("data/fall",year,"_edge_list.txt",sep="")
-  } else                     { loc <- paste("data/",season,year,"_edge_list.txt",sep="")
+  if(missing(season) & missing(year))      { 
+    loc <- "data/1998_spr_edge_list.csv"
+  } else if(missing(year))   { 
+    loc <- paste("data/","1998_",season,"_edge_list.csv",sep="")
+  } else if(missing(season)) { 
+    loc <- paste("data/",year,"_spr_edge_list.csv",sep="")
+  } else                     { 
+    loc <- paste("data/",year,"_",season,"_edge_list.csv",sep="")
   }
-  print(paste("opening",loc))
+  
+  print(paste("opening",year,season))
   edges <- read.csv(loc, header = TRUE) 
   return(edges)
 }
@@ -15,15 +20,16 @@ load.data <- function(season,year)
 ##############################  Create Graphs(datatype:igraph)  ##############################
 
 create.igraph <- function(data) {
-  g <- graph_from_edgelist(as.matrix(data), directed = FALSE)               # load edge csv data.frame into an igraph object
-  g <- simplify(g, remove.multiple = TRUE, remove.loops = TRUE)            # simplify igraph object; remove dups and loops
+  g <- graph_from_data_frame(data, directed = TRUE)
+  E(g)$weight <- 1
+  g <- simplify(g, edge.attr.comb=list(weight="sum"))
   return(g)
 }
 
 #############################    Create Graphs (datatype:statnet)   ###########################
 
 create.netgraph <- function(data) {
-  n=network(data,matrix.type="edgelist",directed=FALSE)
+  n=network(data,matrix.type="edgelist",directed=TRUE)
   return(n)
 }
 
@@ -36,7 +42,7 @@ hide.isolated.vertices <- function(g) {
   if(class(g)=="igraph"){
     for(v in 1:length(V(g))) {                                                 # hide all isolated vertices
       if(igraph::degree(g)[v]==0) {
-        g <- igraph::set_vertex_attr(g, "color", index = v, value=rgb(0,0,0,0.01))
+        g <- V(g)$color <- rgb(0,0,0,0.01)
       }
     }
   }
@@ -54,14 +60,14 @@ hide.isolated.vertices <- function(g) {
 simple.graphics <- function(g) {
   
   if(class(g)=="igraph"){
-    g <- set_vertex_attr(g, "color" ,value = rgb(1,0,0,1))
-    g <- set_vertex_attr(g, "stroke",value = NULL)
-    g <- set_vertex_attr(g, "size"  ,value = 1)
-    g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
+    g <- V(g)$color  <- rgb(1,0,0,1)
+    g <- V(g)$stroke <- NULL
+    g <- V(g)$size   <- 1
+    g <- V(g)$label  <- V(g)$name                           # add labels
     
     g <- hide.isolated.vertices(g)
     
-    g <- set_edge_attr(g, "color",value=rgb(1,0,0,1))
+    g <- E(g)$color  <- rgb(1,0,0,1)
   }
   else if(class(g)=="network"){
     g <- network::set.vertex.attribute(g, "color" ,value = rgb(1,0,0,1))
