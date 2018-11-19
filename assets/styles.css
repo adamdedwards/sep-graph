@@ -1,12 +1,36 @@
+
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 100%;
+    margin: 0 20px -120px;
+}
+.footer {
+    height: 120px;
+}
+
+
+
 h1 { font-family: 'Inconsolata', monospace; font-size: 36px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 41px; }
 h2 { font-family: 'Inconsolata', monospace; font-size: 30px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 35px; }
 h3 { font-family: 'Inconsolata', monospace; font-size: 27px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 32px; }
 
 p { font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 1.2em; }
+a { font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 1.2em; }
+
+ol {
+    font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 1.2em;
+    list-style: initial inside;
+}
+
+li {
+  margin: 10px 0px;
+}
 
 iframe {
-  border: solid 2px black;
-  width: 80%;
+  border: solid 0px black;
+  width: 100%;
   padding: 20px;
   display:block;
   margin:auto;
@@ -23,7 +47,7 @@ button {
     display: inline-block;
     font-family: 'Inconsolata', monospace;
     font-size: 16px;
-
+    background-color: #d7d7d7;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
@@ -32,6 +56,20 @@ button:hover {
     background-color: #3A3A3A;
     color: white;
 }
+
+.darkmode {
+  -webkit-transition: all 2s ease;
+  -moz-transition: all 2s ease;
+  -o-transition: all 2s ease;
+  -ms-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.darkmode-active {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 
 #button-row {
     width: 500px ;
