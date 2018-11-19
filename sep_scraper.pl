@@ -32,7 +32,7 @@ push @archives,$season.$year;
 
 # user_input(); #un-comment to select your own season & year.
 
-my @years   = qw(2008 2009 2010);
+my @years   = qw(2009 2010 2011 2012 2013 2014 2015 2016 2017 2018);
 my @seasons = qw(spr sum fall win);
 
 

@@ -12,10 +12,11 @@ library(RColorBrewer)
 #library(dplyr)
 library(visNetwork)
 
+if(getwd() != "C:/Users/adame/Dropbox/git/sep-graph") {setwd("C:/Users/adame/Dropbox/git/sep-graph")}
 source("util.r")
 ##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
 
-years <- as.character(2002:2008)
+years <- as.character(1998:2008)
 seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
@@ -268,38 +269,68 @@ for (i in 1:length(communities_for_analysis)) {
 
 ####################### vizNetwork ###################
 
-
-for(i in 1:length(sep.igraphs)) {
-  g <- sep.igraphs[[i]]
-  
-  V(g)$label        <- V(g)$name
-  V(g)$degree       <- degree(g, mode = "all")
-  V(g)$betweenness  <- betweenness(g,V(g),directed=TRUE,normalized=TRUE)
-  #V(g)$closeness    <- closeness(g,mode="all",normalized = TRUE)
-  #V(g)$eigenvector <- eigen_centrality(g, directed = TRUE, weights=E(g)$weight)[[1]]
-  V(g)$group        <- membership(cluster_walktrap(g))
-  
-  colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
-  
-  V(g)$color        <- colors[V(g)$group]
-  V(g)$size         <- 20
-  V(g)$label.family	<- "mono"
-  V(g)$label.cex	  <- 1
-  
-  E(g)$color        <- colors[tail_of(g,E(g))$group]
-  E(g)$arrow.size	  <- 0.1
-  E(g)$curved       <- 0.3
-  
-  l <- layout_with_fr(g)
-  l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
-  
-  
-  visnet <- toVisNetworkData(as.undirected(g))
-  
-  visnet$nodes$font <- "14px monospace black"
-  
-  saveNetwork(visNetwork(nodes = visnet$nodes, edges = visnet$edges, main=paste("Spring",years[i],sep=" ")) %>%
-                visClusteringByGroup(visnet,visnet$nodes$group) %>%
-                visPhysics(solver = "forceAtlas2Based", forceAtlas2Based = list(gravitationalConstant = -100),stabilization=FALSE) %>%
-                visOptions(highlightNearest = TRUE, selectedBy = "group"),paste("spring_",years[i],".html",sep=""),selfcontained=TRUE)
+sep.viznet <- function() {
+  for(i in 1:length(sep.igraphs)) {
+    g <- sep.igraphs[[i]]
+    g <- as.undirected(g)
+    
+    V(g)$label        <- V(g)$name
+    V(g)$degree       <- degree(g, mode = "all")
+    V(g)$betweenness  <- betweenness(g,V(g),directed=FALSE,normalized=TRUE)
+  #  V(g)$closeness    <- closeness(g,mode="all",normalized = TRUE)
+    V(g)$eigenvector <- eigen_centrality(g, directed = FALSE, weights=E(g)$weight)[[1]]
+    V(g)$group        <- membership(cluster_walktrap(g))
+    
+    colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
+    
+    V(g)$color        <- colors[V(g)$group]
+    V(g)$size         <- 5 + 20*round((V(g)$betweenness/max(V(g)$betweenness)),digits=3)
+    V(g)$label.family	<- "mono"
+    V(g)$label.cex	  <- 1
+    
+    E(g)$color        <- adjustcolor(colors[tail_of(g,E(g))$group],alpha.f = 0.4)
+    E(g)$arrow.size	  <- 0.1
+    E(g)$curved       <- 0.3
+    
+    visnet <- toVisNetworkData(g)
+    
+    visnet$nodes$font <- "14px monospace black"
+    visnet$nodes$title <- paste("<h4><a href=\"https://plato.stanford.edu/archives/spr",years[i],"/entries/",visnet$nodes$label,"/\">SEP/",visnet$nodes$label,"</a></h4>",
+                                "<p><b>Degree Centrality: </b>",visnet$nodes$degree,"&emsp;<b>Max: </b>",max(visnet$nodes$degree),"</p>",
+                                "<p><b>Betweenness Centrality: </b>",round((visnet$nodes$betweenness/max(visnet$nodes$betweenness)),digits=3),"</p>",
+                                "<p><b>Eigenvector Centrality: </b>",round((visnet$nodes$eigenvector/max(visnet$nodes$eigenvector)),digits=3),"</p>",
+                                "<p><b>Group: </b>",visnet$nodes$group,"</p>",sep="")
+    
+    
+    d.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$degree)]),10),sep="",collapse=", ") # list of nodes in order of degree/betweenness/etc centrality
+    b.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$betweenness)]),10),sep="",collapse=", ")
+    e.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$eigenvector)]),10),sep="",collapse=", ")
+    
+    visNetwork(nodes = visnet$nodes, 
+               edges      = visnet$edges, 
+               main       = list(text=paste("<h1>The SEP in the year ",years[i],"</h1>",sep=""),style="font-family: \"Inconsolata\", monospace;"),
+               height     = "700px", 
+               width      = "80%",
+               background = "rgba(0, 0, 0, 0)",
+               footer     = list(text=paste("<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality</a>:</h3><p>",d.top10,"</p>",
+                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality</a>:</h3><p>",b.top10,"</p>",
+                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality</a>:</h3><p>",e.top10,"</p>",sep=""),style="font-family: \"Inconsolata\", monospace;")) %>%
+    visEdges(smooth = FALSE) %>%
+    visIgraphLayout(layout = "layout_with_kk",physics = TRUE,randomSeed = 8128) %>%
+  # visLayout(randomSeed = 12, 
+  #           improvedLayout = TRUE,
+  #           hierarchical = FALSE) %>%
+  # visClusteringByGroup(c(1:length(visnet$nodes$group))) %>%
+    visPhysics(solver = "forceAtlas2Based", #barnesHut forceAtlas2Based
+               forceAtlas2Based = list(gravitationalConstant = -80,centralGravity=.01,avoidOverlap=1,springConstant=0.1,damping=1),
+               minVelocity = 1,
+               stabilization=FALSE) %>%
+    visOptions(selectedBy       = list(variable="group",style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;'), 
+               highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE, hideColor = "rgba(0,0,0,.1)",labelOnly = FALSE), 
+               nodesIdSelection = list(enabled = TRUE, style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;')) %>%
+   visInteraction(keyboard = TRUE, hideEdgesOnDrag = TRUE, tooltipDelay=200, tooltipStyle='font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;') %>%
+   visSave(file = paste("spring_",years[i],".html",sep=""))
+  }
 }
+
+sep.viznet()
