@@ -40,8 +40,8 @@ create.netgraph <- function(data) {
 
 hide.isolated.vertices <- function(g) {
   if(class(g)=="igraph"){
-    for(v in 1:length(V(g))) {                                                 # hide all isolated vertices
-      if(igraph::degree(g)[v]==0) {
+    for(i in 1:length(V(g))-1) {                                                 # hide all isolated vertices
+      if(V(g)$degree[i]==0) {
         g <- V(g)$color <- rgb(0,0,0,0.01)
       }
     }
@@ -83,21 +83,39 @@ simple.graphics <- function(g) {
   return(g)
 }
 
-graphics <-function(g,color="red",comm=NULL) {	
+graphics <-function(g,color="red",comm=NULL,undir=FALSE,size=FALSE) {
+  
   if(class(g)=="igraph"){
-    g <- set_vertex_attr(g, "color" ,value = color)
-    g <- set_vertex_attr(g, "stroke",value = NULL)
-    g <- set_vertex_attr(g, "size"  ,value = 1)
-    g <- set_vertex_attr(g, "label" ,value = V(g)$name)                           # add labels
+    g <- g
+    if(undir) {g <- as.undirected(g)}
+    
+    V(g)$indegree     <- degree(g, mode = "in")
+    V(g)$outdegree    <- degree(g, mode = "out")
+    V(g)$degree       <- degree(g, mode = "all")
+    
+    V(g)$betweenness  <- betweenness(g, V(g), directed=TRUE, normalized=TRUE, weights=NULL)
+    V(g)$closeness    <- closeness(g,mode="all", normalized = TRUE)
+    V(g)$eigenvector  <- eigen_centrality(g, directed = TRUE, weights=NULL)[[1]]
+    
+    
+    E(g)$arrow.size	  <- 0.1
+    E(g)$curved       <- 0.3
+    
+    V(g)$color        <- color
+    V(g)$size         <- 5
+    if(size) {V(g)$size         <- 5 + 20*round((V(g)$betweenness/max(V(g)$betweenness)),digits=3)}
+    V(g)$label        <- V(g)$name                           # add labels
+    V(g)$label.family	<- "mono"
+    V(g)$label.cex	  <- 1
     
     if(is.null(comm)==FALSE) {
-      g <- set_vertex_attr(g,"group",value = comm$membership)
-      c <- rainbow(max(V(g)$group))                                               # add node/edge colors based on group membership
-      g <- set_vertex_attr(g, "color",value = c[comm$membership])
-      g <- set_edge_attr(g, "color",value = head_of(g, E(g))$color)
+      V(g)$group <- comm$membership
+      c <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))        # add node/edge colors based on group membership
+
+      V(g)$color <- c[V(g)$group]
+      E(g)$color <- adjustcolor(c[tail_of(g,E(g))$group],alpha.f = 0.4)
     }
-    b <- unlist((evcent(g)$vector*10)+1)                                       # add node size based on eigenvector centrality
-    g <- set_vertex_attr(g, "size",value = b)
+    
   }
   else if(class(g)=="network"){
     g <- network::set.vertex.attribute(g, "color" ,value = rgb(1,0,0,1))
@@ -114,7 +132,7 @@ graphics <-function(g,color="red",comm=NULL) {
     #g <- network::set.vertex.attribute(g, "size",value = b)
   }
   else {print("ERROR NOT A GRAPH")}
-  g <- hide.isolated.vertices(g)
+  #if(hide) {g <- hide.isolated.vertices(g)}
   return(g)
 }
 

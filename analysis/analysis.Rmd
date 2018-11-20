@@ -1,7 +1,7 @@
 ---
 title: "SEP Analysis"
 author: "Adam Edwards"
-date: "November 14, 2018"
+date: "November 20, 2018"
 output: html_document
 ---
 
@@ -11,7 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(rmarkdown)
 library(formatR)
 library(igraph)
-library(networkD3)
 library(visNetwork)
 
 library(RColorBrewer)
@@ -99,36 +98,6 @@ E(g)$edge.color <- "gray80"
 
 plot(g,vertex.label=NA)
 ```
-
-### networkD3
-
-```{r animation/interaction with networkd3, echo=FALSE, eval=FALSE}
-
-gd3 <- igraph_to_networkD3(g,V(g)$group)
-gd3$nodes$deg <- as.character(degree(g, v = V(g)))
-gd3$nodes$btw <- as.character(betweenness(g, v = V(g), directed = TRUE))
-#gd3$nodes$clo <-as.character(closeness(g, v = V(g),mode="all"))
-#gd3$nodes$eig <-as.character(eigen_centrality(g, directed = TRUE)[[1]])
-gd3$nodes$size <- as.character("1")
-gd3$nodes$id <- row.names(gd3$nodes)
-
-                    
-
-nd3 <- forceNetwork(Links       = gd3$links,
-                    Nodes       = gd3$nodes,
-                    Source      = "source",
-                    Target      = "target",
-                    Group       = "group",
-                    NodeID      = "name", 
-                    Nodesize    = "deg",
-                    arrows      = FALSE,
-                    legend      = FALSE,
-                    bounded     = TRUE,
-                    opacity     = 1,
-                    opacityNoHover = .4)
-nd3
-```
-
 
 
 ### visNetwork
