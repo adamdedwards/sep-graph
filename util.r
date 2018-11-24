@@ -152,3 +152,19 @@ long.season.names <- function(s) {
   
   
 }
+
+
+
+#############################  Community Analysis #############################
+
+philosophical.communities <- function(g, comm=NULL) {
+  
+  cv <- vector("list",length = length(comm))
+  
+  for(i in 1:length(comm)) {
+    subg <- induced.subgraph(g,comm[[i]])
+    cv[[i]] <- subg
+  }
+  return(cv)
+}
+

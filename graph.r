@@ -9,7 +9,7 @@ source("util.r")
 
 ##############################         CREATE IGRAPH & NETWORK OBJECTS      ##############################
 
-years <- as.character(1998:2004)
+years <- as.character(2018)
 seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
 sep.igraphs <- vector("list", iterations) 
@@ -226,18 +226,6 @@ saveNetwork(nd3,"test.html", selfcontained = TRUE)
 #################################### EVALUATE FALL 2018 ###################################
 
 fall2018 <- sep.igraphs[[1]]                             # TODO: replace with functions to do general community-level analysis
-
-philosophical.communities <- function(g) {
-  
-  pc <- cluster_walktrap(g)
-  cv <- vector("list",length = length(pc))
-  
-  for(i in 1:length(pc)) {
-    subg <- induced.subgraph(g,pc[[i]])
-    cv[[i]] <- subg
-  }
-  return(cv)
-}
 
 communities_for_analysis <- philosophical.communities(fall2018)
 
