@@ -9,7 +9,7 @@ function prevcomm() {
 }
 
 function nextcomm() {
-  if(community <= 10) { community = community + 1; }
+  if(community <= 8) { community = community + 1; }
   else { community = 1; }
     document.getElementById('comm_frame').src = "viz/2018_community_"+community+".html";
 }
