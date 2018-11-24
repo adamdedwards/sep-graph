@@ -1,0 +1,77 @@
+---
+title: "Visualizations"
+author: "Adam Edwards"
+date: "November 23, 2018"
+output: html_document
+---
+
+```{r setup,cache = FALSE,include = FALSE}
+knitr::opts_knit$set(echo = FALSE, root.dir = rprojroot::find_rstudio_root_file())
+```
+
+```{r packages}
+library(network)
+library(igraph)
+library(RColorBrewer)
+library(data.table)
+library(visNetwork)
+library(networkD3)
+
+source("util.r")
+```
+
+## Load Data
+
+```{r Data}
+years <- as.character(2018)
+seasons <- c("spr") # "fall","sum","win"
+iterations <- length(years)*length(seasons)
+sep.igraphs <- vector("list", iterations)
+
+for(i in 0:(iterations-1)) {
+  edges              <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
+  sep.igraphs[[i+1]] <- create.igraph(as.data.frame(edges))
+}
+
+```
+
+## Add Graphical Properties
+
+```{r graphics, echo=TRUE}
+viz <- sep.igraphs[[1]]
+
+areas <- cluster_fast_greedy(as.undirected(viz))
+
+viz       <- graphics(as.undirected(sep.igraphs[[1]]), comm=areas)
+viz.comms <- philosophical.communities(viz, comm=areas)
+
+print.igraph(viz)
+```
+
+## Create the graphs
+
+```{r visualizations, echo=TRUE}
+library(threejs)
+
+c <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(viz)$group))
+
+for (i in 1:length(viz.comms)) {
+  
+  g <- graphics(viz.comms[[i]],color=c[i])
+  
+  l <- layout_with_kk(g,dim=3)
+  l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
+  
+  gjs <- graphjs(g, 
+                 layout=l*0.2,
+                 minx = NULL, maxx = 300, 
+                 miny = NULL, maxy = 300, 
+                 minz = NULL, maxz = 300)
+  
+  if(length(V(viz.comms[[i]])) > 10) {saveNetwork(gjs,paste("2018_community_",i,".html",sep=""), selfcontained = TRUE)}
+  
+  print(paste("Status: Generating visualization for community ",i,sep=""))
+  print.igraph(viz.comms[[i]],max.lines=30)
+}
+
+```
