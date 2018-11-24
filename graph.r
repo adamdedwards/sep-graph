@@ -7,7 +7,7 @@ library(data.table)
 if(getwd() != "C:/Users/adame/Dropbox/git/sep-graph") {setwd("C:/Users/adame/Dropbox/git/sep-graph")}
 source("util.r")
 
-##############################         CREATE IGRAPH & STATNET OBJECTS      ##############################
+##############################         CREATE IGRAPH & NETWORK OBJECTS      ##############################
 
 years <- as.character(1998:2004)
 seasons <- c("spr") # "fall","sum","win"
