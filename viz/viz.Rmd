@@ -40,7 +40,7 @@ for(i in 0:(iterations-1)) {
 ```{r graphics, echo=TRUE}
 viz <- sep.igraphs[[1]]
 
-areas <- cluster_fast_greedy(as.undirected(viz))
+areas <- cluster_louvain(as.undirected(viz))
 
 viz       <- graphics(as.undirected(sep.igraphs[[1]]), comm=areas)
 viz.comms <- philosophical.communities(viz, comm=areas)

@@ -363,19 +363,19 @@ for(i in 0:(iterations-1)) {
 <h2>Add Graphical Properties</h2>
 <pre class="r"><code>viz &lt;- sep.igraphs[[1]]
 
-areas &lt;- cluster_fast_greedy(as.undirected(viz))
+areas &lt;- cluster_louvain(as.undirected(viz))
 
 viz       &lt;- graphics(as.undirected(sep.igraphs[[1]]), comm=areas)
 viz.comms &lt;- philosophical.communities(viz, comm=areas)
 
 print.igraph(viz)</code></pre>
-<pre><code>## IGRAPH d422a24 UNW- 1591 13837 -- 
+<pre><code>## IGRAPH 6e60c79 UNW- 1591 13837 -- 
 ## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
 ## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
 ## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
 ## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
 ## | (e/n), color (e/c)
-## + edges from d422a24 (vertex names):
+## + edges from 6e60c79 (vertex names):
 ## [1] abilities        --action                  
 ## [2] action           --shared-agency           
 ## [3] aesthetic-concept--aesthetics-19th-romantic
@@ -401,283 +401,19 @@ for (i in 1:length(viz.comms)) {
                  miny = NULL, maxy = 300, 
                  minz = NULL, maxz = 300)
   
-  if(length(V(viz.comms[[i]])) &gt; 10) {saveNetwork(gjs,paste(&quot;community_&quot;,i,&quot;.html&quot;,sep=&quot;&quot;), selfcontained = TRUE)}
+  if(length(V(viz.comms[[i]])) &gt; 10) {saveNetwork(gjs,paste(&quot;2018_community_&quot;,i,&quot;.html&quot;,sep=&quot;&quot;), selfcontained = TRUE)}
   
   print(paste(&quot;Status: Generating visualization for community &quot;,i,sep=&quot;&quot;))
   print.igraph(viz.comms[[i]],max.lines=30)
 }</code></pre>
 <pre><code>## [1] &quot;Status: Generating visualization for community 1&quot;
-## IGRAPH d60cfcb UNW- 283 1434 -- 
+## IGRAPH 705dc15 UNW- 24 119 -- 
 ## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
 ## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
 ## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
 ## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
 ## | (e/n), color (e/c)
-## + edges from d60cfcb (vertex names):
-##  [1] aesthetic-concept      --aesthetics-19th-romantic
-##  [2] aesthetic-concept      --aesthetic-judgment      
-##  [3] aesthetic-concept      --aesthetics-18th-british 
-##  [4] aesthetic-judgment     --aesthetics-18th-british 
-##  [5] aesthetic-concept      --collingwood-aesthetics  
-##  [6] aesthetic-concept      --croce-aesthetics        
-##  [7] collingwood-aesthetics --croce-aesthetics        
-##  [8] aesthetic-judgment     --art-definition          
-##  [9] croce-aesthetics       --art-definition          
-## [10] aesthetic-concept      --dewey-aesthetics        
-## [11] croce-aesthetics       --dewey-aesthetics        
-## [12] art-definition         --dewey-aesthetics        
-## [13] aesthetic-concept      --environmental-aesthetics
-## [14] aesthetics-18th-british--environmental-aesthetics
-## [15] dewey-aesthetics       --environmental-aesthetics
-## [16] aesthetic-concept      --aesthetics-18th-french  
-## [17] aesthetics-18th-british--aesthetics-18th-french  
-## [18] aesthetic-concept      --gadamer-aesthetics      
-## [19] aesthetic-concept      --aesthetics-18th-german  
-## [20] aesthetics-18th-british--aesthetics-18th-german  
-## [21] art-definition         --aesthetics-18th-german  
-## [22] aesthetics-18th-french --aesthetics-18th-german  
-## [23] adorno                 --hegel-aesthetics        
-## [24] aesthetic-concept      --hegel-aesthetics        
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 2&quot;
-## IGRAPH d60d97b UNW- 273 1624 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60d97b (vertex names):
-##  [1] al-baghdadi           --al-farabi                 
-##  [2] al-farabi             --al-farabi-soc-rel         
-##  [3] al-farabi             --al-farabi-psych           
-##  [4] al-farabi-soc-rel     --al-farabi-psych           
-##  [5] al-farabi             --al-ghazali                
-##  [6] al-baghdadi           --al-kindi                  
-##  [7] al-farabi-psych       --alexander-aphrodisias     
-##  [8] alexander-aphrodisias --ammonius                  
-##  [9] agrippa-nettesheim    --plotinus                  
-## [10] al-baghdadi           --plotinus                  
-## [11] al-kindi              --plotinus                  
-## [12] alexander-aphrodisias --plotinus                  
-## [13] skepticism-ancient    --pyrrho                    
-## [14] alexander-aphrodisias --aristotle-commentators    
-## [15] ammonius              --aristotle-commentators    
-## [16] plotinus              --aristotle-commentators    
-## [17] skepticism-ancient    --antiochus-ascalon         
-## [18] skepticism-ancient    --skepticism                
-## [19] agrippa-nettesheim    --skepticism                
-## [20] giles                 --aquinas                   
-## [21] albert-great          --aquinas                   
-## [22] albo-joseph           --aquinas                   
-## [23] analogy-medieval      --aquinas                   
-## [24] al-farabi             --arabic-islamic-metaphysics
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 3&quot;
-## IGRAPH d60e0bf UNW- 49 233 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60e0bf (vertex names):
-##  [1] qm-action-distance  --bell-theorem        
-##  [2] spacetime-holearg   --einstein-philscience
-##  [3] einstein-philscience--equivME             
-##  [4] spacetime-holearg   --genrel-early        
-##  [5] einstein-philscience--genrel-early        
-##  [6] equivME             --genrel-early        
-##  [7] spacetime-holearg   --geometry-19th       
-##  [8] einstein-philscience--geometry-19th       
-##  [9] genrel-early        --geometry-19th       
-## [10] geometry-19th       --hermann-helmholtz   
-## [11] spacetime-holearg   --spacetime-iframes   
-## [12] einstein-philscience--spacetime-iframes   
-## [13] equivME             --spacetime-iframes   
-## [14] genrel-early        --spacetime-iframes   
-## [15] geometry-19th       --spacetime-iframes   
-## [16] bell-theorem        --qt-entangle         
-## [17] qm-action-distance  --kochen-specker      
-## [18] bell-theorem        --kochen-specker      
-## [19] einstein-philscience--ernst-mach          
-## [20] genrel-early        --ernst-mach          
-## [21] spacetime-iframes   --ernst-mach          
-## [22] qm-action-distance  --physics-holism      
-## [23] bell-theorem        --physics-holism      
-## [24] einstein-philscience--physics-holism      
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 4&quot;
-## IGRAPH d60e815 UNW- 266 1850 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60e815 (vertex names):
-##  [1] abilities           --action              
-##  [2] consciousness-animal--animalism           
-##  [3] action              --anomalous-monism    
-##  [4] logic-action        --frame-problem       
-##  [5] connectionism       --frame-problem       
-##  [6] abhidharma          --atomism-modern      
-##  [7] essential-accidental--atomism-modern      
-##  [8] abstract-objects    --properties          
-##  [9] essential-accidental--properties          
-## [10] abilities           --austin-jl           
-## [11] action              --austin-jl           
-## [12] assertion           --austin-jl           
-## [13] action              --bodily-awareness    
-## [14] action-perception   --bodily-awareness    
-## [15] consciousness-animal--behaviorism         
-## [16] connectionism       --behaviorism         
-## [17] attention           --behaviorism         
-## [18] actualism           --existence           
-## [19] properties          --existence           
-## [20] properties          --time                
-## [21] time                --spacetime-bebecome  
-## [22] connectionism       --belief              
-## [23] behaviorism         --belief              
-## [24] essential-accidental--substance           
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 5&quot;
-## IGRAPH d60ee23 UNW- 156 973 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60ee23 (vertex names):
-##  [1] algebra                    --algebra-logic-tradition    
-##  [2] reasoning-automated        --logic-ai                   
-##  [3] chinese-room               --turing-test                
-##  [4] bolzano                    --bolzano-logic              
-##  [5] algebra                    --boole                      
-##  [6] algebra-logic-tradition    --boole                      
-##  [7] algebra                    --boolalg-math               
-##  [8] algebra-logic-tradition    --boolalg-math               
-##  [9] boole                      --boolalg-math               
-## [10] algebra                    --category-theory            
-## [11] category-theory            --axiom-choice               
-## [12] cellular-automata          --church-turing              
-## [13] cellular-automata          --computability              
-## [14] church-turing              --computability              
-## [15] logic-ai                   --computational-complexity   
-## [16] church-turing              --computational-complexity   
-## [17] computability              --computational-complexity   
-## [18] chinese-room               --computation-physicalsystems
-## [19] cellular-automata          --computation-physicalsystems
-## [20] church-turing              --computation-physicalsystems
-## [21] computability              --computation-physicalsystems
-## [22] reasoning-automated        --computational-mind         
-## [23] chinese-room               --computational-mind         
-## [24] logic-ai                   --computational-mind         
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 6&quot;
-## IGRAPH d60f555 UNW- 280 1779 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60f555 (vertex names):
-##  [1] shared-agency          --agency                   
-##  [2] reasons-agent          --altruism                 
-##  [3] agency                 --anscombe                 
-##  [4] anarchism              --authority                
-##  [5] advance-directives     --legal-obligation         
-##  [6] austin-john            --legal-obligation         
-##  [7] authority              --legal-obligation         
-##  [8] advance-directives     --informed-consent         
-##  [9] reasons-agent          --informed-consent         
-## [10] anarchism              --autonomy-moral           
-## [11] authority              --autonomy-moral           
-## [12] informed-consent       --autonomy-moral           
-## [13] advance-directives     --personal-autonomy        
-## [14] agency                 --personal-autonomy        
-## [15] authority              --personal-autonomy        
-## [16] informed-consent       --personal-autonomy        
-## [17] autonomy-moral         --personal-autonomy        
-## [18] feminism-aesthetics    --beauvoir                 
-## [19] advance-directives     --principle-beneficence    
-## [20] moral-animal           --bentham                  
-## [21] authority              --bentham                  
-## [22] legal-obligation       --bentham                  
-## [23] autonomy-moral         --pornography-censorship   
-## [24] moral-character        --moral-character-empirical
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 7&quot;
-## IGRAPH d60fb75 UNW- 77 332 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d60fb75 (vertex names):
-##  [1] moral-anti-realism     --ayer                       
-##  [2] basing-epistemic       --ethics-belief              
-##  [3] moral-anti-realism     --moral-cognitivism          
-##  [4] ayer                   --moral-cognitivism          
-##  [5] moral-anti-realism     --constructivism-metaethics  
-##  [6] moral-cognitivism      --constructivism-metaethics  
-##  [7] apriori                --descartes-epistemology     
-##  [8] certainty              --descartes-epistemology     
-##  [9] apriori                --rationalism-empiricism     
-## [10] ayer                   --rationalism-empiricism     
-## [11] descartes-epistemology --rationalism-empiricism     
-## [12] voluntarism-theological--moral-epistemology         
-## [13] analysis               --moral-epistemology-a-priori
-## [14] moral-anti-realism     --moral-epistemology-a-priori
-## [15] apriori                --moral-epistemology-a-priori
-## [16] moral-cognitivism      --moral-epistemology-a-priori
-## [17] rationalism-empiricism --moral-epistemology-a-priori
-## [18] moral-epistemology     --moral-epistemology-a-priori
-## [19] apriori                --reliabilism                
-## [20] rationalism-empiricism --reliabilism                
-## [21] reliabilism            --epistemology-virtue        
-## [22] reasoning-moral        --thick-ethical-concepts     
-## [23] moral-cognitivism      --thick-ethical-concepts     
-## [24] epistemology-virtue    --thick-ethical-concepts     
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 8&quot;
-## IGRAPH d6102ac UNW- 183 1114 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d6102ac (vertex names):
-##  [1] abduction             --reasoning-analogy        
-##  [2] epistemic-utility     --formal-belief            
-##  [3] reasoning-analogy     --bayes-theorem            
-##  [4] arrows-theorem        --belief-merging           
-##  [5] biodiversity          --conservation-biology     
-##  [6] aristotle-biology     --biology-developmental    
-##  [7] information-biological--biology-developmental    
-##  [8] abduction             --biology-experiment       
-##  [9] bayes-theorem         --biology-experiment       
-## [10] biology-developmental --biology-experiment       
-## [11] information-biological--molecular-biology        
-## [12] biology-developmental --molecular-biology        
-## [13] biology-experiment    --molecular-biology        
-## [14] altruism-biological   --biology-individual       
-## [15] aristotle-biology     --biology-individual       
-## [16] biodiversity          --biology-individual       
-## [17] adaptationism         --biology-philosophy       
-## [18] altruism-biological   --biology-philosophy       
-## [19] biodiversity          --biology-philosophy       
-## [20] information-biological--biology-philosophy       
-## [21] conservation-biology  --biology-philosophy       
-## [22] biology-developmental --biology-philosophy       
-## [23] molecular-biology     --biology-philosophy       
-## [24] biology-individual    --biology-philosophy       
-## + ... omitted several edges
-## [1] &quot;Status: Generating visualization for community 9&quot;
-## IGRAPH d610b22 UNW- 24 119 -- 
-## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
-## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
-## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
-## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
-## | (e/n), color (e/c)
-## + edges from d610b22 (vertex names):
+## + edges from 705dc15 (vertex names):
 ##  [1] ethics-chinese        --confucius           
 ##  [2] ethics-chinese        --daoism              
 ##  [3] chinese-phil-medicine --daoism              
@@ -702,6 +438,336 @@ for (i in 1:length(viz.comms)) {
 ## [22] ethics-chinese        --mohism              
 ## [23] confucius             --mohism              
 ## [24] daoism                --mohism              
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 2&quot;
+## IGRAPH 705e357 UNW- 122 711 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 705e357 (vertex names):
+##  [1] altruism              --altruism-biological      
+##  [2] biodiversity          --conservation-biology     
+##  [3] aristotle-biology     --biology-developmental    
+##  [4] information-biological--biology-developmental    
+##  [5] abduction             --biology-experiment       
+##  [6] biology-developmental --biology-experiment       
+##  [7] information-biological--molecular-biology        
+##  [8] biology-developmental --molecular-biology        
+##  [9] biology-experiment    --molecular-biology        
+## [10] altruism-biological   --biology-individual       
+## [11] aristotle-biology     --biology-individual       
+## [12] biodiversity          --biology-individual       
+## [13] adaptationism         --biology-philosophy       
+## [14] altruism-biological   --biology-philosophy       
+## [15] biodiversity          --biology-philosophy       
+## [16] information-biological--biology-philosophy       
+## [17] conservation-biology  --biology-philosophy       
+## [18] biology-developmental --biology-philosophy       
+## [19] molecular-biology     --biology-philosophy       
+## [20] biology-individual    --biology-philosophy       
+## [21] aristotle-biology     --reduction-biology        
+## [22] biology-developmental --reduction-biology        
+## [23] biology-experiment    --reduction-biology        
+## [24] molecular-biology     --reduction-biology        
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 3&quot;
+## IGRAPH 705ecf8 UNW- 65 256 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 705ecf8 (vertex names):
+##  [1] epistemic-utility          --formal-belief                
+##  [2] apriori                    --reasoning-defeasible         
+##  [3] reasoning-analogy          --bayes-theorem                
+##  [4] basing-epistemic           --ethics-belief                
+##  [5] conditionals               --logic-conditionals           
+##  [6] skepticism                 --contextualism-epistemology   
+##  [7] epistemic-utility          --decision-theory              
+##  [8] conditionals               --decision-causal              
+##  [9] decision-theory            --decision-causal              
+## [10] formal-belief              --decision-theory-descriptive  
+## [11] decision-theory            --decision-theory-descriptive  
+## [12] epistemic-utility          --rationality-normative-utility
+## [13] decision-theory            --rationality-normative-utility
+## [14] decision-causal            --rationality-normative-utility
+## [15] decision-theory-descriptive--rationality-normative-utility
+## [16] dewey-moral                --dewey-political              
+## [17] reasoning-analogy          --dutch-book                   
+## [18] formal-belief              --dutch-book                   
+## [19] formal-belief              --dynamic-epistemic            
+## [20] logic-conditionals         --dynamic-epistemic            
+## [21] skepticism                 --closure-epistemic            
+## [22] confirmation               --closure-epistemic            
+## [23] contextualism-epistemology --closure-epistemic            
+## [24] skepticism                 --epistemic-paradoxes          
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 4&quot;
+## IGRAPH 705f43c UNW- 169 1127 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 705f43c (vertex names):
+##  [1] algebra                    --algebra-logic-tradition    
+##  [2] abstract-objects           --analysis                   
+##  [3] abstract-objects           --analytic-synthetic         
+##  [4] analysis                   --analytic-synthetic         
+##  [5] actualism                  --existence                  
+##  [6] analysis                   --bolzano                    
+##  [7] bolzano                    --bolzano-logic              
+##  [8] algebra                    --boole                      
+##  [9] algebra-logic-tradition    --boole                      
+## [10] algebra                    --boolalg-math               
+## [11] algebra-logic-tradition    --boolalg-math               
+## [12] boole                      --boolalg-math               
+## [13] algebra                    --category-theory            
+## [14] category-theory            --axiom-choice               
+## [15] cellular-automata          --church-turing              
+## [16] cellular-automata          --computability              
+## [17] church-turing              --computability              
+## [18] church-turing              --computational-complexity   
+## [19] computability              --computational-complexity   
+## [20] cellular-automata          --computation-physicalsystems
+## [21] church-turing              --computation-physicalsystems
+## [22] computability              --computation-physicalsystems
+## [23] abstract-objects           --computer-science           
+## [24] church-turing              --computer-science           
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 5&quot;
+## IGRAPH 705fa4a UNW- 249 1447 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 705fa4a (vertex names):
+##  [1] al-baghdadi           --al-farabi                 
+##  [2] al-farabi             --al-farabi-soc-rel         
+##  [3] al-farabi             --al-farabi-psych           
+##  [4] al-farabi-soc-rel     --al-farabi-psych           
+##  [5] al-farabi             --al-ghazali                
+##  [6] al-baghdadi           --al-kindi                  
+##  [7] al-farabi-psych       --alexander-aphrodisias     
+##  [8] alexander-aphrodisias --ammonius                  
+##  [9] agrippa-nettesheim    --plotinus                  
+## [10] al-baghdadi           --plotinus                  
+## [11] al-kindi              --plotinus                  
+## [12] alexander-aphrodisias --plotinus                  
+## [13] skepticism-ancient    --pyrrho                    
+## [14] alexander-aphrodisias --aristotle-commentators    
+## [15] ammonius              --aristotle-commentators    
+## [16] plotinus              --aristotle-commentators    
+## [17] skepticism-ancient    --antiochus-ascalon         
+## [18] giles                 --aquinas                   
+## [19] albert-great          --aquinas                   
+## [20] albo-joseph           --aquinas                   
+## [21] analogy-medieval      --aquinas                   
+## [22] aquinas               --aquinas-moral-political   
+## [23] al-farabi             --arabic-islamic-metaphysics
+## [24] al-kindi              --arabic-islamic-metaphysics
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 6&quot;
+## IGRAPH 7060058 UNW- 92 365 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 7060058 (vertex names):
+##  [1] abhidharma              --atomism-modern          
+##  [2] abhidharma              --atomism-ancient         
+##  [3] atomism-modern          --atomism-ancient         
+##  [4] properties              --time                    
+##  [5] time                    --spacetime-bebecome      
+##  [6] properties              --bradley-regress         
+##  [7] time                    --broad                   
+##  [8] spacetime-bebecome      --broad                   
+##  [9] abhidharma              --buddha                  
+## [10] buddha                  --ethics-indian-buddhism  
+## [11] abhidharma              --mind-indian-buddhism    
+## [12] buddha                  --mind-indian-buddhism    
+## [13] buddha                  --buddhism-chan           
+## [14] buddhism-chan           --buddhism-tiantai        
+## [15] time                    --causation-backwards     
+## [16] spacetime-bebecome      --causation-backwards     
+## [17] causation-backwards     --causation-process       
+## [18] causation-process       --causation-counterfactual
+## [19] causation-counterfactual--causation-law           
+## [20] properties              --causation-metaphysics   
+## [21] time                    --causation-metaphysics   
+## [22] causation-backwards     --causation-metaphysics   
+## [23] causation-process       --causation-metaphysics   
+## [24] causation-counterfactual--causation-metaphysics   
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 7&quot;
+## IGRAPH 706079c UNW- 83 356 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 706079c (vertex names):
+##  [1] africana               --african-ethics             
+##  [2] africana               --akan-person                
+##  [3] african-ethics         --akan-person                
+##  [4] moral-anti-realism     --ayer                       
+##  [5] moral-character        --moral-character-empirical  
+##  [6] moral-anti-realism     --moral-cognitivism          
+##  [7] ayer                   --moral-cognitivism          
+##  [8] moral-anti-realism     --constructivism-metaethics  
+##  [9] moral-cognitivism      --constructivism-metaethics  
+## [10] africana               --anna-julia-cooper          
+## [11] africana               --alexander-crummell         
+## [12] weakness-will          --alexander-crummell         
+## [13] anna-julia-cooper      --alexander-crummell         
+## [14] reasons-agent          --desire                     
+## [15] africana               --double-consciousness       
+## [16] africana               --frederick-douglass         
+## [17] anna-julia-cooper      --frederick-douglass         
+## [18] alexander-crummell     --frederick-douglass         
+## [19] africana               --dubois                     
+## [20] anna-julia-cooper      --dubois                     
+## [21] alexander-crummell     --dubois                     
+## [22] double-consciousness   --dubois                     
+## [23] frederick-douglass     --dubois                     
+## [24] conscience             --moral-epistemology         
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 8&quot;
+## IGRAPH 70614ee UNW- 143 996 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 70614ee (vertex names):
+##  [1] logic-action          --frame-problem         
+##  [2] connectionism         --frame-problem         
+##  [3] frame-problem         --logic-ai              
+##  [4] chinese-room          --turing-test           
+##  [5] connectionism         --associationist-thought
+##  [6] assertion             --austin-jl             
+##  [7] action-perception     --bodily-awareness      
+##  [8] consciousness-animal  --behaviorism           
+##  [9] connectionism         --behaviorism           
+## [10] associationist-thought--behaviorism           
+## [11] attention             --behaviorism           
+## [12] connectionism         --belief                
+## [13] behaviorism           --belief                
+## [14] associationist-thought--implicit-bias         
+## [15] belief                --implicit-bias         
+## [16] consciousness-animal  --mental-causation      
+## [17] anomalous-monism      --mental-causation      
+## [18] belief                --mental-causation      
+## [19] action-perception     --embodied-cognition    
+## [20] bodily-awareness      --embodied-cognition    
+## [21] consciousness-animal  --cognition-animal      
+## [22] behaviorism           --cognition-animal      
+## [23] belief                --cognition-animal      
+## [24] embodied-cognition    --cognition-animal      
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 9&quot;
+## IGRAPH 7061d68 UNW- 66 310 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 7061d68 (vertex names):
+##  [1] qm-action-distance      --bell-theorem            
+##  [2] determinism-causal      --collins                 
+##  [3] abilities               --compatibilism           
+##  [4] blame                   --compatibilism           
+##  [5] determinism-causal      --compatibilism           
+##  [6] collins                 --free-will-foreknowledge 
+##  [7] compatibilism           --free-will-foreknowledge 
+##  [8] compatibilism           --divine-freedom          
+##  [9] free-will-foreknowledge --divine-freedom          
+## [10] compatibilism           --providence-divine       
+## [11] free-will-foreknowledge --providence-divine       
+## [12] determinism-causal      --spacetime-holearg       
+## [13] spacetime-holearg       --einstein-philscience    
+## [14] einstein-philscience    --equivME                 
+## [15] free-will-foreknowledge --fatalism                
+## [16] providence-divine       --fatalism                
+## [17] blame                   --freewill                
+## [18] determinism-causal      --freewill                
+## [19] collins                 --freewill                
+## [20] compatibilism           --freewill                
+## [21] free-will-foreknowledge --freewill                
+## [22] providence-divine       --freewill                
+## [23] fatalism                --freewill                
+## [24] determinism-causal      --incompatibilism-theories
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 10&quot;
+## IGRAPH 70624ac UNW- 311 1681 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 70624ac (vertex names):
+##  [1] aesthetic-concept      --aesthetics-19th-romantic
+##  [2] aesthetic-concept      --aesthetic-judgment      
+##  [3] aesthetic-concept      --beardsley-aesthetics    
+##  [4] aesthetic-concept      --aesthetics-18th-british 
+##  [5] aesthetic-judgment     --aesthetics-18th-british 
+##  [6] aesthetic-concept      --collingwood-aesthetics  
+##  [7] aesthetic-concept      --croce-aesthetics        
+##  [8] collingwood-aesthetics --croce-aesthetics        
+##  [9] aesthetic-judgment     --art-definition          
+## [10] beardsley-aesthetics   --art-definition          
+## [11] croce-aesthetics       --art-definition          
+## [12] aesthetic-concept      --dewey-aesthetics        
+## [13] croce-aesthetics       --dewey-aesthetics        
+## [14] art-definition         --dewey-aesthetics        
+## [15] aesthetic-concept      --environmental-aesthetics
+## [16] aesthetics-18th-british--environmental-aesthetics
+## [17] dewey-aesthetics       --environmental-aesthetics
+## [18] aesthetic-concept      --aesthetics-18th-french  
+## [19] aesthetics-18th-british--aesthetics-18th-french  
+## [20] aesthetic-concept      --gadamer-aesthetics      
+## [21] aesthetic-concept      --aesthetics-18th-german  
+## [22] aesthetics-18th-british--aesthetics-18th-german  
+## [23] art-definition         --aesthetics-18th-german  
+## [24] aesthetics-18th-french --aesthetics-18th-german  
+## + ... omitted several edges
+## [1] &quot;Status: Generating visualization for community 11&quot;
+## IGRAPH 7062bf0 UNW- 267 1702 -- 
+## + attr: name (v/c), indegree (v/n), outdegree (v/n), degree (v/n),
+## | betweenness (v/n), closeness (v/n), eigenvector (v/n), color
+## | (v/c), size (v/n), label (v/c), label.family (v/c), label.cex
+## | (v/n), group (v/n), weight (e/n), arrow.size (e/n), curved
+## | (e/n), color (e/c)
+## + edges from 7062bf0 (vertex names):
+##  [1] action                 --shared-agency         
+##  [2] action                 --agency                
+##  [3] shared-agency          --agency                
+##  [4] action                 --anscombe              
+##  [5] agency                 --anscombe              
+##  [6] anarchism              --authority             
+##  [7] advance-directives     --legal-obligation      
+##  [8] austin-john            --legal-obligation      
+##  [9] authority              --legal-obligation      
+## [10] advance-directives     --informed-consent      
+## [11] anarchism              --autonomy-moral        
+## [12] authority              --autonomy-moral        
+## [13] informed-consent       --autonomy-moral        
+## [14] action                 --personal-autonomy     
+## [15] advance-directives     --personal-autonomy     
+## [16] agency                 --personal-autonomy     
+## [17] authority              --personal-autonomy     
+## [18] informed-consent       --personal-autonomy     
+## [19] autonomy-moral         --personal-autonomy     
+## [20] feminism-aesthetics    --beauvoir              
+## [21] arrows-theorem         --belief-merging        
+## [22] advance-directives     --principle-beneficence 
+## [23] moral-animal           --bentham               
+## [24] authority              --bentham               
 ## + ... omitted several edges</code></pre>
 </div>
 

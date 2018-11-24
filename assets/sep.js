@@ -3,13 +3,13 @@ var community = 2;
 
 function prevcomm() {
     if(community > 1) { community = community - 1; }
-    else { community = 9; }
+    else { community = 11; }
 
     document.getElementById('comm_frame').src = "viz/2018_community_"+community+".html";
 }
 
 function nextcomm() {
-  if(community <= 8) { community = community + 1; }
+  if(community <= 10) { community = community + 1; }
   else { community = 1; }
     document.getElementById('comm_frame').src = "viz/2018_community_"+community+".html";
 }
