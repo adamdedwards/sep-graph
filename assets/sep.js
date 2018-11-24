@@ -1,7 +1,5 @@
 
-var community = 5;
-
-window.onload = function(){document.getElementById('comm_frame').src = "viz/2018_community_5.html";};
+var community = 2;
 
 function prevcomm() {
     if(community > 1) { community = community - 1; }
