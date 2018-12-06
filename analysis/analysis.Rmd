@@ -2,7 +2,8 @@
 title: "SEP Analysis"
 author: "Adam Edwards"
 date: "November 20, 2018"
-output: html_document
+output: 
+  tufte::tufte_html: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +13,7 @@ library(rmarkdown)
 library(formatR)
 library(igraph)
 library(visNetwork)
+library(tufte)
 
 library(RColorBrewer)
 

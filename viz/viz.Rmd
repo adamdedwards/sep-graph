@@ -2,27 +2,29 @@
 title: "Visualizations"
 author: "Adam Edwards"
 date: "November 23, 2018"
-output: html_document
+output:
+  tufte::tufte_html: default
 ---
 
 ```{r setup,cache = FALSE,include = FALSE}
 knitr::opts_knit$set(echo = FALSE, root.dir = rprojroot::find_rstudio_root_file())
 ```
 
-```{r packages}
+```{r packages,echo = FALSE}
 library(network)
 library(igraph)
 library(RColorBrewer)
 library(data.table)
 library(visNetwork)
 library(networkD3)
+library(tufte)
 
 source("util.r")
 ```
 
 ## Load Data
 
-```{r Data}
+```{r Data,echo = FALSE}
 years <- as.character(2018)
 seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
@@ -50,7 +52,7 @@ print.igraph(viz)
 
 ## Create the graphs
 
-```{r visualizations, echo=TRUE}
+```{r visualizations, echo=FALSE}
 library(threejs)
 
 c <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(viz)$group))
@@ -68,7 +70,7 @@ for (i in 1:length(viz.comms)) {
                  miny = NULL, maxy = 300, 
                  minz = NULL, maxz = 300)
   
-  if(length(V(viz.comms[[i]])) > 10) {saveNetwork(gjs,paste("2018_community_",i,".html",sep=""), selfcontained = TRUE)}
+#  if(length(V(viz.comms[[i]])) > 10) {saveNetwork(gjs,paste("2018_community_",i,".html",sep=""), selfcontained = TRUE)}
   
   print(paste("Status: Generating visualization for community ",i,sep=""))
   print.igraph(viz.comms[[i]],max.lines=30)

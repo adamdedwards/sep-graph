@@ -253,45 +253,6 @@ for (i in 1:length(communities_for_analysis)) {
 install.packages("visNetwork")
 library(visNetwork)
 
-graphics2 <-   function(graphlist,undirected=FALSE) {
-  for(i in 1:length(graphlist)) {
-    g <- graphlist[[i]]
-    if(undirected) {g <- as.undirected(g)}
-    
-    V(g)$label        <- V(g)$name
-    V(g)$indegree     <- degree(g, mode = "in")
-    V(g)$outdegree    <- degree(g, mode = "out")
-    V(g)$alldegree    <- degree(g, mode = "all")
-    V(g)$betweenness  <- betweenness(g, V(g), directed=TRUE, normalized=TRUE, weights=NULL)
-    V(g)$closeness    <- closeness(g,mode="all", normalized = TRUE)
-    V(g)$eigenvector  <- eigen_centrality(g, directed = TRUE, weights=NULL)[[1]]
-    V(g)$group        <- membership(cluster_walktrap(g))
-    
-    colors <- colorRampPalette(brewer.pal(11, "Spectral"))(max(V(g)$group))
-    
-    V(g)$color        <- colors[V(g)$group]
-    V(g)$size         <- 5 + 20*round((V(g)$betweenness/max(V(g)$betweenness)),digits=3)
-    V(g)$label.family	<- "mono"
-    V(g)$label.cex	  <- 1
-    
-    E(g)$color        <- adjustcolor(colors[tail_of(g,E(g))$group],alpha.f = 0.4)
-    E(g)$arrow.size	  <- 0.1
-    E(g)$curved       <- 0.3
-    
-    graphlist[[i]] <- g
-  }
-  return(graphlist)
-}
-
-sep.centrality <- function(graphlist){
-  library("CINNA")
-  for(i in 1:length(graphlist)) {
-    sep.centra <- calculate_centralities(giant_component_extract(sep.igraphs[[1]],directed=TRUE)[[1]])
-    summary_calculate_centralities(sep.centra)
-  }
-  detach("CINNA")
-}
-
 
 sep.viznet <- function(graphlist,subgroups=FALSE) {
   
@@ -305,11 +266,12 @@ sep.viznet <- function(graphlist,subgroups=FALSE) {
   }
   
   for(i in 1:length(graphlist)) {
-    visnet <- toVisNetworkData(graphlist[[i]])
+    c <- colorRampPalette(brewer.pal(11, "Spectral"))(length(graphlist))
+    visnet <- toVisNetworkData(graphics(graphlist[[i]],color=c[i],undir=TRUE))
     
     visnet$nodes$font <- "14px monospace black"
     visnet$nodes$title <- paste("<h4><a href=\"https://plato.stanford.edu/archives/spr",years[i],"/entries/",visnet$nodes$label,"/\">SEP/",visnet$nodes$label,"</a></h4>",
-                                "<p><b>Degree: </b>",visnet$nodes$alldegree,"&emsp;<b>Max: </b>",max(visnet$nodes$alldegree),"</p>",
+                                "<p><b>Degree: </b>",visnet$nodes$degree,"&emsp;<b>Max: </b>",max(visnet$nodes$degree),"</p>",
                                 "<p><b>In-Degree: </b>",visnet$nodes$indegree,"&emsp;<b>Max: </b>",max(visnet$nodes$indegree),"</p>",
                                 "<p><b>Out-Degree: </b>",visnet$nodes$outdegree,"&emsp;<b>Max: </b>",max(visnet$nodes$outdegree),"</p>",
                                 "<p><b>Betweenness: </b>",round((visnet$nodes$betweenness/max(visnet$nodes$betweenness)),digits=3),"</p>",
@@ -318,11 +280,11 @@ sep.viznet <- function(graphlist,subgroups=FALSE) {
     
     
     # Run stats for centrality measures
-    d.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$alldegree)]),10),sep="",collapse=", ")   # list of nodes in order of degree/betweenness/etc centrality
+    d.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$degree)]),10),sep="",collapse=", ")   # list of nodes in order of degree/betweenness/etc centrality
     b.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$betweenness)]),10),sep="",collapse=", ")
     e.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$eigenvector)]),10),sep="",collapse=", ")
     
-    cat("GRAPH FOR YEAR",years[i],"\n========================\nDegree centrality:", d.top10,"\nBetweenness centrality:", b.top10,"\nEigenvector centrality:", e.top10,"\n\n\n")
+    cat("GRAPH FOR Group",i,"\n========================\nDegree centrality:", d.top10,"\nBetweenness centrality:", b.top10,"\nEigenvector centrality:", e.top10,"\n\n\n")
     
     
     # Produce the visualization
@@ -345,14 +307,18 @@ sep.viznet <- function(graphlist,subgroups=FALSE) {
                highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE, hideColor = "rgba(0,0,0,.1)",labelOnly = FALSE), 
                nodesIdSelection = list(enabled = TRUE, style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;')) %>%
     visInteraction(keyboard = TRUE, hideEdgesOnDrag = TRUE, tooltipDelay=200, tooltipStyle='font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;') %>%
-    visSave(file = paste("spring_",years[i],".html",sep=""))
+    visSave(file = paste("group_",i,".html",sep=""))
   }
 }
 
-sink(file = "test.txt",append=TRUE)
-vizgraphs <- graphics2(sep.igraphs)
-sep.viznet(vizgraphs)
-sink()
+fall2018 <- sep.igraphs[[1]]                            
+
+communities_for_analysis <- philosophical.communities(fall2018,cluster_louvain(as.undirected(fall2018)))
+
+
+
+sep.viznet(communities_for_analysis)
+
 
 ###############################  MISC ANALYSIS  #################################
 
