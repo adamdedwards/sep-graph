@@ -253,69 +253,9 @@ for (i in 1:length(communities_for_analysis)) {
 install.packages("visNetwork")
 library(visNetwork)
 
-
-sep.viznet <- function(graphlist,subgroups=FALSE) {
-  
-  if(subgroups) {
-    cg  <- cluster_fast_greedy(as.undirected(graphlist))
-    gg <- vector("list",length(cg))
-    for(i in 1:length(cg)) {
-      gg[[i]] <- induced.subgraph(graphlist,cg[[i]])
-    }
-    graphlist <- gg
-  }
-  
-  for(i in 1:length(graphlist)) {
-    c <- colorRampPalette(brewer.pal(11, "Spectral"))(length(graphlist))
-    visnet <- toVisNetworkData(graphics(graphlist[[i]],color=c[i],undir=TRUE))
-    
-    visnet$nodes$font <- "14px monospace black"
-    visnet$nodes$title <- paste("<h4><a href=\"https://plato.stanford.edu/archives/spr",years[i],"/entries/",visnet$nodes$label,"/\">SEP/",visnet$nodes$label,"</a></h4>",
-                                "<p><b>Degree: </b>",visnet$nodes$degree,"&emsp;<b>Max: </b>",max(visnet$nodes$degree),"</p>",
-                                "<p><b>In-Degree: </b>",visnet$nodes$indegree,"&emsp;<b>Max: </b>",max(visnet$nodes$indegree),"</p>",
-                                "<p><b>Out-Degree: </b>",visnet$nodes$outdegree,"&emsp;<b>Max: </b>",max(visnet$nodes$outdegree),"</p>",
-                                "<p><b>Betweenness: </b>",round((visnet$nodes$betweenness/max(visnet$nodes$betweenness)),digits=3),"</p>",
-                                "<p><b>Eigenvector: </b>",round((visnet$nodes$eigenvector/max(visnet$nodes$eigenvector)),digits=3),"</p>",
-                                "<p><b>Group: </b>",visnet$nodes$group,"</p>",sep="")
-    
-    
-    # Run stats for centrality measures
-    d.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$degree)]),10),sep="",collapse=", ")   # list of nodes in order of degree/betweenness/etc centrality
-    b.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$betweenness)]),10),sep="",collapse=", ")
-    e.top10 <- paste(head(rev(visnet$nodes$label[order(visnet$nodes$eigenvector)]),10),sep="",collapse=", ")
-    
-    cat("GRAPH FOR Group",i,"\n========================\nDegree centrality:", d.top10,"\nBetweenness centrality:", b.top10,"\nEigenvector centrality:", e.top10,"\n\n\n")
-    
-    
-    # Produce the visualization
-    visNetwork(nodes      = visnet$nodes, 
-               edges      = visnet$edges, 
-               main       = list(text=paste("<h1>The SEP in the year ",years[i],"</h1>",sep=""),style="font-family: \"Inconsolata\", monospace;"),
-               height     = "700px", 
-               width      = "100%",
-               background = "rgba(0, 0, 0, 0)",
-               footer     = list(text=paste("<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality</a>:</h3><p>",d.top10,"</p>",
-                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality</a>:</h3><p>",b.top10,"</p>",
-                                            "<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality</a>:</h3><p>",e.top10,"</p>",sep=""),style="font-family: \"Inconsolata\", monospace;")) %>%
-    visEdges(smooth = FALSE,arrows = list(to = list(enabled = TRUE, scaleFactor = .5))) %>%
-    visIgraphLayout(layout = "layout_with_kk", physics = TRUE, randomSeed = 8128) %>%
-    visPhysics(solver = "forceAtlas2Based", #barnesHut forceAtlas2Based
-               forceAtlas2Based = list(gravitationalConstant = -80, centralGravity=.01, avoidOverlap=1, springConstant=0.1, damping=1),
-               minVelocity = 1,
-               stabilization = FALSE) %>%
-    visOptions(selectedBy       = list(variable="group",style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;'), 
-               highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE, hideColor = "rgba(0,0,0,.1)",labelOnly = FALSE), 
-               nodesIdSelection = list(enabled = TRUE, style = 'font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;')) %>%
-    visInteraction(keyboard = TRUE, hideEdgesOnDrag = TRUE, tooltipDelay=200, tooltipStyle='font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;') %>%
-    visSave(file = paste("group_",i,".html",sep=""))
-  }
-}
-
 fall2018 <- sep.igraphs[[1]]                            
 
 communities_for_analysis <- philosophical.communities(fall2018,cluster_louvain(as.undirected(fall2018)))
-
-
 
 sep.viznet(communities_for_analysis)
 

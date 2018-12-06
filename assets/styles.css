@@ -10,8 +10,6 @@ html, body {
     height: 120px;
 }
 
-
-
 h1 { font-family: 'Inconsolata', monospace; font-size: 36px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 41px; }
 h2 { font-family: 'Inconsolata', monospace; font-size: 30px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 35px; }
 h3 { font-family: 'Inconsolata', monospace; font-size: 27px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 32px; }
@@ -24,8 +22,19 @@ ol {
     list-style: initial inside;
 }
 
+ol.inline li{
+    font-family: 'Inconsolata', monospace; font-size: 18px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 1.2em;
+    list-style: initial inside;
+    display: inline;
+}
+
 li {
   margin: 10px 0px;
+}
+
+code {
+  font-family: "OCR A Std","Courier",monospace; font-size: 18px; font-variant:small-caps; font-weight: 700; line-height: 1.2em; background-color: #F4F4F4; color: #FF0000;
+
 }
 
 iframe {
