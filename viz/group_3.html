@@ -896,66 +896,66 @@ var i=new m(t,{});v.onTouch(i,e),this.manipulationHammers.push(i)}},{key:"_clean
 if (!Array.from) {
   Array.from = (function () {
     var toStr = Object.prototype.toString;
-    var isCallable = function (fn) { 
+    var isCallable = function (fn) {
       return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
     };
-    var toInteger = function (value) { 
-      var number = Number(value); 
+    var toInteger = function (value) {
+      var number = Number(value);
       if (isNaN(number)) { return 0; }
       if (number === 0 || !isFinite(number)) { return number; }
-      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number)); 
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
     };
     var maxSafeInteger = Math.pow(2, 53) - 1;
-    var toLength = function (value) { 
+    var toLength = function (value) {
       var len = toInteger(value);
       return Math.min(Math.max(len, 0), maxSafeInteger);
-    }; 
-  
+    };
+
     // La propriété length de la méthode vaut 1.
-    return function from(arrayLike/*, mapFn, thisArg */) { 
+    return function from(arrayLike/*, mapFn, thisArg */) {
       // 1. Soit C, la valeur this
       var C = this;
-      
+
       // 2. Soit items le ToObject(arrayLike).
-      var items = Object(arrayLike); 
-      
+      var items = Object(arrayLike);
+
       // 3. ReturnIfAbrupt(items).
-      if (arrayLike == null) { 
+      if (arrayLike == null) {
         throw new TypeError("Array.from doit utiliser un objet semblable à un tableau - null ou undefined ne peuvent pas être utilisés");
       }
-    
+
       // 4. Si mapfn est undefined, le mapping sera false.
       var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
       var T;
-      if (typeof mapFn !== 'undefined') {  
-        // 5. sinon      
+      if (typeof mapFn !== 'undefined') {
+        // 5. sinon
         // 5. a. si IsCallable(mapfn) est false, on lève une TypeError.
-        if (!isCallable(mapFn)) { 
-          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction'); 
+        if (!isCallable(mapFn)) {
+          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction');
         }
-     
+
         // 5. b. si thisArg a été fourni, T sera thisArg ; sinon T sera undefined.
-        if (arguments.length > 2) { 
+        if (arguments.length > 2) {
           T = arguments[2];
         }
       }
-    
+
       // 10. Soit lenValue pour Get(items, "length").
       // 11. Soit len pour ToLength(lenValue).
-      var len = toLength(items.length);  
-     
+      var len = toLength(items.length);
+
       // 13. Si IsConstructor(C) vaut true, alors
       // 13. a. Soit A le résultat de l'appel à la méthode interne [[Construct]] avec une liste en argument qui contient l'élément len.
       // 14. a. Sinon, soit A le résultat de ArrayCreate(len).
       var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-   
+
       // 16. Soit k égal à 0.
-      var k = 0;  // 17. On répète tant que k < len… 
+      var k = 0;  // 17. On répète tant que k < len…
       var kValue;
       while (k < len) {
-        kValue = items[k]; 
+        kValue = items[k];
         if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k); 
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
         } else {
           A[k] = kValue;
         }
@@ -1012,7 +1012,7 @@ if (!Array.prototype.includes) {
         if (sameValueZero(o[k], searchElement)) {
           return true;
         }
-        // c. Augmenter la valeur de k de 1. 
+        // c. Augmenter la valeur de k de 1.
         k++;
       }
 
@@ -1031,7 +1031,7 @@ if (!Function.prototype.bind) {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
       throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
     }
-    
+
     var aArgs = Array.prototype.slice.call(arguments, 1),
     fToBind = this,
     fNOP = function () {},
@@ -1041,10 +1041,10 @@ if (!Function.prototype.bind) {
                            : oThis,
                            aArgs.concat(Array.prototype.slice.call(arguments)));
     };
-    
+
     fNOP.prototype = this.prototype;
     fBound.prototype = new fNOP();
-    
+
     return fBound;
   };
 }
@@ -1056,18 +1056,18 @@ if (!Function.prototype.bind) {
 // for edges
 function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
   //console.info("edgeAsHardToRead")
-  
+
   if(type === "edge"){
     //console.info("edge")
     //console.info(edge.id)
-    
+
     // saving color information (if we have)
     if (edge.hiddenColor === undefined && edge.color !== hideColor1 && edge.color !== hideColor2) {
       edge.hiddenColor = edge.color;
     }
     // set "hard to read" color
     edge.color = hideColor1;
-    
+
     // reset and save label
     if (edge.hiddenLabel === undefined) {
       edge.hiddenLabel = edge.label;
@@ -1098,14 +1098,14 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
 }
 
 function resetOneEdge(edge, hideColor1, hideColor2, type){
-  
+
   /*console.info("resetOneEdge")
   console.info(type)
-  console.info(edge.id) 
+  console.info(edge.id)
   console.info(edge)
   console.info("edge.hiddenColor")
   console.info(edge.hiddenColor)*/
-  
+
   var treat_egde = false;
   if(type === "cluster"){
     if(edge.isHardToRead !== undefined){ // we have to reset this node
@@ -1117,7 +1117,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     } else if(edge.color.color === hideColor1 || edge.color.color === hideColor2){
       treat_egde = true;
     }
-    
+
     if(treat_egde){
       // get back color
       if (edge.hiddenColor !== undefined) {
@@ -1126,7 +1126,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
       }else{
         delete edge.color;
       }
-        
+
       // finally, get back label
       if (edge.hiddenLabel !== undefined) {
         edge.label = edge.hiddenLabel;
@@ -1142,7 +1142,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     }else{
       edge.color = null;
     }
-    
+
     // finally, get back label
     if (edge.hiddenLabel !== undefined) {
       edge.label = edge.hiddenLabel;
@@ -1153,7 +1153,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
 }
 
 function resetAllEdges(edges, hideColor1, hideColor2, network){
-  
+
   var edgesToReset = edges.get({
     fields: ['id', 'color', 'hiddenColor', 'label', 'hiddenLabel'],
     filter: function (item) {
@@ -1173,7 +1173,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       edges_in_clusters = [];
     }
   }
-  
+
   var treat_edges_in_clusters = [];
   // all edges get their own color and their label back
   for (var i = 0; i < edgesToReset.length; i++) {
@@ -1189,7 +1189,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       }
     }
   }
-  
+
   // some misunderstood bug on some cluster edges... so have a (bad) fix...
   var edges_in_clusters_ctrl = edges_in_clusters.filter(function(word,index){
     if(word.match(/^clusterEdge/i)){
@@ -1198,12 +1198,12 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       } else {
         return false;
       }
-        
+
     }else{
         return false;
     }
   });
-  
+
   if(is_cluster_edges){
     if(edges_in_clusters_ctrl.length > 0){
        for (var j = 0; j < edges_in_clusters_ctrl.length; j++) {
@@ -1250,7 +1250,7 @@ function simpleResetNode(node, type){
 
 // for icon node
 function simpleIconResetNode(node, type){
-  if(type === "node"){  
+  if(type === "node"){
     // icon color
     node.icon.color = node.hiddenColor;
     node.hiddenColor = undefined;
@@ -1281,7 +1281,7 @@ function simpleIconResetNode(node, type){
 
 // for image node
 function simpleImageResetNode(node, imageType, type){
-  if(type === "node"){  
+  if(type === "node"){
     // get back color
     if (node.hiddenColor !== undefined) {
       node.color = node.hiddenColor;
@@ -1343,7 +1343,7 @@ function resetOneCluster(node, groups, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-        
+
         node.setOptions({bodyHiddenColor : network.body.nodes[node.id].options.color});
         // and call good reset function
         if(final_shape === "icon"){
@@ -1399,7 +1399,7 @@ function resetOneNode(node, groups, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-        
+
         // reset body information
         network.body.nodes[node.id].options.color = node.bodyHiddenColor;
 
@@ -1432,7 +1432,7 @@ function resetAllNodes(nodes, update, groups, options, network){
     },
     returnType :'Array'
   });
-  
+
   var have_cluster_nodes = false;
   var nodes_in_clusters;
   if(network !== undefined){
@@ -1479,7 +1479,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
     if (node.hiddenColor === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
       node.hiddenColor = node.color;
     }
-  
+
     // set "hard to read" color
     node.color = hideColor1;
     // reset and save label
@@ -1487,7 +1487,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
       node.hiddenLabel = node.label;
       node.label = undefined;
     }
-  // cluster  
+  // cluster
   } else {
     // saving color information (if we have)
     if (node.options.hiddenColor === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
@@ -1625,14 +1625,14 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
     } else if(shape_options){
       final_shape = options.nodes.shape;
     }
-    
+
     // information save in body nodes
     if(type === "node"){
       node.bodyHiddenColor = clone(network.body.nodes[node.id].options.color);
     } else {
       node.setOptions({bodyHiddenColor : clone(network.body.nodes[node.id].options.color)});
     }
-  
+
     // and call good function
     if(final_shape === "icon"){
       // find color for icon
@@ -1644,7 +1644,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
           icon_color = node.icon.color;
           find_color = true;
         }
-      } 
+      }
       // or in group ?
       if(find_color === false && is_group && groups.groups[node.group].icon !== undefined){
         if(groups.groups[node.group].icon.color !== undefined){
@@ -1657,7 +1657,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
         if(options.nodes.icon.color !== undefined){
           icon_color = options.nodes.icon.color;
         }
-      } 
+      }
       iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type);
     } else if(final_shape === "image"){
       imageNodeAsHardToRead(node, "image", hideColor1, hideColor2, type);
@@ -1666,14 +1666,14 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
     } else {
       simpleNodeAsHardToRead(node, hideColor1, hideColor2, type);
     }
-    
+
     // finally set isHardToRead
     if(type === "node"){
       node.isHardToRead = true;
     } else {
       node.setOptions({isHardToRead : true});
     }
-  // special case of just to label  
+  // special case of just to label
   } else if(node.isHardToRead === true && node.label !== undefined){
     if(type === "node"){
       node.hiddenLabel = node.label;
@@ -1693,13 +1693,13 @@ function visNetworkdataframeToD3(df, type) {
   // variables we have specially to control
   var nodesctrl = ["color", "fixed", "font", "icon", "shadow", "scaling", "shapeProperties", "chosen", "heightConstraint", "image", "margin", "widthConstraint"];
   var edgesctrl = ["color", "font", "arrows", "shadow", "smooth", "scaling", "chosen", "widthConstraint"];
-  
+
   var names = [];
   var colnames = [];
   var length;
   var toctrl;
   var ctrlname;
-  
+
   for (var name in df) {
     if (df.hasOwnProperty(name))
       colnames.push(name);
@@ -1779,7 +1779,7 @@ function visNetworkdataframeToD3(df, type) {
 
 //----------------------------------------------------------------
 // Some utils functions
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 //unique element in array
 function uniqueArray(arr, exclude_cluster, network) {
@@ -1798,17 +1798,17 @@ function uniqueArray(arr, exclude_cluster, network) {
 }
 
 function uniqueShiny(arr) {
-  return arr.filter(function (value, index, self) { 
+  return arr.filter(function (value, index, self) {
     return self.indexOf(value) === index;
   });
 };
 // clone an object
 function clone(obj) {
     if(obj === null || typeof(obj) != 'object')
-        return obj;    
-    var temp = new obj.constructor(); 
+        return obj;
+    var temp = new obj.constructor();
     for(var key in obj)
-        temp[key] = clone(obj[key]);    
+        temp[key] = clone(obj[key]);
     return temp;
 }
 // update a list
@@ -1857,7 +1857,7 @@ function setNodeIdList(selectList, params, nodes){
     selectList.setAttribute('style', params.style);
   }
   selectList.style.display = 'inline';
-      
+
   option = document.createElement("option");
   option.value = "";
   if(params.main === undefined){
@@ -1865,9 +1865,9 @@ function setNodeIdList(selectList, params, nodes){
   } else {
     option.text = params.main;
   }
-  
+
   selectList.appendChild(option);
-      
+
   // have to set for all nodes ?
   if(params.values === undefined){
     var info_node_list = nodes.get({
@@ -1910,7 +1910,7 @@ function setNodeIdList(selectList, params, nodes){
 
 //----------------------------------------------------------------
 // Collapsed function
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 function networkOpenCluster(params){
   if (params.nodes.length === 1) {
@@ -1918,9 +1918,9 @@ function networkOpenCluster(params){
       var elid = this.body.container.id.substring(5);
       var fit = document.getElementById(elid).collapseFit;
       var resetHighlight = document.getElementById(elid).collapseResetHighlight;
-      
+
       if(document.getElementById(elid).collapseKeepCoord){
-        this.openCluster(params.nodes[0], 
+        this.openCluster(params.nodes[0],
         {releaseFunction : function(clusterPosition, containedNodesPositions) {
               return containedNodesPositions;
             }
@@ -1929,7 +1929,7 @@ function networkOpenCluster(params){
         this.openCluster(params.nodes[0]);
       }
 
-      
+
       if(resetHighlight){
         document.getElementById("nodeSelect"+elid).value = "";
         document.getElementById("nodeSelect"+elid).onchange();
@@ -1942,20 +1942,20 @@ function networkOpenCluster(params){
 }
 
 function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix, treeParams, network, elid) {
-  
+
   var set_position = true;
   var selectedNode;
   var j;
-  
+
   if(nodes[0] !== undefined){
-    
+
     for (var inodes = 0; inodes < nodes.length; inodes++) {
-      
+
       selectedNode = nodes[inodes];
       if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           //network.openCluster(selectedNode)
-          /*instance.network.openCluster(selectedNode, 
+          /*instance.network.openCluster(selectedNode,
           {releaseFunction : function(clusterPosition, containedNodesPositions) {
             return tmp_position;
           }})*/
@@ -1964,13 +1964,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           var firstLevelNodes = [];
           var otherLevelNodes = [];
           var connectedToNodes = [];
-      
+
           item = network.body.data.nodes.get({
             filter: function (item) {
               return item.id == selectedNode;
             }
           });
-            
+
           connectedToNodes = network.body.data.edges.get({
           fields: ['id','to'],
             filter: function (item) {
@@ -1978,11 +1978,11 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             },
             returnType :'Array'
           });
-              
+
           for (j = 0; j < connectedToNodes.length; j++) {
             firstLevelNodes = firstLevelNodes.concat(connectedToNodes[j].to);
           }
-    
+
           var currentConnectedToNodes = firstLevelNodes;
           while(currentConnectedToNodes.length !== 0){
             connectedToNodes = network.body.data.edges.get({
@@ -1992,7 +1992,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                 },
                 returnType :'Array'
             });
-                
+
             currentConnectedToNodes = [];
             var currentlength = otherLevelNodes.length;
             for (j = 0; j < connectedToNodes.length; j++) {
@@ -2001,7 +2001,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             }
             if (otherLevelNodes.length === currentlength) { break; }
           }
-              
+
           var finalFirstLevelNodes = [];
           for (j = 0; j < firstLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(firstLevelNodes[j])
@@ -2011,7 +2011,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
               finalFirstLevelNodes = finalFirstLevelNodes.concat(findnode[0]);
             }
           }
-          
+
           var finalClusterNodes = [];
           for (j = 0; j < otherLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(otherLevelNodes[j])
@@ -2021,15 +2021,15 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
               finalClusterNodes = finalClusterNodes.concat(findnode[0]);
             }
           }
-    
-          if(set_position){ 
+
+          if(set_position){
             network.storePositions();
           }
-    
+
           var clusterOptions = {
             joinCondition: function (nodesOptions) {
-              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 || 
-                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1; 
+              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 ||
+                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1;
               },
               processProperties: function(clusterOptions, childNodes) {
                 var click_node = network.body.data.nodes.get({
@@ -2038,12 +2038,12 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                   },
                   returnType :'Array'
                 });
-                
+
                 var is_hard_to_read = false;
                 if(click_node[0].isHardToRead !== undefined){
                   is_hard_to_read = click_node[0].isHardToRead;
                 }
-                
+
                 for (var i in click_node[0]) {
                   if(i !== "id" && i !== "isHardToRead"){
                     if(i === "label" && is_hard_to_read){
@@ -2055,7 +2055,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     }
                   }
                 }
-                        
+
                 // gestion des tree
                 if(treeParams !== undefined){
                   if(treeParams.updateShape){
@@ -2064,19 +2064,19 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.shape = treeParams.shapeY
                   }
                 }
-                        
+
                 if(clusterOptions.label !== undefined){
                   clusterOptions.label = clusterOptions.label + " " + labelSuffix;
                 } else {
                   clusterOptions.label =  labelSuffix;
                 }
-                        
+
                 if(clusterOptions.borderWidth !== undefined){
                   clusterOptions.borderWidth = clusterOptions.borderWidth * 3;
                 } else {
                   clusterOptions.borderWidth =  3;
                 }
-                        
+
                 if(set_position){
                   if(click_node[0].x !== undefined){
                     clusterOptions.x = click_node[0].x;
@@ -2085,13 +2085,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.y = click_node[0].y;
                   }
                 }
-                      
+
                 if(clusterParams !== undefined){
                   for (var j in clusterParams) {
                     clusterOptions[j]=  clusterParams[j];
                   }
                 }
-                    
+
               return clusterOptions;
             },
             clusterNodeProperties: {
@@ -2101,7 +2101,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           network.cluster(clusterOptions);
         }
       }
-      
+
     }
     if(resetHighlight){
       document.getElementById("nodeSelect"+elid).value = "";
@@ -2118,14 +2118,14 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
   var j;
   var arr_nodes = [];
   var cluster_node;
-  
+
   var nodes_in_clusters = network.body.modules.clustering.clusteredNodes;
   if(Object.keys(nodes_in_clusters).length > 0){
     nodes_in_clusters = Object.keys(nodes_in_clusters);
   } else {
     nodes_in_clusters = []
   }
-    
+
   if(nodes !== undefined && nodes !== null){
     arr_nodes = nodes
   } else {
@@ -2137,7 +2137,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
     if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           if(keepCoord){
-            network.openCluster(selectedNode, 
+            network.openCluster(selectedNode,
               {releaseFunction : function(clusterPosition, containedNodesPositions) {
                     return containedNodesPositions;
                   }
@@ -2152,7 +2152,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               cluster_node = network.clustering.findNode(selectedNode)[0];
               if(network.isCluster(cluster_node)){
                 if(keepCoord){
-                  network.openCluster(cluster_node, 
+                  network.openCluster(cluster_node,
                     {releaseFunction : function(clusterPosition, containedNodesPositions) {
                           return containedNodesPositions;
                         }
@@ -2163,7 +2163,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               }
             }
           }
-        } 
+        }
       }
     }
   if(resetHighlight){
@@ -2177,9 +2177,9 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
 
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 if (HTMLWidgets.shinyMode){
-  
+
   // collapsed method
   Shiny.addCustomMessageHandler('visShinyCollapse', function(data){
       // get container id
@@ -2188,7 +2188,7 @@ if (HTMLWidgets.shinyMode){
         collapsedNetwork(data.nodes, data.fit, data.resetHighlight, data.clusterOptions, data.labelSuffix, undefined, el.chart, data.id)
       }
   });
-  
+
   // uncollapsed method
   Shiny.addCustomMessageHandler('visShinyUncollapse', function(data){
       // get container id
@@ -2204,7 +2204,7 @@ if (HTMLWidgets.shinyMode){
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-        
+
         if(data.type === "once"){
           for (var key in data.events) {
             eval('network.once("' + key + '",' + data.events[key] + ')');
@@ -2220,7 +2220,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // moveNode method
   Shiny.addCustomMessageHandler('visShinyMoveNode', function(data){
       // get container id
@@ -2230,32 +2230,32 @@ if (HTMLWidgets.shinyMode){
         network.moveNode(data.nodeId, data.x, data.y);
       }
   });
-  
+
   // unselectAll method
   Shiny.addCustomMessageHandler('visShinyUnselectAll', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-        
+
         // reset selection
         document.getElementById("nodeSelect"+data.id).value = "";
         document.getElementById("nodeSelect"+data.id).onchange();
-        
+
         if(document.getElementById(data.id).selectActive === true){
             document.getElementById("selectedBy"+data.id).value = "";
             document.getElementById("selectedBy"+data.id).onchange();
         }
-        
+
         network.unselectAll();
       }
   });
-  
+
   // updateOptions in the network
   Shiny.addCustomMessageHandler('visShinyOptions', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
-      
+
       if(el){
         var network = el.chart;
         var options = el.options;
@@ -2270,7 +2270,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-    
+
         //*************************
         // pre-treatment for icons (unicode)
         //*************************
@@ -2286,7 +2286,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-        
+
         if(data.options.nodes){
           if(data.options.nodes.icon){
             if(data.options.nodes.icon.code){
@@ -2298,12 +2298,12 @@ if (HTMLWidgets.shinyMode){
           }
         }
 
-        
+
         update(options, data.options);
         network.setOptions(options);
       }
   });
-  
+
   // setData the network
   Shiny.addCustomMessageHandler('visShinySetData', function(data){
       // get container id
@@ -2312,7 +2312,7 @@ if (HTMLWidgets.shinyMode){
         var network = el.chart;
         var newnodes = new vis.DataSet();
         var newedges = new vis.DataSet();
-		
+
         newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
         newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
         var newdata = {
@@ -2322,7 +2322,7 @@ if (HTMLWidgets.shinyMode){
         network.setData(newdata);
       }
   });
-  
+
   // fit to a specific node
   Shiny.addCustomMessageHandler('visShinyFit', function(data){
     // get container id
@@ -2332,7 +2332,7 @@ if (HTMLWidgets.shinyMode){
         network.fit(data.options);
       }
   });
-  
+
   // focus on a node in the network
   Shiny.addCustomMessageHandler('visShinyFocus', function(data){
       // get container id
@@ -2342,7 +2342,7 @@ if (HTMLWidgets.shinyMode){
         network.focus(data.focusId, data.options);
       }
   });
-  
+
   // stabilize the network
   Shiny.addCustomMessageHandler('visShinyStabilize', function(data){
       // get container id
@@ -2362,7 +2362,7 @@ if (HTMLWidgets.shinyMode){
         network.startSimulation();
       }
   });
-  
+
   // stopSimulation on network
   Shiny.addCustomMessageHandler('visShinyStopSimulation', function(data){
       // get container id
@@ -2372,7 +2372,7 @@ if (HTMLWidgets.shinyMode){
         network.stopSimulation();
       }
   });
-  
+
   // get positions of the network
   Shiny.addCustomMessageHandler('visShinyGetPositions', function(data){
       // get container id
@@ -2380,7 +2380,7 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         if(data.nodes !== undefined){
           pos = network.getPositions(data.nodes);
         }else{
@@ -2390,7 +2390,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get edges data
   Shiny.addCustomMessageHandler('visShinyGetEdges', function(data){
       // get container id
@@ -2401,7 +2401,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, current_edges._data);
       }
   });
-  
+
   // get nodes data
   Shiny.addCustomMessageHandler('visShinyGetNodes', function(data){
       // get container id
@@ -2415,7 +2415,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, current_nodes._data);
       }
   });
-  
+
   // get selected edges
   Shiny.addCustomMessageHandler('visShinyGetSelectedEdges', function(data){
       // get container id
@@ -2427,7 +2427,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get selected nodes
   Shiny.addCustomMessageHandler('visShinyGetSelectedNodes', function(data){
       // get container id
@@ -2439,7 +2439,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getConnectedEdges
   Shiny.addCustomMessageHandler('visShinyGetConnectedEdges', function(data){
       // get container id
@@ -2451,7 +2451,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getConnectedNodes
   Shiny.addCustomMessageHandler('visShinyGetConnectedNodes', function(data){
       // get container id
@@ -2463,7 +2463,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getBoundingBox
   Shiny.addCustomMessageHandler('visShinyGetBoundingBox', function(data){
       // get container id
@@ -2475,7 +2475,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get selection
   Shiny.addCustomMessageHandler('visShinyGetSelection', function(data){
       // get container id
@@ -2483,14 +2483,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getSelection();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get scale
   Shiny.addCustomMessageHandler('visShinyGetScale', function(data){
       // get container id
@@ -2498,14 +2498,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getScale();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // store positions
   Shiny.addCustomMessageHandler('visShinyStorePositions', function(data){
       // get container id
@@ -2515,7 +2515,7 @@ if (HTMLWidgets.shinyMode){
         network.storePositions();
       }
   });
-  
+
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetViewPosition', function(data){
       // get container id
@@ -2523,14 +2523,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getViewPosition();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetOptionsFromConfigurator', function(data){
       // get container id
@@ -2541,7 +2541,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
       }
   });
-  
+
   // Redraw the network
   Shiny.addCustomMessageHandler('visShinyRedraw', function(data){
       // get container id
@@ -2550,7 +2550,7 @@ if (HTMLWidgets.shinyMode){
         el.chart.redraw();
       }
   });
-  
+
   // select nodes
   Shiny.addCustomMessageHandler('visShinySelectNodes', function(data){
       // get container id
@@ -2569,7 +2569,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // select edges
   Shiny.addCustomMessageHandler('visShinySelectEdges', function(data){
       // get container id
@@ -2581,7 +2581,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // set selection
   Shiny.addCustomMessageHandler('visShinySetSelection', function(data){
       // get container id
@@ -2595,12 +2595,12 @@ if (HTMLWidgets.shinyMode){
           if(data.selection.nodes !== null){
             el.myclick({nodes : data.selection.nodes});
           } else {
-           el.myclick({nodes : []}); 
+           el.myclick({nodes : []});
           }
         }
       }
   });
-  
+
   function updateVisOptions(data){
         // get container id
         var graph = document.getElementById("graph"+data.id);
@@ -2610,7 +2610,7 @@ if (HTMLWidgets.shinyMode){
         var selectList2;
         var selectList;
         var reset = false;
-        
+
         if(graph){
           // reset nodes before ?
           if(document.getElementById(el.id).highlight){
@@ -2623,7 +2623,7 @@ if (HTMLWidgets.shinyMode){
             document.getElementById("nodeSelect"+data.id).value = "";
             document.getElementById("nodeSelect"+data.id).onchange();
           }
-          
+
           // collapse init
           if(data.options.collapse !== undefined){
             el.collapse = data.options.collapse.enabled;
@@ -2633,7 +2633,7 @@ if (HTMLWidgets.shinyMode){
             el.collapseLabelSuffix = data.options.collapse.labelSuffix;
             el.clusterOptions = data.options.collapse.clusterOptions;
           }
-          
+
           // highlight init
           if(data.options.highlight !== undefined){
             el.highlight = data.options.highlight.enabled;
@@ -2654,7 +2654,7 @@ if (HTMLWidgets.shinyMode){
               el.byselectionColor = data.options.byselection.hideColor;
             }
           }
-          
+
           if(data.options.byselection !== undefined){
             selectList2 = document.getElementById("selectedBy"+data.id)
             selectList2.options.length = 0;
@@ -2666,9 +2666,9 @@ if (HTMLWidgets.shinyMode){
               } else {
                 option2.text = data.options.byselection.main;
               }
-              
+
               selectList2.appendChild(option2);
-      
+
               if(data.options.byselection.values !== undefined){
                 for (var i = 0; i < data.options.byselection.values.length; i++) {
                   option2 = document.createElement("option");
@@ -2703,7 +2703,7 @@ if (HTMLWidgets.shinyMode){
               document.getElementById("selectedBy"+data.id).onchange();
             }
           }
-          
+
           if(do_loop_by){
               var allNodes = graph.nodes.get({returnType:"Object"});
               var byselection_values = [];
@@ -2725,9 +2725,9 @@ if (HTMLWidgets.shinyMode){
                     }
                   }
                 }
-              } 
+              }
           }
-          
+
           // node id selection init
           if(data.options.idselection !== undefined){
             selectList = document.getElementById("nodeSelect"+data.id)
@@ -2743,7 +2743,7 @@ if (HTMLWidgets.shinyMode){
               el.idselection_useLabels = data.options.idselection.useLabels
             }
           }
-          
+
           if(data.options.idselection !== undefined){
             if(data.options.idselection.enabled === true && data.options.idselection.selected !== undefined){
               document.getElementById("nodeSelect"+data.id).value = data.options.idselection.selected;
@@ -2752,27 +2752,27 @@ if (HTMLWidgets.shinyMode){
           }
         }
   };
-      
+
   Shiny.addCustomMessageHandler('visShinyCustomOptions', updateVisOptions);
-  
+
   // udpate nodes data
   Shiny.addCustomMessageHandler('visShinyUpdateNodes', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       var main_el = document.getElementById(data.id);
-      
+
       if(data.legend === false){
         if(el){
           // get & transform nodes object
           var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
-          
+
           // reset some parameters / data before
           if (main_el.selectActive === true | main_el.highlightActive === true) {
 
             //reset nodes
             resetAllEdges(el.edges, el.highlightColor, el.byselectionColor, el.chart);
             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-            
+
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2784,25 +2784,25 @@ if (HTMLWidgets.shinyMode){
           }
           // update nodes
           el.nodes.update(tmpnodes);
-          
+
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-          
+
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-      
+
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-          
+
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2845,7 +2845,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove nodes
   Shiny.addCustomMessageHandler('visShinyRemoveNodes', function(data){
       // get container id
@@ -2857,7 +2857,7 @@ if (HTMLWidgets.shinyMode){
           if (main_el.selectActive === true | main_el.highlightActive === true) {
             //reset nodes
             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-            
+
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2869,25 +2869,25 @@ if (HTMLWidgets.shinyMode){
           }
           // remove nodes
           el.nodes.remove(data.rmid);
-  
+
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-          
+
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-      
+
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-          
+
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2903,7 +2903,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove edges
   Shiny.addCustomMessageHandler('visShinyRemoveEdges', function(data){
       // get container id
@@ -2924,7 +2924,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove edges
   Shiny.addCustomMessageHandler('visShinySetTitle', function(data){
     if(data.main !== null){
@@ -2950,7 +2950,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_title.style.display = 'block';
-        } 
+        }
       }
     }
     if(data.submain !== null){
@@ -3002,7 +3002,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_footer.style.display = 'block';
-        } 
+        }
       }
     }
   });
@@ -3029,18 +3029,18 @@ if (HTMLWidgets.shinyMode){
 
 //----------------------------------------------------------------
 // HTMLWidgets.widget Definition
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 HTMLWidgets.widget({
-  
+
   name: 'visNetwork',
-  
+
   type: 'output',
-  
+
   initialize: function(el, width, height) {
     return {
     };
   },
-  
+
   renderValue: function(el, x, instance) {
     var data;
     var nodes;
@@ -3053,25 +3053,25 @@ HTMLWidgets.widget({
     var lastClusterZoomLevel = 0;
     var clusterFactor;
     var ctrlwait = 0;
-    
+
     // legend control
     var addlegend = false;
 
     // main div el.id
     var el_id = document.getElementById(el.id);
-    
+
     // test background
     el_id.style.background = x.background;
-    
+
     // clear el.id (for shiny...)
-    el_id.innerHTML = "";  
-    
+    el_id.innerHTML = "";
+
     // shared control with proxy function (is there a better way ?)
     el_id.highlightActive = false;
     el_id.selectActive = false;
     el_id.idselection = x.idselection.enabled;
     el_id.byselection = x.byselection.enabled;
-    
+
     if(x.highlight !== undefined){
       el_id.highlight = x.highlight.enabled;
       el_id.highlightColor = x.highlight.hideColor;
@@ -3093,13 +3093,13 @@ HTMLWidgets.widget({
     } else {
       el_id.byselectionColor = 'rgba(200,200,200,0.5)';
     }
-    
+
     if(x.idselection.enabled){
       el_id.idselection_useLabels = true;
     } else {
       el_id.idselection_useLabels = false;
     }
-    
+
     if(x.collapse !== undefined){
       if(x.collapse.enabled){
         el_id.collapse = true;
@@ -3117,7 +3117,7 @@ HTMLWidgets.widget({
       el_id.collapseLabelSuffix = " (cluster)";
       el_id.clusterOptions = undefined;
     }
-    
+
     if(x.tree !== undefined){
       el_id.tree = x.tree;
     }
@@ -3133,11 +3133,11 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     var changeInput = function(id, data) {
             Shiny.onInputChange(el.id + '_' + id, data);
     };
-          
+
     //*************************
     //title
     //*************************
@@ -3145,13 +3145,13 @@ HTMLWidgets.widget({
     div_title.id = "title"+el.id;
     div_title.setAttribute('style','font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;');
     div_title.style.display = 'none';
-    el_id.appendChild(div_title);  
+    el_id.appendChild(div_title);
     if(x.main !== null){
       div_title.innerHTML = x.main.text;
       div_title.setAttribute('style',  x.main.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
-    
+
     //*************************
     //subtitle
     //*************************
@@ -3159,13 +3159,13 @@ HTMLWidgets.widget({
     div_subtitle.id = "subtitle"+el.id;
     div_subtitle.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;');
     div_subtitle.style.display = 'none';
-    el_id.appendChild(div_subtitle); 
+    el_id.appendChild(div_subtitle);
     if(x.submain !== null){
       div_subtitle.innerHTML = x.submain.text;
       div_subtitle.setAttribute('style',  x.submain.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
- 
+
     //*************************
     //init idselection
     //*************************
@@ -3198,7 +3198,7 @@ HTMLWidgets.widget({
         resetList('selectedBy', el.id, 'selectedBy');
       }
     }
-      
+
     // id nodes selection : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     var idList = document.createElement("select");
@@ -3206,17 +3206,17 @@ HTMLWidgets.widget({
     idList.style.display = 'none';
     idList.id = "nodeSelect"+el.id;
     el_id.appendChild(idList);
-      
+
     idList.onchange =  function(){
       if(instance.network){
         onIdChange(document.getElementById("nodeSelect"+el.id).value, false);
       }
     };
-      
+
     var hr = document.createElement("hr");
     hr.setAttribute('style', 'height:0px; visibility:hidden; margin-bottom:-1px;');
-    el_id.appendChild(hr);  
-      
+    el_id.appendChild(hr);
+
     //*************************
     //selectedBy
     //*************************
@@ -3231,7 +3231,7 @@ HTMLWidgets.widget({
           resetList('nodeSelect', el.id, 'selected');
         }
     }
-    
+
     // selectedBy : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     //Create and append select list
@@ -3244,19 +3244,19 @@ HTMLWidgets.widget({
     byList.onchange =  function(){
       onByChange(document.getElementById("selectedBy"+el.id).value);
     };
-      
+
     if(el_id.byselection){
 
       el_id.byselection_values = x.byselection.values;
       el_id.byselection_variable = x.byselection.variable;
       el_id.byselection_multiple = x.byselection.multiple;
       var option2;
-      
+
       //Create and append select list
       var selectList2 = document.getElementById("selectedBy"+el.id);
       selectList2.setAttribute('style', x.byselection.style);
       selectList2.style.display = 'inline';
-      
+
       option2 = document.createElement("option");
       option2.value = "";
       if(x.byselection.main === undefined){
@@ -3266,7 +3266,7 @@ HTMLWidgets.widget({
       }
 
       selectList2.appendChild(option2);
-      
+
       //Create and append the options
       for (var i2 = 0; i2 < x.byselection.values.length; i2++) {
         option2 = document.createElement("option");
@@ -3274,12 +3274,12 @@ HTMLWidgets.widget({
         option2.text = x.byselection.values[i2];
         selectList2.appendChild(option2);
       }
-      
+
       if (window.Shiny){
         changeInput('selectedBy', document.getElementById("selectedBy"+el.id).value);
       }
     }
-    
+
     //*************************
     // pre-treatment for icons (unicode)
     //*************************
@@ -3295,7 +3295,7 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     if(x.options.nodes.icon){
         if(x.options.nodes.icon.code){
           x.options.nodes.icon.code = JSON.parse( '"'+'\\u' + x.options.nodes.icon.code + '"');
@@ -3304,72 +3304,72 @@ HTMLWidgets.widget({
           x.options.nodes.color = x.options.nodes.icon.color;
         }
     }
-    
+
     //*************************
     //page structure
     //*************************
-    
+
     // divide page
     var maindiv  = document.createElement('div');
     maindiv.id = "maindiv"+el.id;
     maindiv.setAttribute('style', 'height:95%;background-color: inherit;');
     el_id.appendChild(maindiv);
-    
+
     var graph = document.createElement('div');
     graph.id = "graph"+el.id;
-    
+
     if(x.legend !== undefined){
       if((x.groups && x.legend.useGroups) || (x.legend.nodes !== undefined) || (x.legend.edges !== undefined)){
         addlegend = true;
       }
     }
-    
+
     //legend
     if(addlegend){
       var legendwidth = x.legend.width*100;
       var legend = document.createElement('div');
-      
+
       var pos = x.legend.position;
       var pos2 = "right";
       if(pos == "right"){
         pos2 = "left";
       }
-      
+
       legend.id = "legend"+el.id;
       legend.setAttribute('style', 'float:' + pos + '; width:'+legendwidth+'%;height:100%');
-      
+
       //legend title
       if(x.legend.main !== undefined){
         var legend_title = document.createElement('div');
         legend_title.innerHTML = x.legend.main.text;
         legend_title.setAttribute('style',  x.legend.main.style);
-        legend.appendChild(legend_title);  
-        
+        legend.appendChild(legend_title);
+
         legend.id = "legend_main"+el.id;
         var legend_network = document.createElement('div');
         legend_network.id = "legend"+el.id;
         legend_network.setAttribute('style', 'height:100%');
-        legend.appendChild(legend_network); 
+        legend.appendChild(legend_network);
       }
-      
+
       document.getElementById("maindiv"+el.id).appendChild(legend);
       graph.setAttribute('style', 'float:' + pos2 + '; width:'+(100-legendwidth)+'%;height:100%;background-color: inherit;');
     }else{
       graph.setAttribute('style', 'float:right; width:100%;height:100%;background-color: inherit;');
     }
-    
+
     document.getElementById("maindiv"+el.id).appendChild(graph);
-    
+
     //*************************
     //legend definition
     //*************************
     if(addlegend){
-      
+
       var legendnodes = new vis.DataSet();
       var legendedges = null;
       var datalegend;
       var tmpnodes;
-      
+
       // set some options
       var optionslegend = {
         interaction:{
@@ -3382,7 +3382,7 @@ HTMLWidgets.widget({
           stabilization: false
         }
       };
-      
+
       function range(start, length, step, rep){
         var a=[], b=start;
         while(a.length < length){
@@ -3396,7 +3396,7 @@ HTMLWidgets.widget({
         }
         return a;
       };
-      
+
       var mynetwork = document.getElementById('legend'+el.id);
       var lx = mynetwork.clientWidth / 2 + 50;
       var ly = mynetwork.clientHeight / 2 + 50;
@@ -3411,7 +3411,7 @@ HTMLWidgets.widget({
       if(tmp_lx === 0){
         tmp_lx = 1
       }
-      
+
       // construct nodes data if needed
       if(x.legend.nodes !== undefined){
         if(x.legend.nodesToDataframe){ // data in data.frame
@@ -3419,13 +3419,13 @@ HTMLWidgets.widget({
         } else { // data in list
           tmpnodes = x.legend.nodes;
         }
-        // only one element   
+        // only one element
         if(tmpnodes.length === undefined){
           tmpnodes = new Array(tmpnodes);
         }
       }
-      
-      // array of y position 
+
+      // array of y position
       if(x.groups && x.legend.useGroups && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, x.groups.length + tmpnodes.length, step_y, ncol);
       } else if(x.groups && x.legend.useGroups && x.legend.nodes === undefined){
@@ -3433,23 +3433,23 @@ HTMLWidgets.widget({
       } else if(x.legend.useGroups === false && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, tmpnodes.length, step_y, ncol);
       }
-      
+
       // want to view groups in legend
       if(x.groups && x.legend.useGroups){
         // create data
         for (var g1 = 0; g1 < x.groups.length; g1++){
-          
+
           if(g1 === 0){
             tmp_lx = lx;
           } else {
             tmp_lx = lx + g1%ncol * step_x;
           }
-          
+
           tmp_ly = all_tmp_y[g1];
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-          
+
           legendnodes.add({id: null, x : tmp_lx, y : tmp_ly, label: x.groups[g1], group: x.groups[g1], value: 1, mass:1});
           edge_ly = tmp_ly;
         }
@@ -3465,7 +3465,7 @@ HTMLWidgets.widget({
       }
       // want to add custom nodes
       if(x.legend.nodes !== undefined){
-        
+
         // control icon
         for (var nd in tmpnodes){
           if(tmpnodes[nd].icon  && !x.legend.nodesToDataframe){
@@ -3484,7 +3484,7 @@ HTMLWidgets.widget({
           } else {
             tmp_lx = lx + (g+legendnodes.length)%ncol * step_x;
           }
-          
+
           tmp_ly = all_tmp_y[add_gr_y + g];
           if(tmp_lx === 0){
             tmp_lx = 1
@@ -3494,7 +3494,7 @@ HTMLWidgets.widget({
           }
           tmpnodes[g].x = tmp_lx;
           tmpnodes[g].y = tmp_ly;
-          
+
           if(tmpnodes[g].value === undefined && tmpnodes[g].size === undefined){
             tmpnodes[g].value = 1;
           }
@@ -3513,14 +3513,14 @@ HTMLWidgets.widget({
         } else {  // data in list
           legendedges = x.legend.edges;
         }
-        // only one element 
+        // only one element
         if(legendedges.length === undefined){
           legendedges = new Array(legendedges);
         }
 
         // set coordinates and options
         for (var edg = 0; edg < (legendedges.length); edg++){
-          
+
           var tmp_int = Math.floor(Math.random() * 1001);
           legendedges[edg].from = edg + "tmp_leg_edges_" + tmp_int + "_1";
           legendedges[edg].to = edg + "tmp_leg_edges_" + tmp_int + "_2";
@@ -3531,7 +3531,7 @@ HTMLWidgets.widget({
           if(legendedges[edg].arrows === undefined){
             legendedges[edg].arrows = 'to';
           }
-          
+
           if(legendedges[edg].width === undefined){
             legendedges[edg].width = 1;
           }
@@ -3540,7 +3540,7 @@ HTMLWidgets.widget({
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-          
+
           if(ncol === 1){
             tmp_lx = lx - mynetwork.clientWidth/3;
             tmp_lx2 = lx + mynetwork.clientWidth/3;
@@ -3548,52 +3548,52 @@ HTMLWidgets.widget({
             tmp_lx = lx;
             tmp_lx2 = lx + (ncol-1) * step_x;
           }
-          
+
           if(tmp_lx === 0){
             tmp_lx = 1
           }
-          
+
           if(tmp_lx2 === 0){
             tmp_lx2 = 1
           }
-          
+
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_1", x : tmp_lx, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_2", x : tmp_lx2, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
         }
       }
-      
+
       // render legend network
       datalegend = {
-        nodes: legendnodes, 
-        edges: legendedges       
+        nodes: legendnodes,
+        edges: legendedges
       };
 
-      
+
       instance.legend = new vis.Network(document.getElementById("legend"+el.id), datalegend, optionslegend);
       //link network for update for re-use and update
       document.getElementById("legend"+el.id).network = instance.legend;
     }
-    
+
     //*************************
     // Main Network rendering
     //*************************
     if(x.nodes){
-      
+
       // network
       nodes = new vis.DataSet();
       edges = new vis.DataSet();
-      
+
       var tmpnodes;
       if(x.nodesToDataframe){ // data in data.frame
         tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
       } else { // data in list
         tmpnodes = x.nodes;
       }
-      // only one element   
+      // only one element
       if(tmpnodes.length === undefined){
         tmpnodes = new Array(tmpnodes);
       }
-        
+
       // update coordinates if igraph
       if(x.igraphlayout !== undefined){
         // to improved
@@ -3601,7 +3601,7 @@ HTMLWidgets.widget({
         var igclientWidth = document.getElementById("graph"+el.id).clientWidth;
         var scalex = 100;
         var scaley = 100;
-        
+
         // current div visibled
         if(igclientWidth !== 0){
           var factor = igclientWidth / 1890;
@@ -3624,15 +3624,15 @@ HTMLWidgets.widget({
             }
           }
         }
-        
+
         for (var nd in tmpnodes) {
           tmpnodes[nd].x = tmpnodes[nd].x * scalex;
           tmpnodes[nd].y = tmpnodes[nd].y * scaley;
         }
       }
-      
+
       nodes.add(tmpnodes);
-      
+
       var tmpedges;
       if(x.edgesToDataframe){ // data in data.frame
         tmpedges = visNetworkdataframeToD3(x.edges, "edges")
@@ -3644,17 +3644,17 @@ HTMLWidgets.widget({
         if(tmpedges.length === undefined){
           tmpedges = new Array(tmpedges);
         }
-        edges.add(tmpedges);  
+        edges.add(tmpedges);
       }
-      
+
       // reset tmpnodes
       tmpnodes = null;
-      
+
       data = {
         nodes: nodes,
         edges: edges
       };
-      
+
       //save data for re-use and update
       document.getElementById("graph"+el.id).nodes = nodes;
       document.getElementById("graph"+el.id).edges = edges;
@@ -3667,8 +3667,8 @@ HTMLWidgets.widget({
       data = {
         gephi: x.gephi
       };
-    } 
-    
+    }
+
     var options = x.options;
 
     //*************************
@@ -3747,7 +3747,7 @@ HTMLWidgets.widget({
       } else {
         options.manipulation.editNode = x.options.manipulation.editNode;
       }
-  
+
       if(x.options.manipulation.deleteNode === undefined){
         options.manipulation.deleteNode = function(data, callback) {
             var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
@@ -3856,34 +3856,34 @@ HTMLWidgets.widget({
         options.manipulation.editEdge = x.options.manipulation.editEdge;
       }
     }
-    
+
     // create network
     instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
     if (window.Shiny){
       Shiny.onInputChange(el.id + '_initialized', true);
     }
-    
+
     //*************************
     //add values to idselection
     //*************************
-    
-    if(el_id.idselection){  
+
+    if(el_id.idselection){
       var selectList = document.getElementById("nodeSelect"+el.id)
       setNodeIdList(selectList, x.idselection, nodes)
-      
+
       if (window.Shiny){
         changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
       }
     }
-      
+
     //save data for re-use and update
     document.getElementById("graph"+el.id).chart = instance.network;
     document.getElementById("graph"+el.id).options = options;
-    
+
     /////////
     // popup
     /////////
-    
+
     // Temporary variables to hold mouse x-y pos.s
     var tempX = 0
     var tempY = 0
@@ -3905,15 +3905,15 @@ HTMLWidgets.widget({
     var popupState = false;
     var popupTimeout = null;
     var vispopup = document.createElement("div");
-   
-    // disable vis.js tooltip 
+
+    // disable vis.js tooltip
     var style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = 'div.vis-tooltip {display : none}';
     document.getElementsByTagName('head')[0].appendChild(style);
 
     var popupStyle = 'position: fixed;visibility:hidden;padding: 5px;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);max-width:400px;word-break: break-all'
-    
+
     if(x.tooltipStyle !== undefined){
       popupStyle = x.tooltipStyle
     }
@@ -3922,9 +3922,9 @@ HTMLWidgets.widget({
       popupStay = x.tooltipStay
     }
     vispopup.setAttribute('style', popupStyle)
-    
+
     document.getElementById("graph"+el.id).appendChild(vispopup);
-    
+
     // add some event listeners to avoid it disappearing when the mouse if over it.
     vispopup.addEventListener('mouseover',function () {
       if (popupTimeout !== null) {
@@ -3932,20 +3932,20 @@ HTMLWidgets.widget({
         popupTimeout = null;
       }
     });
-  
+
     // set the timeout when the mouse leaves it.
     vispopup.addEventListener('mouseout',function () {
       if (popupTimeout === null) {
         myHidePopup(100);
       }
     });
-    
+
     // use the popup event to show
     instance.network.on("showPopup", function(params) {
-      popupState = true;  
+      popupState = true;
       myShowPopup(params);
     })
-  
+
     // use the hide event to hide it
     instance.network.on("hidePopup", function(params) {
       // avoid double firing of this event, bug in 4.2.0
@@ -3954,18 +3954,18 @@ HTMLWidgets.widget({
         myHidePopup(popupStay);
       }
     })
-  
+
     // hiding the popup through css and a timeout
     function myHidePopup(delay) {
       popupTimeout = setTimeout(function() {vispopup.style.visibility = 'hidden';}, delay);
     }
-  
+
     // showing the popup
     function myShowPopup(id) {
       // get the data from the vis.DataSet
       var nodeData = nodes.get([id]);
       var edgeData = edges.get([id]);
-      
+
       // a node ?
       if(nodeData[0] !== null && nodeData[0] !== undefined){
         vispopup.innerHTML = nodeData[0].title;
@@ -3973,7 +3973,7 @@ HTMLWidgets.widget({
         vispopup.style.visibility = 'visible';
         vispopup.style.top = tempY - 20 +  "px";
         vispopup.style.left = tempX + 5 + "px";
-        
+
       } else if(edgeData[0] !== null && edgeData[0] !== undefined){
         // so it's perhaps a edge ?
         vispopup.innerHTML = edgeData[0].title;
@@ -3992,7 +3992,7 @@ HTMLWidgets.widget({
           vispopup.style.left = tempX + 5 + "px";
         }
       }
-      
+
       // for sparkline. Eval script...
       var any_script= vispopup.getElementsByTagName('script')
       for (var n = 0; n < any_script.length; n++){
@@ -4001,7 +4001,7 @@ HTMLWidgets.widget({
         }
       }
     }
-  
+
     //*************************
     // Events
     //*************************
@@ -4016,7 +4016,7 @@ HTMLWidgets.widget({
           instance.network.once(key, x.OnceEvents[key]);
       }
     }
-    
+
     if(x.ResetEvents !== undefined){
       for (var key in x.ResetEvents) {
           instance.network.off(key);
@@ -4029,11 +4029,11 @@ HTMLWidgets.widget({
     function selectedHighlight(value) {
       // get current nodes
       var allNodes = nodes.get({returnType:"Object"});
-       
+
       // first resetEdges
       resetAllEdges(edges, el_id.byselectionColor, el_id.highlightColor, instance.network);
-      var connectedNodes = [];  
-      
+      var connectedNodes = [];
+
       // get variable
       var sel = el_id.byselection_variable;
       // need to make an update?
@@ -4042,7 +4042,7 @@ HTMLWidgets.widget({
       if (value !== "") {
         var updateArray = [];
         el_id.selectActive = true;
-        
+
         // mark all nodes as hard to read.
         for (var nodeId in allNodes) {
           var value_in = false;
@@ -4102,7 +4102,7 @@ HTMLWidgets.widget({
             edgeAsHardToRead(edgesHardToRead[i], el_id.byselectionColor, el_id.highlightColor, instance.network, type = "edge")
           }
           edges.update(edgesHardToRead);
-            
+
           nodes.update(updateArray);
         }
       }
@@ -4111,14 +4111,14 @@ HTMLWidgets.widget({
         resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
         el_id.selectActive = false
       }
-    } 
-  
+    }
+
     //*************************
     //Highlight
     //*************************
     var is_hovered = false;
     var is_clicked = false;
-    
+
     function neighbourhoodHighlight(params, action_type, algorithm) {
 
       var nodes_in_clusters = instance.network.body.modules.clustering.clusteredNodes;
@@ -4131,26 +4131,26 @@ HTMLWidgets.widget({
         nodes_in_clusters = [];
         edges_in_clusters = [];
       }
-      
+
       var selectNode;
       // get nodes data
       var allNodes = nodes.get({returnType:"Object"});
 
       // cluster
       var array_cluster_id;
-      
-      // update 
+
+      // update
       var update = !(el_id.highlightActive === false && params.length === 0) | (el_id.selectActive === true && params.length === 0);
 
       if(!(action_type == "hover" && is_clicked)){
-        
+
         // first resetEdges
         resetAllEdges(edges, el_id.highlightColor, el_id.byselectionColor, instance.network);
 
         if (params.length > 0) {
           var is_cluster = instance.network.isCluster(params[0]);
           var selectedNode;
-          
+
           if(is_cluster){
             selectedNode = instance.network.getNodesInCluster(params[0]);
           } else {
@@ -4175,11 +4175,11 @@ HTMLWidgets.widget({
               }
             }
           }
-          
+
           el_id.highlightActive = true;
           var i,j;
           var degrees = el_id.degree;
-          
+
           // mark all nodes as hard to read.
           for (var nodeId in instance.network.body.nodes) {
             if(instance.network.isCluster(nodeId)){
@@ -4193,7 +4193,7 @@ HTMLWidgets.widget({
               }
             }
           }
- 
+
           if(algorithm === "all"){
             var connectedNodes;
             if(degrees > 0){
@@ -4205,7 +4205,7 @@ HTMLWidgets.widget({
             }else{
               connectedNodes = selectedNode;
             }
-            
+
             var allConnectedNodes = [];
             // get the nodes to color
             if(degrees >= 2){
@@ -4233,13 +4233,13 @@ HTMLWidgets.widget({
                   allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
                   if(have_cluster_nodes){
                     if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
-  
+
                       array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
                     }
                   }
                 }
               }
-  
+
               if(array_cluster_id.length > 0){
                 array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
                 for (i = 0; i < array_cluster_id.length; i++) {
@@ -4250,7 +4250,7 @@ HTMLWidgets.widget({
 
             // all in degree nodes get their own color and their label back + main nodes
             connectedNodes = connectedNodes.concat(selectedNode);
-            
+
             if (window.Shiny){
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(connectedNodes));
             }
@@ -4258,8 +4258,8 @@ HTMLWidgets.widget({
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', allConnectedNodes.filter(function(x){ return !connectedNodes.includes(x)}));
               }
-            }  
-   
+            }
+
             array_cluster_id = [];
             for (i = 0; i < connectedNodes.length; i++) {
               resetOneNode(allNodes[connectedNodes[i]], instance.network.groups, options, instance.network);
@@ -4269,14 +4269,14 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                 resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
               }
             }
-            
+
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4300,7 +4300,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4309,17 +4309,17 @@ HTMLWidgets.widget({
             }
             edges.update(edgesHardToRead);
           } else if(algorithm === "hierarchical"){
-            
+
             var degree_from = degrees.from;
             var degree_to = degrees.to;
             degrees = Math.max(degree_from, degree_to);
-            
+
             var allConnectedNodes = [];
             var currentConnectedFromNodes = [];
             var currentConnectedToNodes = [];
             var connectedFromNodes = [];
             var connectedToNodes = [];
-            
+
             if(degree_from > 0){
               connectedFromNodes = edges.get({
                 fields: ['from'],
@@ -4343,15 +4343,15 @@ HTMLWidgets.widget({
                 allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
                 currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
             }
-            
+
             for (j = 0; j < connectedToNodes.length; j++) {
                 allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                 currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
             }
-            
+
             var go_from;
             var go_to;
-                
+
             if(degrees > 1){
               for (i = 2; i <= degrees; i++) {
                 go_from = false;
@@ -4391,13 +4391,13 @@ HTMLWidgets.widget({
                   for (j = 0; j < connectedToNodes.length; j++) {
                     allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                     currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
-                  } 
+                  }
                 }
-                
+
                 if (go_from === false &&  go_to === false) { break;}
               }
             }
-            
+
             allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network).concat(selectedNode);
 
             var nodesWithLabel = [];
@@ -4407,7 +4407,7 @@ HTMLWidgets.widget({
                 for (j = 0; j < currentConnectedToNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedToNodes[j]));
                 }
-                
+
                 for (j = 0; j < currentConnectedFromNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedFromNodes[j]));
                 }
@@ -4431,7 +4431,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4449,23 +4449,23 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                  resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
               }
             }
-             
-            if (window.Shiny){ 
+
+            if (window.Shiny){
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(allConnectedNodes));
             }
             if(el_id.highlightLabelOnly === true){
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', nodesWithLabel.filter(function(x) {return !allConnectedNodes.includes(x)}));
               }
-            }  
-            
+            }
+
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4494,9 +4494,9 @@ HTMLWidgets.widget({
                  edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster");
               }
             }
-            
+
             edges.update(edgesHardToRead);
-            
+
           }
 
           if(update){
@@ -4514,7 +4514,7 @@ HTMLWidgets.widget({
           }else{
             is_clicked = false;
           }
-        
+
         }
         else if (el_id.highlightActive === true | el_id.selectActive === true) {
           // reset nodeSelect list if actived
@@ -4525,7 +4525,7 @@ HTMLWidgets.widget({
           resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
           el_id.highlightActive = false;
           is_clicked = false;
-          
+
           if (window.Shiny){
             Shiny.onInputChange(el.id + '_highlight_label_id', null)
             Shiny.onInputChange(el.id + '_highlight_color_id', null)
@@ -4537,7 +4537,7 @@ HTMLWidgets.widget({
         resetList("selectedBy", el.id, 'selectedBy');
       }
     }
-    
+
     function onClickIDSelection(selectedItems) {
       var selectNode;
       if(el_id.idselection){
@@ -4557,7 +4557,7 @@ HTMLWidgets.widget({
           }
         }else{
           resetList("nodeSelect", el.id, 'selected');
-        } 
+        }
       }
       if(el_id.byselection){
         // reset selectedBy list if actived
@@ -4567,7 +4567,7 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     // shared click function (selectedNodes)
     document.getElementById("graph"+el.id).myclick = function(params){
         if(el_id.highlight && x.nodes){
@@ -4576,43 +4576,43 @@ HTMLWidgets.widget({
           onClickIDSelection(params)
         }
     };
-    
-    // Set event in relation with highlightNearest      
+
+    // Set event in relation with highlightNearest
     instance.network.on("click", function(params){
         if(el_id.highlight && x.nodes){
           neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
         }else if((el_id.idselection || el_id.byselection) && x.nodes){
           onClickIDSelection(params)
-        } 
+        }
     });
-    
+
     instance.network.on("hoverNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([params.node], "hover", el_id.highlightAlgorithm);
-      } 
+      }
     });
 
     instance.network.on("blurNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([], "hover", el_id.highlightAlgorithm);
-      }      
+      }
     });
-    
+
     //*************************
     //collapse
     //*************************
     instance.network.on("doubleClick", function(params){
       if(el_id.collapse){
-        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight, 
+        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight,
           el_id.clusterOptions, el_id.collapseLabelSuffix,
-          el_id.tree, instance.network, el.id) 
+          el_id.tree, instance.network, el.id)
       }
-    }); 
-    
+    });
+
     if(el_id.collapse){
       instance.network.on("doubleClick", networkOpenCluster);
     }
-    
+
     //*************************
     //footer
     //*************************
@@ -4621,34 +4621,34 @@ HTMLWidgets.widget({
     div_footer.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;background-color: inherit;');
     div_footer.style.display = 'none';
 
-    document.getElementById("graph" + el.id).appendChild(div_footer);  
+    document.getElementById("graph" + el.id).appendChild(div_footer);
     if(x.footer !== null){
       div_footer.innerHTML = x.footer.text;
       div_footer.setAttribute('style',  x.footer.style + ';background-color: inherit;');
-      div_footer.style.display = 'block'; 
+      div_footer.style.display = 'block';
     }
-    
+
     //*************************
     // export
     //*************************
     if(x.export !== undefined){
-      
+
       var downloaddiv = document.createElement('div');
       downloaddiv.setAttribute('style', 'float:right; width:100%;background-color: inherit;');
-      
+
       var downloadbutton = document.createElement("button");
       downloadbutton.setAttribute('style', x.export.css);
       downloadbutton.style.position = "relative";
       downloadbutton.id = "download"+el.id;
-      downloadbutton.appendChild(document.createTextNode(x.export.label)); 
+      downloadbutton.appendChild(document.createTextNode(x.export.label));
       downloaddiv.appendChild(downloadbutton);
-      
+
       var hr = document.createElement("hr");
       hr.setAttribute('style', 'height:5px; visibility:hidden; margin-bottom:-1px;');
-      downloaddiv.appendChild(hr);  
-      
+      downloaddiv.appendChild(hr);
+
       document.getElementById("maindiv"+el.id).appendChild(downloaddiv);
-      
+
       document.getElementById("download"+el.id).onclick = function() {
 
       // height control for export
@@ -4670,7 +4670,7 @@ HTMLWidgets.widget({
       if(x.background !== "transparent" && x.background !== "rgba(0, 0, 0, 0)"){
         export_background = x.background
       }
-      
+
       if(x.export.type !== "pdf"){
         html2canvas(el_id, {
           background: export_background,
@@ -4688,11 +4688,11 @@ HTMLWidgets.widget({
           onrendered: function(canvas) {
             var myImage = canvas.toDataURL("image/png", 1.0);
             //var imgWidth = (canvas.width * 25.4) / 24;
-            //var imgHeight = (canvas.height * 25.4) / 24; 
+            //var imgHeight = (canvas.height * 25.4) / 24;
             var table = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
             table.addImage(myImage, 'JPEG', 0, 0, canvas.width, canvas.height);
             table.save(x.export.name);
-          } 
+          }
         });
       }
 
@@ -4726,7 +4726,7 @@ HTMLWidgets.widget({
         var obj = {cmd: cmd, id: data.id, from: data.from, to: data.to};
         Shiny.onInputChange(el.id + '_graphChange', obj);
       }
-      
+
     }
 
     function deleteSubGraph(data, callback) {
@@ -4741,19 +4741,19 @@ HTMLWidgets.widget({
       clearPopUp();
       callback(null);
     }
-    
+
     //*************************
     // CLUSTERING
     //*************************
     if(x.clusteringGroup || x.clusteringColor || x.clusteringHubsize || x.clusteringConnection){
-      
+
       var clusterbutton = document.createElement("input");
       clusterbutton.id = "backbtn"+el.id;
-      clusterbutton.setAttribute('type', 'button');  
-      clusterbutton.setAttribute('value', 'Reinitialize clustering'); 
+      clusterbutton.setAttribute('type', 'button');
+      clusterbutton.setAttribute('value', 'Reinitialize clustering');
       clusterbutton.setAttribute('style', 'background-color:#FFFFFF;border: none');
       el_id.appendChild(clusterbutton);
-      
+
       clusterbutton.onclick =  function(){
         // reset some parameters / data before
         if (el_id.selectActive === true | el_id.highlightActive === true) {
@@ -4784,11 +4784,11 @@ HTMLWidgets.widget({
         instance.network.fit();
       }
     }
-    
+
     if(x.clusteringGroup || x.clusteringColor || x.clusteringOutliers || x.clusteringHubsize || x.clusteringConnection){
       // if we click on a node, we want to open it up!
       instance.network.on("doubleClick", function (params){
-        
+
         if (params.nodes.length === 1) {
           if (instance.network.isCluster(params.nodes[0]) === true) {
             is_clicked = false;
@@ -4803,7 +4803,7 @@ HTMLWidgets.widget({
     //clustering Connection
     //*************************
     if(x.clusteringConnection){
-      
+
       function clusterByConnection() {
         for (var i = 0; i < x.clusteringConnection.nodes.length; i++) {
           instance.network.clusterByConnection(x.clusteringConnection.nodes[i])
@@ -4811,12 +4811,12 @@ HTMLWidgets.widget({
       }
       clusterByConnection();
     }
-    
+
     //*************************
     //clustering hubsize
     //*************************
     if(x.clusteringHubsize){
-      
+
       function clusterByHubsize() {
         var clusterOptionsByData = {
           processProperties: function(clusterOptions, childNodes) {
@@ -4852,12 +4852,12 @@ HTMLWidgets.widget({
           instance.network.clusterByHubsize(undefined, clusterOptionsByData);
         }
       }
-      
+
       clusterByHubsize();
     }
-    
+
     if(x.clusteringColor){
-      
+
     //*************************
     //clustering color
     //*************************
@@ -4904,7 +4904,7 @@ HTMLWidgets.widget({
           instance.network.cluster(clusterOptionsByData);
         }
       }
-      
+
       clusterByColor();
     }
 
@@ -4912,7 +4912,7 @@ HTMLWidgets.widget({
     //clustering groups
     //*************************
     if(x.clusteringGroup){
-      
+
       function clusterByGroup() {
         var groups = x.clusteringGroup.groups;
         var clusterOptionsByData;
@@ -4922,7 +4922,7 @@ HTMLWidgets.widget({
           var sh = x.clusteringGroup.shape[i];
           var force = x.clusteringGroup.force[i];
           var sc_size = x.clusteringGroup.scale_size[i];
-          
+
           clusterOptionsByData = {
               joinCondition: function (childOptions) {
                   return childOptions.group == group; //
@@ -4967,14 +4967,14 @@ HTMLWidgets.widget({
       }
       clusterByGroup();
     }
-  
+
     //*************************
     //clustering by zoom
     //*************************
     if(x.clusteringOutliers){
-      
+
       clusterFactor = x.clusteringOutliers.clusterFactor;
-      
+
       // set the first initial zoom level
       instance.network.on('initRedraw', function() {
         if (lastClusterZoomLevel === 0) {
@@ -5017,7 +5017,7 @@ HTMLWidgets.widget({
                 clusterOptions.font = {size: childrenCount*5+30}
                 clusterOptions.id = 'cluster:' + clusterIndex;
                 clusters.push({id:'cluster:' + clusterIndex, scale:scale});
-                
+
                 if(cluster_level !== 9999999){
                   clusterOptions.level = cluster_level
                 }
@@ -5053,20 +5053,20 @@ HTMLWidgets.widget({
         };
         ctrlwait = 0;
     }
-    
+
     //******************
     // init selection
     //******************
-    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){ 
+    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){
       onIdChange(''+ x.idselection.selected, true);
     }
-      
-    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){ 
+
+    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){
       onByChange(x.byselection.selected);
       selectNode = document.getElementById('selectedBy'+el.id);
       selectNode.value = x.byselection.selected;
     }
-    
+
     // try to fix icons loading css bug...
     function iconsRedraw() {
       setTimeout(function(){
@@ -5076,32 +5076,32 @@ HTMLWidgets.widget({
           instance.legend.redraw();
       }, 250);
     };
-    
+
     if(x.iconsRedraw !== undefined){
       if(x.iconsRedraw){
         iconsRedraw();
         instance.network.once("stabilized", function(){iconsRedraw();})
       }
     }
-  }, 
-  
+  },
+
   resize: function(el, width, height, instance) {
       if(instance.network)
         instance.network.fit();
       if(instance.legend)
         instance.legend.fit();
   }
-  
+
 });
 </script>
 </head>
 <body style="background-color: white;">
 <div id="htmlwidget_container">
-<div id="htmlwidget-112e40bc421b82caac20" class="visNetwork html-widget" style="width:100%;height:700px;">
+<div id="htmlwidget-fd53d52bdab64a8957ca" class="visNetwork html-widget" style="width:100%;height:700px;">
 
 </div>
 </div>
-<script type="application/json" data-for="htmlwidget-112e40bc421b82caac20">{"x":{"nodes":{"id":["reasoning-analogy","apriori","skepticism","epistemic-utility","formal-belief","reasoning-defeasible","basing-epistemic","bayes-theorem","ethics-belief","chance-randomness","conditionals","logic-conditionals","confirmation","contextualism-epistemology","decision-theory","decision-causal","decision-theory-descriptive","rationality-normative-utility","dewey-moral","dewey-political","dutch-book","dynamic-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-self-doubt","epistemology","epistemology-bayesian","epistemology-naturalized","reliabilism","epistemology-virtue","formal-epistemology","evidence","evidence-legal","fideism","fitch-paradox","epistemic-game","justep-foundational","pragmatic-belief-god","sidney-hook","induction-problem","logic-inductive","justep-coherence","justep-intext","transmission-justification-warrant","knowledge-analysis","knowledge-acquaindescrip","knowledge-value","knowledge-how","learning-formal","logic-belief-revision","logic-epistemic","logic-power-games","logic-nonmonotonic","logic-probability","memory-episprob","necessary-sufficient","pascal-wager","pragmatism","preferences","imprecise-probabilities","probability-interpret","madeleine-scudery","simplicity","statistics","wisdom"],"indegree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"outdegree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"degree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"betweenness":[0,0.00291832010582011,0.0419193612273969,0.00846764498178188,0.032246291096081,0.00228848661971911,0.00185185185185185,0.0286196538800705,0,0,0.00512487580502286,0.0359393509734896,0.0194142373829874,0.0115364401636723,0.0425970932273453,0.0048859126984127,0.0176715783114593,0.00226542637256923,0,0.000496031746031746,0.0502864662440993,0.0107050285391935,0.0561412167252941,0.0558849336565111,0,0.203737048472912,0.0700166476766179,0.162046886507452,0.00587085973990736,0.0712369393172965,0.0561824053387866,0.0862686854316319,0.0897670430594538,0.0322916666666667,0.000405092592592593,0,0.0154172994388768,0.0167906746031746,0.0153769841269841,0.195699133018592,0.0157193949517129,0.00526116162276876,0.0184451598886123,0,0.0472379142021999,0.0348734323436704,0.000322420634920635,0.011702806122449,0.00845958219470124,0.0116657426859633,0.00323305167055167,0,0.019244746509715,0.0068273615454988,0.010230815811173,0,0.0713872354497354,0.102306547619048,0.00617480788611741,0.00295103100162624,0.274003131709495,0,0.00865259209096744,0.0545186054300638,0.0410549740162836],"closeness":[0.246153846153846,0.201892744479495,0.215488215488215,0.244274809160305,0.23021582733813,0.231884057971014,0.209150326797386,0.280701754385965,0.156479217603912,0.17877094972067,0.26890756302521,0.220689655172414,0.250980392156863,0.216216216216216,0.257028112449799,0.256,0.203821656050955,0.198142414860681,0.146118721461187,0.146453089244851,0.271186440677966,0.19047619047619,0.263374485596708,0.248062015503876,0.174863387978142,0.30188679245283,0.26890756302521,0.294930875576037,0.203174603174603,0.259109311740891,0.260162601626016,0.265560165975104,0.297674418604651,0.214046822742475,0.174863387978142,0.184971098265896,0.216949152542373,0.191044776119403,0.168865435356201,0.310679611650485,0.267782426778243,0.218430034129693,0.250980392156863,0.157248157248157,0.246153846153846,0.244274809160305,0.164948453608247,0.211920529801325,0.253968253968254,0.218430034129693,0.186046511627907,0.135593220338983,0.247104247104247,0.212624584717608,0.243346007604563,0.153846153846154,0.264462809917355,0.20125786163522,0.227758007117438,0.229390681003584,0.328205128205128,0.177777777777778,0.257028112449799,0.236162361623616,0.235294117647059],"eigenvector":[0.186677138559164,0.0775317201230838,0.112210956947366,0.391894852250247,0.793506649430489,0.279731373143432,0.102178024997487,0.239072600732252,0.115249076682077,0.175134888382345,0.321643732845083,0.228698352157445,0.284317239645205,0.0940147803262994,0.170335584556281,0.20494870810614,0.0550807768598263,0.371332640473088,0.00144620361974712,0.00146889847854622,0.206576974888446,0.237586760382158,0.0629676989530144,0.264361427983691,0.185395211764005,0.375378119716192,0.516425453093744,0.101339444542425,0.202693141803173,0.0762022487969623,1,0.140975689208159,0.047487049984249,0.0292419060829632,0.156974496470825,0.105044021919667,0.311522429293781,0.0411172374684782,0.000746141815269039,0.315317474601943,0.458260997372701,0.236645173028836,0.194268943520131,0.035679690877066,0.123464279966367,0.163833440559963,0.0569439049967172,0.0114448648477169,0.223529297198238,0.154518489779555,0.258828032191457,0.121439616883863,0.378643563913609,0.517389143683441,0.035066352510766,0.0547091803590594,0.199536334042801,0.0223159609087662,0.143470193194947,0.277171997875184,0.758324439686135,0.00352010855924778,0.064499518359937,0.388363848760526,0.0379447481583928],"color":["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red"],"size":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"label":["reasoning-analogy","apriori","skepticism","epistemic-utility","formal-belief","reasoning-defeasible","basing-epistemic","bayes-theorem","ethics-belief","chance-randomness","conditionals","logic-conditionals","confirmation","contextualism-epistemology","decision-theory","decision-causal","decision-theory-descriptive","rationality-normative-utility","dewey-moral","dewey-political","dutch-book","dynamic-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-self-doubt","epistemology","epistemology-bayesian","epistemology-naturalized","reliabilism","epistemology-virtue","formal-epistemology","evidence","evidence-legal","fideism","fitch-paradox","epistemic-game","justep-foundational","pragmatic-belief-god","sidney-hook","induction-problem","logic-inductive","justep-coherence","justep-intext","transmission-justification-warrant","knowledge-analysis","knowledge-acquaindescrip","knowledge-value","knowledge-how","learning-formal","logic-belief-revision","logic-epistemic","logic-power-games","logic-nonmonotonic","logic-probability","memory-episprob","necessary-sufficient","pascal-wager","pragmatism","preferences","imprecise-probabilities","probability-interpret","madeleine-scudery","simplicity","statistics","wisdom"],"label.family":["mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono"],"font.size":[40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40],"font":["14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black"],"title":["<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reasoning-analogy/\">SEP/reasoning-analogy<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.187<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/apriori/\">SEP/apriori<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0.078<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/skepticism/\">SEP/skepticism<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.153<\/p><p><b>Eigenvector: <\/b>0.112<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-utility/\">SEP/epistemic-utility<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.031<\/p><p><b>Eigenvector: <\/b>0.392<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/formal-belief/\">SEP/formal-belief<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.118<\/p><p><b>Eigenvector: <\/b>0.794<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reasoning-defeasible/\">SEP/reasoning-defeasible<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.008<\/p><p><b>Eigenvector: <\/b>0.28<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/basing-epistemic/\">SEP/basing-epistemic<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.007<\/p><p><b>Eigenvector: <\/b>0.102<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bayes-theorem/\">SEP/bayes-theorem<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.104<\/p><p><b>Eigenvector: <\/b>0.239<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/ethics-belief/\">SEP/ethics-belief<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.115<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/chance-randomness/\">SEP/chance-randomness<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.175<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/conditionals/\">SEP/conditionals<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.019<\/p><p><b>Eigenvector: <\/b>0.322<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-conditionals/\">SEP/logic-conditionals<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.131<\/p><p><b>Eigenvector: <\/b>0.229<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/confirmation/\">SEP/confirmation<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.071<\/p><p><b>Eigenvector: <\/b>0.284<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/contextualism-epistemology/\">SEP/contextualism-epistemology<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.042<\/p><p><b>Eigenvector: <\/b>0.094<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-theory/\">SEP/decision-theory<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.155<\/p><p><b>Eigenvector: <\/b>0.17<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-causal/\">SEP/decision-causal<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.018<\/p><p><b>Eigenvector: <\/b>0.205<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-theory-descriptive/\">SEP/decision-theory-descriptive<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.064<\/p><p><b>Eigenvector: <\/b>0.055<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/rationality-normative-utility/\">SEP/rationality-normative-utility<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.008<\/p><p><b>Eigenvector: <\/b>0.371<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dewey-moral/\">SEP/dewey-moral<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dewey-political/\">SEP/dewey-political<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.002<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dutch-book/\">SEP/dutch-book<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.184<\/p><p><b>Eigenvector: <\/b>0.207<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dynamic-epistemic/\">SEP/dynamic-epistemic<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.039<\/p><p><b>Eigenvector: <\/b>0.238<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/closure-epistemic/\">SEP/closure-epistemic<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.205<\/p><p><b>Eigenvector: <\/b>0.063<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-paradoxes/\">SEP/epistemic-paradoxes<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.204<\/p><p><b>Eigenvector: <\/b>0.264<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-self-doubt/\">SEP/epistemic-self-doubt<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.185<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology/\">SEP/epistemology<\/a><\/h4><p><b>Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.744<\/p><p><b>Eigenvector: <\/b>0.375<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-bayesian/\">SEP/epistemology-bayesian<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.256<\/p><p><b>Eigenvector: <\/b>0.516<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-naturalized/\">SEP/epistemology-naturalized<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.591<\/p><p><b>Eigenvector: <\/b>0.101<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reliabilism/\">SEP/reliabilism<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.021<\/p><p><b>Eigenvector: <\/b>0.203<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-virtue/\">SEP/epistemology-virtue<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.26<\/p><p><b>Eigenvector: <\/b>0.076<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/formal-epistemology/\">SEP/formal-epistemology<\/a><\/h4><p><b>Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.205<\/p><p><b>Eigenvector: <\/b>1<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/evidence/\">SEP/evidence<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.315<\/p><p><b>Eigenvector: <\/b>0.141<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/evidence-legal/\">SEP/evidence-legal<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.328<\/p><p><b>Eigenvector: <\/b>0.047<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fideism/\">SEP/fideism<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.118<\/p><p><b>Eigenvector: <\/b>0.029<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fitch-paradox/\">SEP/fitch-paradox<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.157<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-game/\">SEP/epistemic-game<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.105<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-foundational/\">SEP/justep-foundational<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.056<\/p><p><b>Eigenvector: <\/b>0.312<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pragmatic-belief-god/\">SEP/pragmatic-belief-god<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.061<\/p><p><b>Eigenvector: <\/b>0.041<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/sidney-hook/\">SEP/sidney-hook<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.056<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/induction-problem/\">SEP/induction-problem<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.714<\/p><p><b>Eigenvector: <\/b>0.315<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-inductive/\">SEP/logic-inductive<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.057<\/p><p><b>Eigenvector: <\/b>0.458<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-coherence/\">SEP/justep-coherence<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.019<\/p><p><b>Eigenvector: <\/b>0.237<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-intext/\">SEP/justep-intext<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.067<\/p><p><b>Eigenvector: <\/b>0.194<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/transmission-justification-warrant/\">SEP/transmission-justification-warrant<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.036<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-analysis/\">SEP/knowledge-analysis<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.172<\/p><p><b>Eigenvector: <\/b>0.123<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-acquaindescrip/\">SEP/knowledge-acquaindescrip<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.127<\/p><p><b>Eigenvector: <\/b>0.164<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-value/\">SEP/knowledge-value<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.057<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-how/\">SEP/knowledge-how<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.043<\/p><p><b>Eigenvector: <\/b>0.011<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/learning-formal/\">SEP/learning-formal<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.031<\/p><p><b>Eigenvector: <\/b>0.224<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-belief-revision/\">SEP/logic-belief-revision<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.043<\/p><p><b>Eigenvector: <\/b>0.155<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-epistemic/\">SEP/logic-epistemic<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.012<\/p><p><b>Eigenvector: <\/b>0.259<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-power-games/\">SEP/logic-power-games<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.121<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-nonmonotonic/\">SEP/logic-nonmonotonic<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.07<\/p><p><b>Eigenvector: <\/b>0.379<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-probability/\">SEP/logic-probability<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.025<\/p><p><b>Eigenvector: <\/b>0.517<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/memory-episprob/\">SEP/memory-episprob<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.037<\/p><p><b>Eigenvector: <\/b>0.035<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/necessary-sufficient/\">SEP/necessary-sufficient<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.055<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pascal-wager/\">SEP/pascal-wager<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.261<\/p><p><b>Eigenvector: <\/b>0.2<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pragmatism/\">SEP/pragmatism<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.373<\/p><p><b>Eigenvector: <\/b>0.022<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/preferences/\">SEP/preferences<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.023<\/p><p><b>Eigenvector: <\/b>0.143<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/imprecise-probabilities/\">SEP/imprecise-probabilities<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0.277<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/probability-interpret/\">SEP/probability-interpret<\/a><\/h4><p><b>Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>1<\/p><p><b>Eigenvector: <\/b>0.758<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/madeleine-scudery/\">SEP/madeleine-scudery<\/a><\/h4><p><b>Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/simplicity/\">SEP/simplicity<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.032<\/p><p><b>Eigenvector: <\/b>0.064<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statistics/\">SEP/statistics<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.199<\/p><p><b>Eigenvector: <\/b>0.388<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/wisdom/\">SEP/wisdom<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.15<\/p><p><b>Eigenvector: <\/b>0.038<\/p><p><b>Group: <\/b><\/p>"],"x":[-0.342297986874761,-0.737705532164239,0.109097941243428,0.31487774324154,0.391445364839045,-0.157729130663588,-0.355607265295588,-0.302154493670941,-0.0754019985875428,0.06629987591214,0.300733540852893,0.526236906647791,-0.113810462986679,-0.0127444708315223,0.657335337847591,0.503715151535337,0.976492769467196,0.630414310638682,-0.849205685726482,-0.617252977534301,0.322380291097151,0.486311036503627,-0.145355399302836,0.239335364031238,-0.233509435864214,-0.0713077606376907,0.0763612765308161,-0.528092954349049,-0.544276981789168,-0.263450465762126,0.189445238162694,-0.168919362678817,-0.442815228744522,0.458134905827007,0.661373122893419,0.676649689073974,-0.149455399588797,0.110581368483997,-1,-0.12706809064318,-0.113776721699183,-0.254920198506912,-0.401114580907532,0.300485528800047,-0.555621448386708,-0.428114317220482,-0.579915474840622,-0.960836882749902,-0.0555270156449102,0.511993446329867,0.734306354056527,1,0.175523668270407,0.280830040269619,-0.695701038856815,0.603797479397994,0.333784382158849,-0.499679292682996,0.775902552215844,0.515443076197695,0.111267237904279,0.320425687551566,-0.342553519442658,0.114036967759245,-0.742447966968582],"y":[0.40661415894608,0.302886738463197,-0.440722277284866,0.074915491960142,0.255254823365699,0.537476791358099,-0.38260418623912,0.57704684020903,-0.474623304262496,0.882678812996416,0.672038316578674,0.596035939622719,0.269514877359572,-0.343247347457262,0.339483298961752,0.145328697741903,0.300477878634627,0.0976049222055859,-0.893257151040387,-1,0.570008632131751,0.024438078106771,-0.252749051880938,-0.0101698835893262,0.194018215540215,-0.0186829439236388,0.473852710656849,0.0521740241234998,-0.150595734947136,-0.456080853687205,0.234611154301424,0.0359259408119126,0.332120732971639,-0.582296952051624,-0.127861093652352,0.664997222053196,-0.142367688235414,-0.664739841105638,-0.75268796145774,0.408988128250508,0.62048583529789,-0.0678358646389913,-0.203670681665492,-0.447893592868641,-0.2549993257602,0.148700922565973,-0.470774086925077,0.115636471873487,0.721223000906714,0.355558065900849,0.0080857186638188,0.19143827822687,0.687830657668614,0.413436434034915,0.00840409604404013,1,-0.181349411280939,-0.622330280108642,0.438024774303338,0.459743991442337,0.31091178738454,-0.872504136026987,0.84072875934012,0.507246113521957,-0.0840933956944192]},"edges":{"from":["epistemic-utility","apriori","reasoning-analogy","basing-epistemic","conditionals","skepticism","epistemic-utility","conditionals","decision-theory","formal-belief","decision-theory","epistemic-utility","decision-theory","decision-causal","decision-theory-descriptive","dewey-moral","reasoning-analogy","formal-belief","formal-belief","logic-conditionals","skepticism","confirmation","contextualism-epistemology","skepticism","contextualism-epistemology","dynamic-epistemic","bayes-theorem","epistemic-paradoxes","epistemic-utility","formal-belief","basing-epistemic","contextualism-epistemology","dynamic-epistemic","closure-epistemic","reasoning-analogy","epistemic-utility","reasoning-defeasible","bayes-theorem","chance-randomness","confirmation","dutch-book","reasoning-analogy","apriori","epistemology","apriori","contextualism-epistemology","closure-epistemic","epistemology","epistemology-naturalized","skepticism","contextualism-epistemology","epistemology","reliabilism","epistemic-utility","formal-belief","reasoning-defeasible","bayes-theorem","conditionals","logic-conditionals","confirmation","decision-causal","rationality-normative-utility","dutch-book","epistemic-paradoxes","epistemology","epistemology-bayesian","reasoning-analogy","ethics-belief","confirmation","closure-epistemic","epistemic-self-doubt","epistemology-bayesian","bayes-theorem","epistemology","evidence","ethics-belief","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","formal-belief","epistemology-bayesian","skepticism","basing-epistemic","ethics-belief","epistemology","reliabilism","epistemology-virtue","formal-epistemology","ethics-belief","fideism","dewey-political","reasoning-analogy","bayes-theorem","conditionals","confirmation","epistemic-paradoxes","epistemology-bayesian","epistemology-naturalized","formal-epistemology","reasoning-analogy","bayes-theorem","confirmation","epistemology-bayesian","formal-epistemology","induction-problem","skepticism","epistemology","epistemology-virtue","formal-epistemology","justep-foundational","skepticism","basing-epistemic","epistemic-self-doubt","epistemology","epistemology-naturalized","reliabilism","epistemology-virtue","justep-foundational","justep-coherence","skepticism","closure-epistemic","evidence","basing-epistemic","contextualism-epistemology","closure-epistemic","epistemology","epistemology-naturalized","reliabilism","epistemology-virtue","justep-foundational","justep-coherence","justep-intext","apriori","basing-epistemic","epistemology","justep-foundational","justep-intext","ethics-belief","reliabilism","epistemology-virtue","justep-coherence","knowledge-analysis","apriori","knowledge-analysis","knowledge-acquaindescrip","confirmation","epistemology-bayesian","formal-epistemology","induction-problem","logic-inductive","reasoning-defeasible","logic-conditionals","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","formal-belief","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","decision-theory","dynamic-epistemic","epistemic-game","logic-epistemic","formal-belief","reasoning-defeasible","formal-epistemology","induction-problem","logic-belief-revision","formal-belief","reasoning-defeasible","conditionals","logic-conditionals","dynamic-epistemic","epistemic-paradoxes","epistemology-bayesian","formal-epistemology","induction-problem","logic-inductive","epistemology","justep-foundational","justep-coherence","justep-intext","conditionals","logic-conditionals","ethics-belief","decision-causal","rationality-normative-utility","formal-epistemology","fideism","pragmatic-belief-god","ethics-belief","dewey-moral","dewey-political","epistemology-naturalized","pragmatic-belief-god","sidney-hook","decision-theory","decision-theory-descriptive","rationality-normative-utility","dutch-book","formal-epistemology","logic-power-games","epistemic-utility","formal-belief","decision-theory","decision-theory-descriptive","rationality-normative-utility","epistemology-bayesian","formal-epistemology","reasoning-analogy","epistemic-utility","formal-belief","reasoning-defeasible","bayes-theorem","chance-randomness","conditionals","logic-conditionals","confirmation","decision-theory","decision-causal","rationality-normative-utility","dutch-book","epistemic-paradoxes","epistemic-self-doubt","epistemology-bayesian","formal-epistemology","evidence-legal","induction-problem","logic-inductive","knowledge-acquaindescrip","logic-probability","pascal-wager","imprecise-probabilities","skepticism","induction-problem","logic-inductive","learning-formal","formal-belief","reasoning-defeasible","confirmation","decision-theory","formal-epistemology","evidence","induction-problem","logic-inductive","learning-formal","logic-probability","imprecise-probabilities","probability-interpret","simplicity","reliabilism","evidence","justep-foundational","justep-coherence","justep-intext","knowledge-analysis"],"to":["formal-belief","reasoning-defeasible","bayes-theorem","ethics-belief","logic-conditionals","contextualism-epistemology","decision-theory","decision-causal","decision-causal","decision-theory-descriptive","decision-theory-descriptive","rationality-normative-utility","rationality-normative-utility","rationality-normative-utility","rationality-normative-utility","dewey-political","dutch-book","dutch-book","dynamic-epistemic","dynamic-epistemic","closure-epistemic","closure-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-paradoxes","epistemic-paradoxes","epistemic-self-doubt","epistemic-self-doubt","epistemology","epistemology","epistemology","epistemology","epistemology","epistemology","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-naturalized","epistemology-naturalized","epistemology-naturalized","reliabilism","reliabilism","reliabilism","reliabilism","reliabilism","epistemology-virtue","epistemology-virtue","epistemology-virtue","epistemology-virtue","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","evidence","evidence","evidence","evidence","evidence","evidence","evidence-legal","evidence-legal","evidence-legal","fideism","fitch-paradox","fitch-paradox","fitch-paradox","epistemic-game","epistemic-game","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","pragmatic-belief-god","pragmatic-belief-god","sidney-hook","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","logic-inductive","logic-inductive","logic-inductive","logic-inductive","logic-inductive","logic-inductive","justep-coherence","justep-coherence","justep-coherence","justep-coherence","justep-coherence","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","transmission-justification-warrant","transmission-justification-warrant","transmission-justification-warrant","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-value","knowledge-value","knowledge-value","knowledge-value","knowledge-value","knowledge-how","knowledge-how","knowledge-how","learning-formal","learning-formal","learning-formal","learning-formal","learning-formal","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-epistemic","logic-epistemic","logic-epistemic","logic-epistemic","logic-power-games","logic-power-games","logic-power-games","logic-power-games","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","memory-episprob","memory-episprob","memory-episprob","memory-episprob","necessary-sufficient","necessary-sufficient","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pragmatism","pragmatism","pragmatism","pragmatism","pragmatism","pragmatism","preferences","preferences","preferences","preferences","preferences","preferences","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","madeleine-scudery","simplicity","simplicity","simplicity","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","wisdom","wisdom","wisdom","wisdom","wisdom","wisdom"],"weight":[7,4,4,4,3,2,2,1,3,1,1,2,3,2,1,1,2,1,2,2,4,1,1,2,2,4,2,4,2,6,2,3,4,1,2,2,2,3,2,2,1,2,2,1,4,3,1,3,5,1,1,1,4,2,9,2,2,6,2,2,4,4,4,2,2,4,2,4,3,1,4,2,1,1,1,6,2,2,4,2,2,3,4,4,3,7,1,2,4,1,1,2,1,1,3,2,1,1,2,2,4,2,6,2,1,3,2,1,4,5,4,2,4,1,3,6,1,6,2,3,6,3,2,3,2,1,3,3,1,3,2,2,2,1,2,8,1,4,2,3,2,2,1,1,1,1,2,4,1,1,3,1,4,2,2,6,2,2,2,4,4,6,4,6,3,6,1,1,2,4,4,4,2,2,4,2,4,4,1,1,1,1,4,2,4,1,2,4,1,4,4,2,2,2,1,1,2,1,4,1,2,4,2,2,2,1,2,2,2,2,2,6,2,1,6,1,2,2,1,1,6,1,2,4,3,2,1,1,6,2,4,1,2,1,1,1,4,1,1,5,2,4,2,3,1,2,1,2,3,1,1,1,1,1,1,1],"arrow.size":[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],"curved":[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true},"manipulation":{"enabled":false},"edges":{"arrows":{"to":{"enabled":true,"scaleFactor":0.5}},"smooth":false},"physics":{"solver":"forceAtlas2Based","minVelocity":1,"stabilization":false,"forceAtlas2Based":{"gravitationalConstant":-80,"centralGravity":0.01,"avoidOverlap":1,"springConstant":0.1,"damping":1}},"interaction":{"hover":true,"hideEdgesOnDrag":true,"keyboard":true,"tooltipDelay":200}},"groups":null,"width":"100%","height":"700px","idselection":{"enabled":true,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","multiple":false,"hideColor":"rgba(200,200,200,0.5)","variable":"group","main":"Select by group"},"main":{"text":"<h1>The SEP in the year NA<\/h1>","style":"font-family: \"Inconsolata\", monospace;"},"submain":null,"footer":{"text":"<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality<\/a>:<\/h3><p>formal-epistemology, probability-interpret, epistemology, epistemology-bayesian, induction-problem, statistics, knowledge-analysis, justep-intext, justep-foundational, formal-belief<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality<\/a>:<\/h3><p>probability-interpret, epistemology, induction-problem, epistemology-naturalized, pragmatism, evidence-legal, evidence, pascal-wager, epistemology-virtue, epistemology-bayesian<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality<\/a>:<\/h3><p>formal-epistemology, formal-belief, probability-interpret, logic-probability, epistemology-bayesian, logic-inductive, epistemic-utility, statistics, logic-nonmonotonic, epistemology<\/p>","style":"font-family: \"Inconsolata\", monospace;"},"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(0,0,0,.1)","labelOnly":false},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;"},"evals":[],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-112e40bc421b82caac20">{"viewer":{"width":"100%","height":"700px","padding":15,"fill":false},"browser":{"width":"100%","height":"700px","padding":40,"fill":false}}</script>
+<script type="application/json" data-for="htmlwidget-fd53d52bdab64a8957ca">{"x":{"nodes":{"id":["reasoning-analogy","apriori","skepticism","epistemic-utility","formal-belief","reasoning-defeasible","basing-epistemic","bayes-theorem","ethics-belief","chance-randomness","conditionals","logic-conditionals","confirmation","contextualism-epistemology","decision-theory","decision-causal","decision-theory-descriptive","rationality-normative-utility","dewey-moral","dewey-political","dutch-book","dynamic-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-self-doubt","epistemology","epistemology-bayesian","epistemology-naturalized","reliabilism","epistemology-virtue","formal-epistemology","evidence","evidence-legal","fideism","fitch-paradox","epistemic-game","justep-foundational","pragmatic-belief-god","sidney-hook","induction-problem","logic-inductive","justep-coherence","justep-intext","transmission-justification-warrant","knowledge-analysis","knowledge-acquaindescrip","knowledge-value","knowledge-how","learning-formal","logic-belief-revision","logic-epistemic","logic-power-games","logic-nonmonotonic","logic-probability","memory-episprob","necessary-sufficient","pascal-wager","pragmatism","preferences","imprecise-probabilities","probability-interpret","madeleine-scudery","simplicity","statistics","wisdom"],"indegree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"outdegree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"degree":[8,5,9,8,13,8,6,8,8,2,7,7,9,7,9,6,5,9,2,3,6,9,8,11,5,17,16,8,11,9,28,10,4,3,3,3,13,4,2,15,11,10,13,3,13,7,5,3,7,6,5,5,5,12,4,2,7,6,6,9,25,1,4,13,6],"betweenness":[0,0.00291832010582011,0.0419193612273969,0.00846764498178188,0.032246291096081,0.00228848661971911,0.00185185185185185,0.0286196538800705,0,0,0.00512487580502286,0.0359393509734896,0.0194142373829874,0.0115364401636723,0.0425970932273453,0.0048859126984127,0.0176715783114593,0.00226542637256923,0,0.000496031746031746,0.0502864662440993,0.0107050285391935,0.0561412167252941,0.0558849336565111,0,0.203737048472912,0.0700166476766179,0.162046886507452,0.00587085973990736,0.0712369393172965,0.0561824053387866,0.0862686854316319,0.0897670430594538,0.0322916666666667,0.000405092592592593,0,0.0154172994388768,0.0167906746031746,0.0153769841269841,0.195699133018592,0.0157193949517129,0.00526116162276876,0.0184451598886123,0,0.0472379142021999,0.0348734323436704,0.000322420634920635,0.011702806122449,0.00845958219470124,0.0116657426859633,0.00323305167055167,0,0.019244746509715,0.0068273615454988,0.010230815811173,0,0.0713872354497354,0.102306547619048,0.00617480788611741,0.00295103100162624,0.274003131709495,0,0.00865259209096744,0.0545186054300638,0.0410549740162836],"closeness":[0.246153846153846,0.201892744479495,0.215488215488215,0.244274809160305,0.23021582733813,0.231884057971014,0.209150326797386,0.280701754385965,0.156479217603912,0.17877094972067,0.26890756302521,0.220689655172414,0.250980392156863,0.216216216216216,0.257028112449799,0.256,0.203821656050955,0.198142414860681,0.146118721461187,0.146453089244851,0.271186440677966,0.19047619047619,0.263374485596708,0.248062015503876,0.174863387978142,0.30188679245283,0.26890756302521,0.294930875576037,0.203174603174603,0.259109311740891,0.260162601626016,0.265560165975104,0.297674418604651,0.214046822742475,0.174863387978142,0.184971098265896,0.216949152542373,0.191044776119403,0.168865435356201,0.310679611650485,0.267782426778243,0.218430034129693,0.250980392156863,0.157248157248157,0.246153846153846,0.244274809160305,0.164948453608247,0.211920529801325,0.253968253968254,0.218430034129693,0.186046511627907,0.135593220338983,0.247104247104247,0.212624584717608,0.243346007604563,0.153846153846154,0.264462809917355,0.20125786163522,0.227758007117438,0.229390681003584,0.328205128205128,0.177777777777778,0.257028112449799,0.236162361623616,0.235294117647059],"eigenvector":[0.186677138559164,0.0775317201230838,0.112210956947366,0.391894852250247,0.793506649430489,0.279731373143432,0.102178024997487,0.239072600732252,0.115249076682077,0.175134888382345,0.321643732845083,0.228698352157445,0.284317239645205,0.0940147803262994,0.170335584556281,0.20494870810614,0.0550807768598263,0.371332640473088,0.00144620361974712,0.00146889847854622,0.206576974888446,0.237586760382158,0.0629676989530144,0.264361427983691,0.185395211764005,0.375378119716192,0.516425453093744,0.101339444542425,0.202693141803173,0.0762022487969623,1,0.140975689208159,0.047487049984249,0.0292419060829632,0.156974496470825,0.105044021919667,0.311522429293781,0.0411172374684782,0.000746141815269039,0.315317474601943,0.458260997372701,0.236645173028836,0.194268943520131,0.035679690877066,0.123464279966367,0.163833440559963,0.0569439049967172,0.0114448648477169,0.223529297198238,0.154518489779555,0.258828032191457,0.121439616883863,0.378643563913609,0.517389143683441,0.035066352510766,0.0547091803590594,0.199536334042801,0.0223159609087662,0.143470193194947,0.277171997875184,0.758324439686135,0.00352010855924778,0.064499518359937,0.388363848760526,0.0379447481583928],"color":["#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43","#F46D43"],"size":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"label":["reasoning-analogy","apriori","skepticism","epistemic-utility","formal-belief","reasoning-defeasible","basing-epistemic","bayes-theorem","ethics-belief","chance-randomness","conditionals","logic-conditionals","confirmation","contextualism-epistemology","decision-theory","decision-causal","decision-theory-descriptive","rationality-normative-utility","dewey-moral","dewey-political","dutch-book","dynamic-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-self-doubt","epistemology","epistemology-bayesian","epistemology-naturalized","reliabilism","epistemology-virtue","formal-epistemology","evidence","evidence-legal","fideism","fitch-paradox","epistemic-game","justep-foundational","pragmatic-belief-god","sidney-hook","induction-problem","logic-inductive","justep-coherence","justep-intext","transmission-justification-warrant","knowledge-analysis","knowledge-acquaindescrip","knowledge-value","knowledge-how","learning-formal","logic-belief-revision","logic-epistemic","logic-power-games","logic-nonmonotonic","logic-probability","memory-episprob","necessary-sufficient","pascal-wager","pragmatism","preferences","imprecise-probabilities","probability-interpret","madeleine-scudery","simplicity","statistics","wisdom"],"label.family":["mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono"],"font.size":[40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40],"font":["14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black"],"title":["<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reasoning-analogy/\">SEP/reasoning-analogy<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.187<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/apriori/\">SEP/apriori<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0.078<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/skepticism/\">SEP/skepticism<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.153<\/p><p><b>Eigenvector: <\/b>0.112<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-utility/\">SEP/epistemic-utility<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.031<\/p><p><b>Eigenvector: <\/b>0.392<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/formal-belief/\">SEP/formal-belief<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.118<\/p><p><b>Eigenvector: <\/b>0.794<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reasoning-defeasible/\">SEP/reasoning-defeasible<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.008<\/p><p><b>Eigenvector: <\/b>0.28<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/basing-epistemic/\">SEP/basing-epistemic<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.007<\/p><p><b>Eigenvector: <\/b>0.102<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bayes-theorem/\">SEP/bayes-theorem<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.104<\/p><p><b>Eigenvector: <\/b>0.239<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/ethics-belief/\">SEP/ethics-belief<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.115<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/chance-randomness/\">SEP/chance-randomness<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.175<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/conditionals/\">SEP/conditionals<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.019<\/p><p><b>Eigenvector: <\/b>0.322<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-conditionals/\">SEP/logic-conditionals<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.131<\/p><p><b>Eigenvector: <\/b>0.229<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/confirmation/\">SEP/confirmation<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.071<\/p><p><b>Eigenvector: <\/b>0.284<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/contextualism-epistemology/\">SEP/contextualism-epistemology<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.042<\/p><p><b>Eigenvector: <\/b>0.094<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-theory/\">SEP/decision-theory<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.155<\/p><p><b>Eigenvector: <\/b>0.17<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-causal/\">SEP/decision-causal<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.018<\/p><p><b>Eigenvector: <\/b>0.205<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/decision-theory-descriptive/\">SEP/decision-theory-descriptive<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.064<\/p><p><b>Eigenvector: <\/b>0.055<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/rationality-normative-utility/\">SEP/rationality-normative-utility<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.008<\/p><p><b>Eigenvector: <\/b>0.371<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dewey-moral/\">SEP/dewey-moral<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dewey-political/\">SEP/dewey-political<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.002<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dutch-book/\">SEP/dutch-book<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.184<\/p><p><b>Eigenvector: <\/b>0.207<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/dynamic-epistemic/\">SEP/dynamic-epistemic<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.039<\/p><p><b>Eigenvector: <\/b>0.238<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/closure-epistemic/\">SEP/closure-epistemic<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.205<\/p><p><b>Eigenvector: <\/b>0.063<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-paradoxes/\">SEP/epistemic-paradoxes<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.204<\/p><p><b>Eigenvector: <\/b>0.264<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-self-doubt/\">SEP/epistemic-self-doubt<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.185<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology/\">SEP/epistemology<\/a><\/h4><p><b>Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>17&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.744<\/p><p><b>Eigenvector: <\/b>0.375<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-bayesian/\">SEP/epistemology-bayesian<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.256<\/p><p><b>Eigenvector: <\/b>0.516<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-naturalized/\">SEP/epistemology-naturalized<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.591<\/p><p><b>Eigenvector: <\/b>0.101<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/reliabilism/\">SEP/reliabilism<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.021<\/p><p><b>Eigenvector: <\/b>0.203<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemology-virtue/\">SEP/epistemology-virtue<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.26<\/p><p><b>Eigenvector: <\/b>0.076<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/formal-epistemology/\">SEP/formal-epistemology<\/a><\/h4><p><b>Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>28&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.205<\/p><p><b>Eigenvector: <\/b>1<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/evidence/\">SEP/evidence<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.315<\/p><p><b>Eigenvector: <\/b>0.141<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/evidence-legal/\">SEP/evidence-legal<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.328<\/p><p><b>Eigenvector: <\/b>0.047<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fideism/\">SEP/fideism<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.118<\/p><p><b>Eigenvector: <\/b>0.029<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fitch-paradox/\">SEP/fitch-paradox<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.157<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/epistemic-game/\">SEP/epistemic-game<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.105<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-foundational/\">SEP/justep-foundational<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.056<\/p><p><b>Eigenvector: <\/b>0.312<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pragmatic-belief-god/\">SEP/pragmatic-belief-god<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.061<\/p><p><b>Eigenvector: <\/b>0.041<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/sidney-hook/\">SEP/sidney-hook<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.056<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/induction-problem/\">SEP/induction-problem<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.714<\/p><p><b>Eigenvector: <\/b>0.315<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-inductive/\">SEP/logic-inductive<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.057<\/p><p><b>Eigenvector: <\/b>0.458<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-coherence/\">SEP/justep-coherence<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.019<\/p><p><b>Eigenvector: <\/b>0.237<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/justep-intext/\">SEP/justep-intext<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.067<\/p><p><b>Eigenvector: <\/b>0.194<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/transmission-justification-warrant/\">SEP/transmission-justification-warrant<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.036<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-analysis/\">SEP/knowledge-analysis<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.172<\/p><p><b>Eigenvector: <\/b>0.123<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-acquaindescrip/\">SEP/knowledge-acquaindescrip<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.127<\/p><p><b>Eigenvector: <\/b>0.164<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-value/\">SEP/knowledge-value<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.057<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/knowledge-how/\">SEP/knowledge-how<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.043<\/p><p><b>Eigenvector: <\/b>0.011<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/learning-formal/\">SEP/learning-formal<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.031<\/p><p><b>Eigenvector: <\/b>0.224<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-belief-revision/\">SEP/logic-belief-revision<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.043<\/p><p><b>Eigenvector: <\/b>0.155<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-epistemic/\">SEP/logic-epistemic<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.012<\/p><p><b>Eigenvector: <\/b>0.259<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-power-games/\">SEP/logic-power-games<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.121<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-nonmonotonic/\">SEP/logic-nonmonotonic<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.07<\/p><p><b>Eigenvector: <\/b>0.379<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/logic-probability/\">SEP/logic-probability<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>12&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.025<\/p><p><b>Eigenvector: <\/b>0.517<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/memory-episprob/\">SEP/memory-episprob<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.037<\/p><p><b>Eigenvector: <\/b>0.035<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/necessary-sufficient/\">SEP/necessary-sufficient<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.055<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pascal-wager/\">SEP/pascal-wager<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.261<\/p><p><b>Eigenvector: <\/b>0.2<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/pragmatism/\">SEP/pragmatism<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.373<\/p><p><b>Eigenvector: <\/b>0.022<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/preferences/\">SEP/preferences<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.023<\/p><p><b>Eigenvector: <\/b>0.143<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/imprecise-probabilities/\">SEP/imprecise-probabilities<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0.277<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/probability-interpret/\">SEP/probability-interpret<\/a><\/h4><p><b>Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>25&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>1<\/p><p><b>Eigenvector: <\/b>0.758<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/madeleine-scudery/\">SEP/madeleine-scudery<\/a><\/h4><p><b>Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/simplicity/\">SEP/simplicity<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.032<\/p><p><b>Eigenvector: <\/b>0.064<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statistics/\">SEP/statistics<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.199<\/p><p><b>Eigenvector: <\/b>0.388<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/wisdom/\">SEP/wisdom<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>28<\/p><p><b>Betweenness: <\/b>0.15<\/p><p><b>Eigenvector: <\/b>0.038<\/p><p><b>Group: <\/b><\/p>"],"x":[-0.342297986874761,-0.737705532164239,0.109097941243428,0.31487774324154,0.391445364839045,-0.157729130663588,-0.355607265295588,-0.302154493670941,-0.0754019985875428,0.06629987591214,0.300733540852893,0.526236906647791,-0.113810462986679,-0.0127444708315223,0.657335337847591,0.503715151535337,0.976492769467196,0.630414310638682,-0.849205685726482,-0.617252977534301,0.322380291097151,0.486311036503627,-0.145355399302836,0.239335364031238,-0.233509435864214,-0.0713077606376907,0.0763612765308161,-0.528092954349049,-0.544276981789168,-0.263450465762126,0.189445238162694,-0.168919362678817,-0.442815228744522,0.458134905827007,0.661373122893419,0.676649689073974,-0.149455399588797,0.110581368483997,-1,-0.12706809064318,-0.113776721699183,-0.254920198506912,-0.401114580907532,0.300485528800047,-0.555621448386708,-0.428114317220482,-0.579915474840622,-0.960836882749902,-0.0555270156449102,0.511993446329867,0.734306354056527,1,0.175523668270407,0.280830040269619,-0.695701038856815,0.603797479397994,0.333784382158849,-0.499679292682996,0.775902552215844,0.515443076197695,0.111267237904279,0.320425687551566,-0.342553519442658,0.114036967759245,-0.742447966968582],"y":[0.40661415894608,0.302886738463197,-0.440722277284866,0.074915491960142,0.255254823365699,0.537476791358099,-0.38260418623912,0.57704684020903,-0.474623304262496,0.882678812996416,0.672038316578674,0.596035939622719,0.269514877359572,-0.343247347457262,0.339483298961752,0.145328697741903,0.300477878634627,0.0976049222055859,-0.893257151040387,-1,0.570008632131751,0.024438078106771,-0.252749051880938,-0.0101698835893262,0.194018215540215,-0.0186829439236388,0.473852710656849,0.0521740241234998,-0.150595734947136,-0.456080853687205,0.234611154301424,0.0359259408119126,0.332120732971639,-0.582296952051624,-0.127861093652352,0.664997222053196,-0.142367688235414,-0.664739841105638,-0.75268796145774,0.408988128250508,0.62048583529789,-0.0678358646389913,-0.203670681665492,-0.447893592868641,-0.2549993257602,0.148700922565973,-0.470774086925077,0.115636471873487,0.721223000906714,0.355558065900849,0.0080857186638188,0.19143827822687,0.687830657668614,0.413436434034915,0.00840409604404013,1,-0.181349411280939,-0.622330280108642,0.438024774303338,0.459743991442337,0.31091178738454,-0.872504136026987,0.84072875934012,0.507246113521957,-0.0840933956944192]},"edges":{"from":["epistemic-utility","apriori","reasoning-analogy","basing-epistemic","conditionals","skepticism","epistemic-utility","conditionals","decision-theory","formal-belief","decision-theory","epistemic-utility","decision-theory","decision-causal","decision-theory-descriptive","dewey-moral","reasoning-analogy","formal-belief","formal-belief","logic-conditionals","skepticism","confirmation","contextualism-epistemology","skepticism","contextualism-epistemology","dynamic-epistemic","bayes-theorem","epistemic-paradoxes","epistemic-utility","formal-belief","basing-epistemic","contextualism-epistemology","dynamic-epistemic","closure-epistemic","reasoning-analogy","epistemic-utility","reasoning-defeasible","bayes-theorem","chance-randomness","confirmation","dutch-book","reasoning-analogy","apriori","epistemology","apriori","contextualism-epistemology","closure-epistemic","epistemology","epistemology-naturalized","skepticism","contextualism-epistemology","epistemology","reliabilism","epistemic-utility","formal-belief","reasoning-defeasible","bayes-theorem","conditionals","logic-conditionals","confirmation","decision-causal","rationality-normative-utility","dutch-book","epistemic-paradoxes","epistemology","epistemology-bayesian","reasoning-analogy","ethics-belief","confirmation","closure-epistemic","epistemic-self-doubt","epistemology-bayesian","bayes-theorem","epistemology","evidence","ethics-belief","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","formal-belief","epistemology-bayesian","skepticism","basing-epistemic","ethics-belief","epistemology","reliabilism","epistemology-virtue","formal-epistemology","ethics-belief","fideism","dewey-political","reasoning-analogy","bayes-theorem","conditionals","confirmation","epistemic-paradoxes","epistemology-bayesian","epistemology-naturalized","formal-epistemology","reasoning-analogy","bayes-theorem","confirmation","epistemology-bayesian","formal-epistemology","induction-problem","skepticism","epistemology","epistemology-virtue","formal-epistemology","justep-foundational","skepticism","basing-epistemic","epistemic-self-doubt","epistemology","epistemology-naturalized","reliabilism","epistemology-virtue","justep-foundational","justep-coherence","skepticism","closure-epistemic","evidence","basing-epistemic","contextualism-epistemology","closure-epistemic","epistemology","epistemology-naturalized","reliabilism","epistemology-virtue","justep-foundational","justep-coherence","justep-intext","apriori","basing-epistemic","epistemology","justep-foundational","justep-intext","ethics-belief","reliabilism","epistemology-virtue","justep-coherence","knowledge-analysis","apriori","knowledge-analysis","knowledge-acquaindescrip","confirmation","epistemology-bayesian","formal-epistemology","induction-problem","logic-inductive","reasoning-defeasible","logic-conditionals","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","formal-belief","dynamic-epistemic","epistemic-paradoxes","formal-epistemology","decision-theory","dynamic-epistemic","epistemic-game","logic-epistemic","formal-belief","reasoning-defeasible","formal-epistemology","induction-problem","logic-belief-revision","formal-belief","reasoning-defeasible","conditionals","logic-conditionals","dynamic-epistemic","epistemic-paradoxes","epistemology-bayesian","formal-epistemology","induction-problem","logic-inductive","epistemology","justep-foundational","justep-coherence","justep-intext","conditionals","logic-conditionals","ethics-belief","decision-causal","rationality-normative-utility","formal-epistemology","fideism","pragmatic-belief-god","ethics-belief","dewey-moral","dewey-political","epistemology-naturalized","pragmatic-belief-god","sidney-hook","decision-theory","decision-theory-descriptive","rationality-normative-utility","dutch-book","formal-epistemology","logic-power-games","epistemic-utility","formal-belief","decision-theory","decision-theory-descriptive","rationality-normative-utility","epistemology-bayesian","formal-epistemology","reasoning-analogy","epistemic-utility","formal-belief","reasoning-defeasible","bayes-theorem","chance-randomness","conditionals","logic-conditionals","confirmation","decision-theory","decision-causal","rationality-normative-utility","dutch-book","epistemic-paradoxes","epistemic-self-doubt","epistemology-bayesian","formal-epistemology","evidence-legal","induction-problem","logic-inductive","knowledge-acquaindescrip","logic-probability","pascal-wager","imprecise-probabilities","skepticism","induction-problem","logic-inductive","learning-formal","formal-belief","reasoning-defeasible","confirmation","decision-theory","formal-epistemology","evidence","induction-problem","logic-inductive","learning-formal","logic-probability","imprecise-probabilities","probability-interpret","simplicity","reliabilism","evidence","justep-foundational","justep-coherence","justep-intext","knowledge-analysis"],"to":["formal-belief","reasoning-defeasible","bayes-theorem","ethics-belief","logic-conditionals","contextualism-epistemology","decision-theory","decision-causal","decision-causal","decision-theory-descriptive","decision-theory-descriptive","rationality-normative-utility","rationality-normative-utility","rationality-normative-utility","rationality-normative-utility","dewey-political","dutch-book","dutch-book","dynamic-epistemic","dynamic-epistemic","closure-epistemic","closure-epistemic","closure-epistemic","epistemic-paradoxes","epistemic-paradoxes","epistemic-paradoxes","epistemic-self-doubt","epistemic-self-doubt","epistemology","epistemology","epistemology","epistemology","epistemology","epistemology","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-bayesian","epistemology-naturalized","epistemology-naturalized","epistemology-naturalized","reliabilism","reliabilism","reliabilism","reliabilism","reliabilism","epistemology-virtue","epistemology-virtue","epistemology-virtue","epistemology-virtue","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","formal-epistemology","evidence","evidence","evidence","evidence","evidence","evidence","evidence-legal","evidence-legal","evidence-legal","fideism","fitch-paradox","fitch-paradox","fitch-paradox","epistemic-game","epistemic-game","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","justep-foundational","pragmatic-belief-god","pragmatic-belief-god","sidney-hook","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","induction-problem","logic-inductive","logic-inductive","logic-inductive","logic-inductive","logic-inductive","logic-inductive","justep-coherence","justep-coherence","justep-coherence","justep-coherence","justep-coherence","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","justep-intext","transmission-justification-warrant","transmission-justification-warrant","transmission-justification-warrant","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-analysis","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-acquaindescrip","knowledge-value","knowledge-value","knowledge-value","knowledge-value","knowledge-value","knowledge-how","knowledge-how","knowledge-how","learning-formal","learning-formal","learning-formal","learning-formal","learning-formal","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-belief-revision","logic-epistemic","logic-epistemic","logic-epistemic","logic-epistemic","logic-power-games","logic-power-games","logic-power-games","logic-power-games","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-nonmonotonic","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","logic-probability","memory-episprob","memory-episprob","memory-episprob","memory-episprob","necessary-sufficient","necessary-sufficient","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pascal-wager","pragmatism","pragmatism","pragmatism","pragmatism","pragmatism","pragmatism","preferences","preferences","preferences","preferences","preferences","preferences","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","imprecise-probabilities","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","probability-interpret","madeleine-scudery","simplicity","simplicity","simplicity","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","statistics","wisdom","wisdom","wisdom","wisdom","wisdom","wisdom"],"weight":[7,4,4,4,3,2,2,1,3,1,1,2,3,2,1,1,2,1,2,2,4,1,1,2,2,4,2,4,2,6,2,3,4,1,2,2,2,3,2,2,1,2,2,1,4,3,1,3,5,1,1,1,4,2,9,2,2,6,2,2,4,4,4,2,2,4,2,4,3,1,4,2,1,1,1,6,2,2,4,2,2,3,4,4,3,7,1,2,4,1,1,2,1,1,3,2,1,1,2,2,4,2,6,2,1,3,2,1,4,5,4,2,4,1,3,6,1,6,2,3,6,3,2,3,2,1,3,3,1,3,2,2,2,1,2,8,1,4,2,3,2,2,1,1,1,1,2,4,1,1,3,1,4,2,2,6,2,2,2,4,4,6,4,6,3,6,1,1,2,4,4,4,2,2,4,2,4,4,1,1,1,1,4,2,4,1,2,4,1,4,4,2,2,2,1,1,2,1,4,1,2,4,2,2,2,1,2,2,2,2,2,6,2,1,6,1,2,2,1,1,6,1,2,4,3,2,1,1,6,2,4,1,2,1,1,1,4,1,1,5,2,4,2,3,1,2,1,2,3,1,1,1,1,1,1,1],"arrow.size":[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],"curved":[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true},"manipulation":{"enabled":false},"edges":{"arrows":{"to":{"enabled":true,"scaleFactor":0.5}},"smooth":false},"physics":{"solver":"forceAtlas2Based","minVelocity":1,"stabilization":false,"forceAtlas2Based":{"gravitationalConstant":-80,"centralGravity":0.01,"avoidOverlap":1,"springConstant":0.1,"damping":1}},"interaction":{"hover":true,"hideEdgesOnDrag":true,"keyboard":true,"tooltipDelay":200}},"groups":null,"width":"100%","height":"700px","idselection":{"enabled":true,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","multiple":false,"hideColor":"rgba(200,200,200,0.5)","variable":"group","main":"Select by group"},"main":{"text":"<h1>Spring 2018 &emsp; Epistemology<\/h1>","style":"font-family: \"Inconsolata\", monospace;"},"submain":null,"footer":{"text":"<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality<\/a>:<\/h3><p>formal-epistemology, probability-interpret, epistemology, epistemology-bayesian, induction-problem, statistics, knowledge-analysis, justep-intext, justep-foundational, formal-belief<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality<\/a>:<\/h3><p>probability-interpret, epistemology, induction-problem, epistemology-naturalized, pragmatism, evidence-legal, evidence, pascal-wager, epistemology-virtue, epistemology-bayesian<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality<\/a>:<\/h3><p>formal-epistemology, formal-belief, probability-interpret, logic-probability, epistemology-bayesian, logic-inductive, epistemic-utility, statistics, logic-nonmonotonic, epistemology<\/p>","style":"font-family: \"Inconsolata\", monospace;"},"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(0,0,0,.1)","labelOnly":false},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;"},"evals":[],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-fd53d52bdab64a8957ca">{"viewer":{"width":"100%","height":"700px","padding":15,"fill":false},"browser":{"width":"100%","height":"700px","padding":40,"fill":false}}</script>
 </body>
 </html>
