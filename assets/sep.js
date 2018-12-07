@@ -1,5 +1,5 @@
 
-var community = 2;
+var community = 3;
 
 function prevcomm() {
     if(community > 1) { community = community - 1; }
