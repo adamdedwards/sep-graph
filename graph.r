@@ -12,8 +12,8 @@ source("util.r")
 years <- as.character(2018)
 seasons <- c("spr") # "fall","sum","win"
 iterations <- length(years)*length(seasons)
-sep.igraphs <- vector("list", iterations) 
-sep.netgraphs <- vector("list", iterations) 
+sep.igraphs <- vector("list", iterations)
+sep.netgraphs <- vector("list", iterations)
 
 for(i in 0:(iterations-1)) {
        edges <- load.data(season=seasons[(i%%length(seasons))+1],year=years[(i%/%length(seasons))+1])
@@ -58,12 +58,12 @@ for(i in 1:iterations) {
   g <- full.node.set.igraphs[[i]]
   l <- layout_with_kk(g,dim=3)
   l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
-  
-  gjs <- graphjs(g, 
+
+  gjs <- graphjs(g,
                  layout=l*0.2,
                  vertex.label=V(g)$label,
-                 minx = NULL, maxx = 300, 
-                 miny = NULL, maxy = 300, 
+                 minx = NULL, maxx = 300,
+                 miny = NULL, maxy = 300,
                  minz = NULL, maxz = 300)
   saveNetwork(gjs,paste("Fall_",years[i],"_Graph.html",sep=""), selfcontained = TRUE)
 }
@@ -108,10 +108,10 @@ fixed.group.colors <- rainbow(max(get.vertex.attribute.active(dynet,"group",at=1
 ########################### NDTV ANIMATION CONTROLS ##################################
 
 d3.options <- list(animationDuration=800,
-                   enterExitAnimationFactor=0, 
-                   nodeSizeFactor=0.01, 
-                   playControls=TRUE, 
-                   animateOnLoad=TRUE, 
+                   enterExitAnimationFactor=0,
+                   nodeSizeFactor=0.01,
+                   playControls=TRUE,
+                   animateOnLoad=TRUE,
                    slider=TRUE)
 
 render.par <- list(tween.frames=10,
@@ -124,12 +124,12 @@ anim <- compute.animation(dynet,animation.mode='kamadakawai')
 
 anim%n%'slice.par'<-list(start=0,
                          end=19,
-                         interval=1, 
+                         interval=1,
                          aggregate.dur=1,
                          rule='latest')
 
 #saveVideo and  render.cache='none'
-render.d3movie(anim, 
+render.d3movie(anim,
                main = function(s) {paste("Season:",long.season.names(seasons)[((s-1)%%length(seasons))+1],"Year:",years[((s-1)%/%length(seasons))+1],sep=" ")},
                vertex.tooltip = function(slice){ network::network.vertex.names(slice) },
                displaylabels  = F,
@@ -138,10 +138,10 @@ render.d3movie(anim,
                #vertex.col     = function(slice){ ifelse(!is.na(slice%v%"group"),fixed.group.colors[slice%v%"group"],'white') },
                vertex.col     = function(slice){  rainbow(max(dynet%v%"group.static"))[slice%v%"group.static"]},
                vertex.lwd     = 0,
-               filename       = tempfile(fileext = '.html'), 
+               filename       = tempfile(fileext = '.html'),
                render.par,
                plot.par       = list(bg='white'),
-               d3.options, 
+               d3.options,
                output.mode    ='HTML',
                script.type    = 'embedded',
                launchBrowser  = TRUE,
@@ -175,7 +175,7 @@ filmstrip(dynet, displaylabels=F,
 
 
 
-##############################    NETWORKD3 PLOTS     ############################## 
+##############################    NETWORKD3 PLOTS     ##############################
 
 install.packages("networkD3")
 library(networkD3)
@@ -205,7 +205,7 @@ nd3 <- forceNetwork(Links       = gg$links,
                     Source      = "source",
                     Target      = "target",
                     Group       = "group",
-                    NodeID      = "name", 
+                    NodeID      = "name",
                     Nodesize    = "size",
                     radiusCalculation = JS("0"),
                     charge      = -200,
@@ -230,19 +230,19 @@ fall2018 <- sep.igraphs[[1]]                             # TODO: replace with fu
 communities_for_analysis <- philosophical.communities(fall2018)
 
 for (i in 1:length(communities_for_analysis)) {
-  
+
   g <- graphics(communities_for_analysis[[i]],color=rainbow(length(communities_for_analysis))[i])
-  
+
   l <- layout_with_kk(g,dim=3)
   l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
-  
-  gjs <- graphjs(g, 
+
+  gjs <- graphjs(g,
                  layout=l*0.2,
                  vertex.label=V(g)$label,
-                 minx = NULL, maxx = 300, 
-                 miny = NULL, maxy = 300, 
+                 minx = NULL, maxx = 300,
+                 miny = NULL, maxy = 300,
                  minz = NULL, maxz = 300)
-  
+
   saveNetwork(gjs,paste("community_",i,".html",sep=""), selfcontained = TRUE)
   print(paste("Status: Generating visualization for community ",i,sep=""))
 }
@@ -253,9 +253,9 @@ for (i in 1:length(communities_for_analysis)) {
 install.packages("visNetwork")
 library(visNetwork)
 
-fall2018 <- sep.igraphs[[1]]                            
+sep.2018 <- sep.igraphs[[1]]
 
-communities_for_analysis <- philosophical.communities(fall2018,cluster_louvain(as.undirected(fall2018)))
+communities_for_analysis <- philosophical.communities(sep.2018,cluster_louvain(as.undirected(sep.2018)))
 
 sep.viznet(communities_for_analysis)
 
@@ -268,8 +268,8 @@ sep.frame <- as_data_frame(sep.analysis[[1]],what="both")
 
 dd <- degree.distribution(sep.analysis[[1]],cumulative=F)*length(V(sep.analysis[[1]]))
 
-ggplot(sep.frame$vertices) + geom_histogram(aes(x=alldegree), binwidth = 1,boundary=0.5) + 
-  theme_light() + 
+ggplot(sep.frame$vertices) + geom_histogram(aes(x=alldegree), binwidth = 1,boundary=0.5) +
+  theme_light() +
   scale_x_continuous("degree", breaks=c(2,4,6,8,10,12,14,16,18), labels=c(2,4,6,8,10,12,14,16,18))
 
 ggplot(sep.frame$vertices, aes(x=betweenness),fill = "white", color = "black") + geom_freqpoly()
@@ -305,11 +305,10 @@ all.names <- unique(c(sep.10.deg.1998$name, sep.10.deg.1999$name, sep.10.deg.200
 
 c <- brewer.pal(name="Blues",n=8)
 
-ggplot() + 
+ggplot() +
   geom_point(data=sep.10.deg.2001, aes(x = rank((11-sep.10.deg.2001$alldegree),ties.method = "min"), y = sep.10.deg.2001$name),color=c[6],size=3,position=position_jitter(width=0,height=.1)) +
   geom_point(data=sep.10.deg.2000, aes(x = rank((11-sep.10.deg.2000$alldegree),ties.method = "min"), y = sep.10.deg.2000$name),color=c[5],size=3,position=position_jitter(width=0,height=.1)) +
   geom_point(data=sep.10.deg.1999, aes(x = rank((11-sep.10.deg.1999$alldegree),ties.method = "min"), y = sep.10.deg.1999$name),color=c[4],size=3,position=position_jitter(width=0,height=.1)) +
   geom_point(data=sep.10.deg.1998, aes(x = rank((11-sep.10.deg.1998$alldegree),ties.method = "min"), y = sep.10.deg.1998$name),color=c[3],size=3,position=position_jitter(width=0,height=.1)) +
-  scale_x_continuous("rank",breaks=c(1:10), labels=c(1:10),limits = c(1,10)) + 
+  scale_x_continuous("rank",breaks=c(1:10), labels=c(1:10),limits = c(1,10)) +
   scale_y_discrete(limits=all.names)
-  

@@ -896,66 +896,66 @@ var i=new m(t,{});v.onTouch(i,e),this.manipulationHammers.push(i)}},{key:"_clean
 if (!Array.from) {
   Array.from = (function () {
     var toStr = Object.prototype.toString;
-    var isCallable = function (fn) {
+    var isCallable = function (fn) { 
       return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
     };
-    var toInteger = function (value) {
-      var number = Number(value);
+    var toInteger = function (value) { 
+      var number = Number(value); 
       if (isNaN(number)) { return 0; }
       if (number === 0 || !isFinite(number)) { return number; }
-      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number)); 
     };
     var maxSafeInteger = Math.pow(2, 53) - 1;
-    var toLength = function (value) {
+    var toLength = function (value) { 
       var len = toInteger(value);
       return Math.min(Math.max(len, 0), maxSafeInteger);
-    };
-
+    }; 
+  
     // La propriété length de la méthode vaut 1.
-    return function from(arrayLike/*, mapFn, thisArg */) {
+    return function from(arrayLike/*, mapFn, thisArg */) { 
       // 1. Soit C, la valeur this
       var C = this;
-
+      
       // 2. Soit items le ToObject(arrayLike).
-      var items = Object(arrayLike);
-
+      var items = Object(arrayLike); 
+      
       // 3. ReturnIfAbrupt(items).
-      if (arrayLike == null) {
+      if (arrayLike == null) { 
         throw new TypeError("Array.from doit utiliser un objet semblable à un tableau - null ou undefined ne peuvent pas être utilisés");
       }
-
+    
       // 4. Si mapfn est undefined, le mapping sera false.
       var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
       var T;
-      if (typeof mapFn !== 'undefined') {
-        // 5. sinon
+      if (typeof mapFn !== 'undefined') {  
+        // 5. sinon      
         // 5. a. si IsCallable(mapfn) est false, on lève une TypeError.
-        if (!isCallable(mapFn)) {
-          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction');
+        if (!isCallable(mapFn)) { 
+          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction'); 
         }
-
+     
         // 5. b. si thisArg a été fourni, T sera thisArg ; sinon T sera undefined.
-        if (arguments.length > 2) {
+        if (arguments.length > 2) { 
           T = arguments[2];
         }
       }
-
+    
       // 10. Soit lenValue pour Get(items, "length").
       // 11. Soit len pour ToLength(lenValue).
-      var len = toLength(items.length);
-
+      var len = toLength(items.length);  
+     
       // 13. Si IsConstructor(C) vaut true, alors
       // 13. a. Soit A le résultat de l'appel à la méthode interne [[Construct]] avec une liste en argument qui contient l'élément len.
       // 14. a. Sinon, soit A le résultat de ArrayCreate(len).
       var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-
+   
       // 16. Soit k égal à 0.
-      var k = 0;  // 17. On répète tant que k < len…
+      var k = 0;  // 17. On répète tant que k < len… 
       var kValue;
       while (k < len) {
-        kValue = items[k];
+        kValue = items[k]; 
         if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k); 
         } else {
           A[k] = kValue;
         }
@@ -1012,7 +1012,7 @@ if (!Array.prototype.includes) {
         if (sameValueZero(o[k], searchElement)) {
           return true;
         }
-        // c. Augmenter la valeur de k de 1.
+        // c. Augmenter la valeur de k de 1. 
         k++;
       }
 
@@ -1031,7 +1031,7 @@ if (!Function.prototype.bind) {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
       throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
     }
-
+    
     var aArgs = Array.prototype.slice.call(arguments, 1),
     fToBind = this,
     fNOP = function () {},
@@ -1041,10 +1041,10 @@ if (!Function.prototype.bind) {
                            : oThis,
                            aArgs.concat(Array.prototype.slice.call(arguments)));
     };
-
+    
     fNOP.prototype = this.prototype;
     fBound.prototype = new fNOP();
-
+    
     return fBound;
   };
 }
@@ -1056,18 +1056,18 @@ if (!Function.prototype.bind) {
 // for edges
 function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
   //console.info("edgeAsHardToRead")
-
+  
   if(type === "edge"){
     //console.info("edge")
     //console.info(edge.id)
-
+    
     // saving color information (if we have)
     if (edge.hiddenColor === undefined && edge.color !== hideColor1 && edge.color !== hideColor2) {
       edge.hiddenColor = edge.color;
     }
     // set "hard to read" color
     edge.color = hideColor1;
-
+    
     // reset and save label
     if (edge.hiddenLabel === undefined) {
       edge.hiddenLabel = edge.label;
@@ -1098,14 +1098,14 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
 }
 
 function resetOneEdge(edge, hideColor1, hideColor2, type){
-
+  
   /*console.info("resetOneEdge")
   console.info(type)
-  console.info(edge.id)
+  console.info(edge.id) 
   console.info(edge)
   console.info("edge.hiddenColor")
   console.info(edge.hiddenColor)*/
-
+  
   var treat_egde = false;
   if(type === "cluster"){
     if(edge.isHardToRead !== undefined){ // we have to reset this node
@@ -1117,7 +1117,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     } else if(edge.color.color === hideColor1 || edge.color.color === hideColor2){
       treat_egde = true;
     }
-
+    
     if(treat_egde){
       // get back color
       if (edge.hiddenColor !== undefined) {
@@ -1126,7 +1126,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
       }else{
         delete edge.color;
       }
-
+        
       // finally, get back label
       if (edge.hiddenLabel !== undefined) {
         edge.label = edge.hiddenLabel;
@@ -1142,7 +1142,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     }else{
       edge.color = null;
     }
-
+    
     // finally, get back label
     if (edge.hiddenLabel !== undefined) {
       edge.label = edge.hiddenLabel;
@@ -1153,7 +1153,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
 }
 
 function resetAllEdges(edges, hideColor1, hideColor2, network){
-
+  
   var edgesToReset = edges.get({
     fields: ['id', 'color', 'hiddenColor', 'label', 'hiddenLabel'],
     filter: function (item) {
@@ -1173,7 +1173,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       edges_in_clusters = [];
     }
   }
-
+  
   var treat_edges_in_clusters = [];
   // all edges get their own color and their label back
   for (var i = 0; i < edgesToReset.length; i++) {
@@ -1189,7 +1189,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       }
     }
   }
-
+  
   // some misunderstood bug on some cluster edges... so have a (bad) fix...
   var edges_in_clusters_ctrl = edges_in_clusters.filter(function(word,index){
     if(word.match(/^clusterEdge/i)){
@@ -1198,12 +1198,12 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       } else {
         return false;
       }
-
+        
     }else{
         return false;
     }
   });
-
+  
   if(is_cluster_edges){
     if(edges_in_clusters_ctrl.length > 0){
        for (var j = 0; j < edges_in_clusters_ctrl.length; j++) {
@@ -1250,7 +1250,7 @@ function simpleResetNode(node, type){
 
 // for icon node
 function simpleIconResetNode(node, type){
-  if(type === "node"){
+  if(type === "node"){  
     // icon color
     node.icon.color = node.hiddenColor;
     node.hiddenColor = undefined;
@@ -1281,7 +1281,7 @@ function simpleIconResetNode(node, type){
 
 // for image node
 function simpleImageResetNode(node, imageType, type){
-  if(type === "node"){
+  if(type === "node"){  
     // get back color
     if (node.hiddenColor !== undefined) {
       node.color = node.hiddenColor;
@@ -1343,7 +1343,7 @@ function resetOneCluster(node, groups, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-
+        
         node.setOptions({bodyHiddenColor : network.body.nodes[node.id].options.color});
         // and call good reset function
         if(final_shape === "icon"){
@@ -1399,7 +1399,7 @@ function resetOneNode(node, groups, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-
+        
         // reset body information
         network.body.nodes[node.id].options.color = node.bodyHiddenColor;
 
@@ -1432,7 +1432,7 @@ function resetAllNodes(nodes, update, groups, options, network){
     },
     returnType :'Array'
   });
-
+  
   var have_cluster_nodes = false;
   var nodes_in_clusters;
   if(network !== undefined){
@@ -1479,7 +1479,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
     if (node.hiddenColor === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
       node.hiddenColor = node.color;
     }
-
+  
     // set "hard to read" color
     node.color = hideColor1;
     // reset and save label
@@ -1487,7 +1487,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
       node.hiddenLabel = node.label;
       node.label = undefined;
     }
-  // cluster
+  // cluster  
   } else {
     // saving color information (if we have)
     if (node.options.hiddenColor === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
@@ -1625,14 +1625,14 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
     } else if(shape_options){
       final_shape = options.nodes.shape;
     }
-
+    
     // information save in body nodes
     if(type === "node"){
       node.bodyHiddenColor = clone(network.body.nodes[node.id].options.color);
     } else {
       node.setOptions({bodyHiddenColor : clone(network.body.nodes[node.id].options.color)});
     }
-
+  
     // and call good function
     if(final_shape === "icon"){
       // find color for icon
@@ -1644,7 +1644,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
           icon_color = node.icon.color;
           find_color = true;
         }
-      }
+      } 
       // or in group ?
       if(find_color === false && is_group && groups.groups[node.group].icon !== undefined){
         if(groups.groups[node.group].icon.color !== undefined){
@@ -1657,7 +1657,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
         if(options.nodes.icon.color !== undefined){
           icon_color = options.nodes.icon.color;
         }
-      }
+      } 
       iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type);
     } else if(final_shape === "image"){
       imageNodeAsHardToRead(node, "image", hideColor1, hideColor2, type);
@@ -1666,14 +1666,14 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
     } else {
       simpleNodeAsHardToRead(node, hideColor1, hideColor2, type);
     }
-
+    
     // finally set isHardToRead
     if(type === "node"){
       node.isHardToRead = true;
     } else {
       node.setOptions({isHardToRead : true});
     }
-  // special case of just to label
+  // special case of just to label  
   } else if(node.isHardToRead === true && node.label !== undefined){
     if(type === "node"){
       node.hiddenLabel = node.label;
@@ -1693,13 +1693,13 @@ function visNetworkdataframeToD3(df, type) {
   // variables we have specially to control
   var nodesctrl = ["color", "fixed", "font", "icon", "shadow", "scaling", "shapeProperties", "chosen", "heightConstraint", "image", "margin", "widthConstraint"];
   var edgesctrl = ["color", "font", "arrows", "shadow", "smooth", "scaling", "chosen", "widthConstraint"];
-
+  
   var names = [];
   var colnames = [];
   var length;
   var toctrl;
   var ctrlname;
-
+  
   for (var name in df) {
     if (df.hasOwnProperty(name))
       colnames.push(name);
@@ -1779,7 +1779,7 @@ function visNetworkdataframeToD3(df, type) {
 
 //----------------------------------------------------------------
 // Some utils functions
-//----------------------------------------------------------------
+//---------------------------------------------------------------- 
 
 //unique element in array
 function uniqueArray(arr, exclude_cluster, network) {
@@ -1798,17 +1798,17 @@ function uniqueArray(arr, exclude_cluster, network) {
 }
 
 function uniqueShiny(arr) {
-  return arr.filter(function (value, index, self) {
+  return arr.filter(function (value, index, self) { 
     return self.indexOf(value) === index;
   });
 };
 // clone an object
 function clone(obj) {
     if(obj === null || typeof(obj) != 'object')
-        return obj;
-    var temp = new obj.constructor();
+        return obj;    
+    var temp = new obj.constructor(); 
     for(var key in obj)
-        temp[key] = clone(obj[key]);
+        temp[key] = clone(obj[key]);    
     return temp;
 }
 // update a list
@@ -1857,7 +1857,7 @@ function setNodeIdList(selectList, params, nodes){
     selectList.setAttribute('style', params.style);
   }
   selectList.style.display = 'inline';
-
+      
   option = document.createElement("option");
   option.value = "";
   if(params.main === undefined){
@@ -1865,9 +1865,9 @@ function setNodeIdList(selectList, params, nodes){
   } else {
     option.text = params.main;
   }
-
+  
   selectList.appendChild(option);
-
+      
   // have to set for all nodes ?
   if(params.values === undefined){
     var info_node_list = nodes.get({
@@ -1910,7 +1910,7 @@ function setNodeIdList(selectList, params, nodes){
 
 //----------------------------------------------------------------
 // Collapsed function
-//----------------------------------------------------------------
+//---------------------------------------------------------------- 
 
 function networkOpenCluster(params){
   if (params.nodes.length === 1) {
@@ -1918,9 +1918,9 @@ function networkOpenCluster(params){
       var elid = this.body.container.id.substring(5);
       var fit = document.getElementById(elid).collapseFit;
       var resetHighlight = document.getElementById(elid).collapseResetHighlight;
-
+      
       if(document.getElementById(elid).collapseKeepCoord){
-        this.openCluster(params.nodes[0],
+        this.openCluster(params.nodes[0], 
         {releaseFunction : function(clusterPosition, containedNodesPositions) {
               return containedNodesPositions;
             }
@@ -1929,7 +1929,7 @@ function networkOpenCluster(params){
         this.openCluster(params.nodes[0]);
       }
 
-
+      
       if(resetHighlight){
         document.getElementById("nodeSelect"+elid).value = "";
         document.getElementById("nodeSelect"+elid).onchange();
@@ -1942,20 +1942,20 @@ function networkOpenCluster(params){
 }
 
 function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix, treeParams, network, elid) {
-
+  
   var set_position = true;
   var selectedNode;
   var j;
-
+  
   if(nodes[0] !== undefined){
-
+    
     for (var inodes = 0; inodes < nodes.length; inodes++) {
-
+      
       selectedNode = nodes[inodes];
       if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           //network.openCluster(selectedNode)
-          /*instance.network.openCluster(selectedNode,
+          /*instance.network.openCluster(selectedNode, 
           {releaseFunction : function(clusterPosition, containedNodesPositions) {
             return tmp_position;
           }})*/
@@ -1964,13 +1964,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           var firstLevelNodes = [];
           var otherLevelNodes = [];
           var connectedToNodes = [];
-
+      
           item = network.body.data.nodes.get({
             filter: function (item) {
               return item.id == selectedNode;
             }
           });
-
+            
           connectedToNodes = network.body.data.edges.get({
           fields: ['id','to'],
             filter: function (item) {
@@ -1978,11 +1978,11 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             },
             returnType :'Array'
           });
-
+              
           for (j = 0; j < connectedToNodes.length; j++) {
             firstLevelNodes = firstLevelNodes.concat(connectedToNodes[j].to);
           }
-
+    
           var currentConnectedToNodes = firstLevelNodes;
           while(currentConnectedToNodes.length !== 0){
             connectedToNodes = network.body.data.edges.get({
@@ -1992,7 +1992,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                 },
                 returnType :'Array'
             });
-
+                
             currentConnectedToNodes = [];
             var currentlength = otherLevelNodes.length;
             for (j = 0; j < connectedToNodes.length; j++) {
@@ -2001,7 +2001,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             }
             if (otherLevelNodes.length === currentlength) { break; }
           }
-
+              
           var finalFirstLevelNodes = [];
           for (j = 0; j < firstLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(firstLevelNodes[j])
@@ -2011,7 +2011,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
               finalFirstLevelNodes = finalFirstLevelNodes.concat(findnode[0]);
             }
           }
-
+          
           var finalClusterNodes = [];
           for (j = 0; j < otherLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(otherLevelNodes[j])
@@ -2021,15 +2021,15 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
               finalClusterNodes = finalClusterNodes.concat(findnode[0]);
             }
           }
-
-          if(set_position){
+    
+          if(set_position){ 
             network.storePositions();
           }
-
+    
           var clusterOptions = {
             joinCondition: function (nodesOptions) {
-              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 ||
-                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1;
+              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 || 
+                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1; 
               },
               processProperties: function(clusterOptions, childNodes) {
                 var click_node = network.body.data.nodes.get({
@@ -2038,12 +2038,12 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                   },
                   returnType :'Array'
                 });
-
+                
                 var is_hard_to_read = false;
                 if(click_node[0].isHardToRead !== undefined){
                   is_hard_to_read = click_node[0].isHardToRead;
                 }
-
+                
                 for (var i in click_node[0]) {
                   if(i !== "id" && i !== "isHardToRead"){
                     if(i === "label" && is_hard_to_read){
@@ -2055,7 +2055,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     }
                   }
                 }
-
+                        
                 // gestion des tree
                 if(treeParams !== undefined){
                   if(treeParams.updateShape){
@@ -2064,19 +2064,19 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.shape = treeParams.shapeY
                   }
                 }
-
+                        
                 if(clusterOptions.label !== undefined){
                   clusterOptions.label = clusterOptions.label + " " + labelSuffix;
                 } else {
                   clusterOptions.label =  labelSuffix;
                 }
-
+                        
                 if(clusterOptions.borderWidth !== undefined){
                   clusterOptions.borderWidth = clusterOptions.borderWidth * 3;
                 } else {
                   clusterOptions.borderWidth =  3;
                 }
-
+                        
                 if(set_position){
                   if(click_node[0].x !== undefined){
                     clusterOptions.x = click_node[0].x;
@@ -2085,13 +2085,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.y = click_node[0].y;
                   }
                 }
-
+                      
                 if(clusterParams !== undefined){
                   for (var j in clusterParams) {
                     clusterOptions[j]=  clusterParams[j];
                   }
                 }
-
+                    
               return clusterOptions;
             },
             clusterNodeProperties: {
@@ -2101,7 +2101,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           network.cluster(clusterOptions);
         }
       }
-
+      
     }
     if(resetHighlight){
       document.getElementById("nodeSelect"+elid).value = "";
@@ -2118,14 +2118,14 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
   var j;
   var arr_nodes = [];
   var cluster_node;
-
+  
   var nodes_in_clusters = network.body.modules.clustering.clusteredNodes;
   if(Object.keys(nodes_in_clusters).length > 0){
     nodes_in_clusters = Object.keys(nodes_in_clusters);
   } else {
     nodes_in_clusters = []
   }
-
+    
   if(nodes !== undefined && nodes !== null){
     arr_nodes = nodes
   } else {
@@ -2137,7 +2137,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
     if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           if(keepCoord){
-            network.openCluster(selectedNode,
+            network.openCluster(selectedNode, 
               {releaseFunction : function(clusterPosition, containedNodesPositions) {
                     return containedNodesPositions;
                   }
@@ -2152,7 +2152,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               cluster_node = network.clustering.findNode(selectedNode)[0];
               if(network.isCluster(cluster_node)){
                 if(keepCoord){
-                  network.openCluster(cluster_node,
+                  network.openCluster(cluster_node, 
                     {releaseFunction : function(clusterPosition, containedNodesPositions) {
                           return containedNodesPositions;
                         }
@@ -2163,7 +2163,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               }
             }
           }
-        }
+        } 
       }
     }
   if(resetHighlight){
@@ -2177,9 +2177,9 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
 
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
-//---------------------------------------------------------------
+//--------------------------------------------------------------- 
 if (HTMLWidgets.shinyMode){
-
+  
   // collapsed method
   Shiny.addCustomMessageHandler('visShinyCollapse', function(data){
       // get container id
@@ -2188,7 +2188,7 @@ if (HTMLWidgets.shinyMode){
         collapsedNetwork(data.nodes, data.fit, data.resetHighlight, data.clusterOptions, data.labelSuffix, undefined, el.chart, data.id)
       }
   });
-
+  
   // uncollapsed method
   Shiny.addCustomMessageHandler('visShinyUncollapse', function(data){
       // get container id
@@ -2204,7 +2204,7 @@ if (HTMLWidgets.shinyMode){
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-
+        
         if(data.type === "once"){
           for (var key in data.events) {
             eval('network.once("' + key + '",' + data.events[key] + ')');
@@ -2220,7 +2220,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // moveNode method
   Shiny.addCustomMessageHandler('visShinyMoveNode', function(data){
       // get container id
@@ -2230,32 +2230,32 @@ if (HTMLWidgets.shinyMode){
         network.moveNode(data.nodeId, data.x, data.y);
       }
   });
-
+  
   // unselectAll method
   Shiny.addCustomMessageHandler('visShinyUnselectAll', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-
+        
         // reset selection
         document.getElementById("nodeSelect"+data.id).value = "";
         document.getElementById("nodeSelect"+data.id).onchange();
-
+        
         if(document.getElementById(data.id).selectActive === true){
             document.getElementById("selectedBy"+data.id).value = "";
             document.getElementById("selectedBy"+data.id).onchange();
         }
-
+        
         network.unselectAll();
       }
   });
-
+  
   // updateOptions in the network
   Shiny.addCustomMessageHandler('visShinyOptions', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
-
+      
       if(el){
         var network = el.chart;
         var options = el.options;
@@ -2270,7 +2270,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-
+    
         //*************************
         // pre-treatment for icons (unicode)
         //*************************
@@ -2286,7 +2286,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-
+        
         if(data.options.nodes){
           if(data.options.nodes.icon){
             if(data.options.nodes.icon.code){
@@ -2298,12 +2298,12 @@ if (HTMLWidgets.shinyMode){
           }
         }
 
-
+        
         update(options, data.options);
         network.setOptions(options);
       }
   });
-
+  
   // setData the network
   Shiny.addCustomMessageHandler('visShinySetData', function(data){
       // get container id
@@ -2312,7 +2312,7 @@ if (HTMLWidgets.shinyMode){
         var network = el.chart;
         var newnodes = new vis.DataSet();
         var newedges = new vis.DataSet();
-
+		
         newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
         newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
         var newdata = {
@@ -2322,7 +2322,7 @@ if (HTMLWidgets.shinyMode){
         network.setData(newdata);
       }
   });
-
+  
   // fit to a specific node
   Shiny.addCustomMessageHandler('visShinyFit', function(data){
     // get container id
@@ -2332,7 +2332,7 @@ if (HTMLWidgets.shinyMode){
         network.fit(data.options);
       }
   });
-
+  
   // focus on a node in the network
   Shiny.addCustomMessageHandler('visShinyFocus', function(data){
       // get container id
@@ -2342,7 +2342,7 @@ if (HTMLWidgets.shinyMode){
         network.focus(data.focusId, data.options);
       }
   });
-
+  
   // stabilize the network
   Shiny.addCustomMessageHandler('visShinyStabilize', function(data){
       // get container id
@@ -2362,7 +2362,7 @@ if (HTMLWidgets.shinyMode){
         network.startSimulation();
       }
   });
-
+  
   // stopSimulation on network
   Shiny.addCustomMessageHandler('visShinyStopSimulation', function(data){
       // get container id
@@ -2372,7 +2372,7 @@ if (HTMLWidgets.shinyMode){
         network.stopSimulation();
       }
   });
-
+  
   // get positions of the network
   Shiny.addCustomMessageHandler('visShinyGetPositions', function(data){
       // get container id
@@ -2380,7 +2380,7 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-
+        
         if(data.nodes !== undefined){
           pos = network.getPositions(data.nodes);
         }else{
@@ -2390,7 +2390,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // get edges data
   Shiny.addCustomMessageHandler('visShinyGetEdges', function(data){
       // get container id
@@ -2401,7 +2401,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, current_edges._data);
       }
   });
-
+  
   // get nodes data
   Shiny.addCustomMessageHandler('visShinyGetNodes', function(data){
       // get container id
@@ -2415,7 +2415,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, current_nodes._data);
       }
   });
-
+  
   // get selected edges
   Shiny.addCustomMessageHandler('visShinyGetSelectedEdges', function(data){
       // get container id
@@ -2427,7 +2427,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // get selected nodes
   Shiny.addCustomMessageHandler('visShinyGetSelectedNodes', function(data){
       // get container id
@@ -2439,7 +2439,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // getConnectedEdges
   Shiny.addCustomMessageHandler('visShinyGetConnectedEdges', function(data){
       // get container id
@@ -2451,7 +2451,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // getConnectedNodes
   Shiny.addCustomMessageHandler('visShinyGetConnectedNodes', function(data){
       // get container id
@@ -2463,7 +2463,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // getBoundingBox
   Shiny.addCustomMessageHandler('visShinyGetBoundingBox', function(data){
       // get container id
@@ -2475,7 +2475,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // get selection
   Shiny.addCustomMessageHandler('visShinyGetSelection', function(data){
       // get container id
@@ -2483,14 +2483,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-
+        
         pos = network.getSelection();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // get scale
   Shiny.addCustomMessageHandler('visShinyGetScale', function(data){
       // get container id
@@ -2498,14 +2498,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-
+        
         pos = network.getScale();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // store positions
   Shiny.addCustomMessageHandler('visShinyStorePositions', function(data){
       // get container id
@@ -2515,7 +2515,7 @@ if (HTMLWidgets.shinyMode){
         network.storePositions();
       }
   });
-
+  
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetViewPosition', function(data){
       // get container id
@@ -2523,14 +2523,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-
+        
         pos = network.getViewPosition();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-
+  
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetOptionsFromConfigurator', function(data){
       // get container id
@@ -2541,7 +2541,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
       }
   });
-
+  
   // Redraw the network
   Shiny.addCustomMessageHandler('visShinyRedraw', function(data){
       // get container id
@@ -2550,7 +2550,7 @@ if (HTMLWidgets.shinyMode){
         el.chart.redraw();
       }
   });
-
+  
   // select nodes
   Shiny.addCustomMessageHandler('visShinySelectNodes', function(data){
       // get container id
@@ -2569,7 +2569,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // select edges
   Shiny.addCustomMessageHandler('visShinySelectEdges', function(data){
       // get container id
@@ -2581,7 +2581,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // set selection
   Shiny.addCustomMessageHandler('visShinySetSelection', function(data){
       // get container id
@@ -2595,12 +2595,12 @@ if (HTMLWidgets.shinyMode){
           if(data.selection.nodes !== null){
             el.myclick({nodes : data.selection.nodes});
           } else {
-           el.myclick({nodes : []});
+           el.myclick({nodes : []}); 
           }
         }
       }
   });
-
+  
   function updateVisOptions(data){
         // get container id
         var graph = document.getElementById("graph"+data.id);
@@ -2610,7 +2610,7 @@ if (HTMLWidgets.shinyMode){
         var selectList2;
         var selectList;
         var reset = false;
-
+        
         if(graph){
           // reset nodes before ?
           if(document.getElementById(el.id).highlight){
@@ -2623,7 +2623,7 @@ if (HTMLWidgets.shinyMode){
             document.getElementById("nodeSelect"+data.id).value = "";
             document.getElementById("nodeSelect"+data.id).onchange();
           }
-
+          
           // collapse init
           if(data.options.collapse !== undefined){
             el.collapse = data.options.collapse.enabled;
@@ -2633,7 +2633,7 @@ if (HTMLWidgets.shinyMode){
             el.collapseLabelSuffix = data.options.collapse.labelSuffix;
             el.clusterOptions = data.options.collapse.clusterOptions;
           }
-
+          
           // highlight init
           if(data.options.highlight !== undefined){
             el.highlight = data.options.highlight.enabled;
@@ -2654,7 +2654,7 @@ if (HTMLWidgets.shinyMode){
               el.byselectionColor = data.options.byselection.hideColor;
             }
           }
-
+          
           if(data.options.byselection !== undefined){
             selectList2 = document.getElementById("selectedBy"+data.id)
             selectList2.options.length = 0;
@@ -2666,9 +2666,9 @@ if (HTMLWidgets.shinyMode){
               } else {
                 option2.text = data.options.byselection.main;
               }
-
+              
               selectList2.appendChild(option2);
-
+      
               if(data.options.byselection.values !== undefined){
                 for (var i = 0; i < data.options.byselection.values.length; i++) {
                   option2 = document.createElement("option");
@@ -2703,7 +2703,7 @@ if (HTMLWidgets.shinyMode){
               document.getElementById("selectedBy"+data.id).onchange();
             }
           }
-
+          
           if(do_loop_by){
               var allNodes = graph.nodes.get({returnType:"Object"});
               var byselection_values = [];
@@ -2725,9 +2725,9 @@ if (HTMLWidgets.shinyMode){
                     }
                   }
                 }
-              }
+              } 
           }
-
+          
           // node id selection init
           if(data.options.idselection !== undefined){
             selectList = document.getElementById("nodeSelect"+data.id)
@@ -2743,7 +2743,7 @@ if (HTMLWidgets.shinyMode){
               el.idselection_useLabels = data.options.idselection.useLabels
             }
           }
-
+          
           if(data.options.idselection !== undefined){
             if(data.options.idselection.enabled === true && data.options.idselection.selected !== undefined){
               document.getElementById("nodeSelect"+data.id).value = data.options.idselection.selected;
@@ -2752,27 +2752,27 @@ if (HTMLWidgets.shinyMode){
           }
         }
   };
-
+      
   Shiny.addCustomMessageHandler('visShinyCustomOptions', updateVisOptions);
-
+  
   // udpate nodes data
   Shiny.addCustomMessageHandler('visShinyUpdateNodes', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       var main_el = document.getElementById(data.id);
-
+      
       if(data.legend === false){
         if(el){
           // get & transform nodes object
           var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
-
+          
           // reset some parameters / data before
           if (main_el.selectActive === true | main_el.highlightActive === true) {
 
             //reset nodes
             resetAllEdges(el.edges, el.highlightColor, el.byselectionColor, el.chart);
             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-
+            
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2784,25 +2784,25 @@ if (HTMLWidgets.shinyMode){
           }
           // update nodes
           el.nodes.update(tmpnodes);
-
+          
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-
+          
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-
+      
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-
+          
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2845,7 +2845,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // remove nodes
   Shiny.addCustomMessageHandler('visShinyRemoveNodes', function(data){
       // get container id
@@ -2857,7 +2857,7 @@ if (HTMLWidgets.shinyMode){
           if (main_el.selectActive === true | main_el.highlightActive === true) {
             //reset nodes
             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-
+            
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2869,25 +2869,25 @@ if (HTMLWidgets.shinyMode){
           }
           // remove nodes
           el.nodes.remove(data.rmid);
-
+  
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-
+          
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-
+      
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-
+          
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2903,7 +2903,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // remove edges
   Shiny.addCustomMessageHandler('visShinyRemoveEdges', function(data){
       // get container id
@@ -2924,7 +2924,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-
+  
   // remove edges
   Shiny.addCustomMessageHandler('visShinySetTitle', function(data){
     if(data.main !== null){
@@ -2950,7 +2950,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_title.style.display = 'block';
-        }
+        } 
       }
     }
     if(data.submain !== null){
@@ -3002,7 +3002,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_footer.style.display = 'block';
-        }
+        } 
       }
     }
   });
@@ -3029,18 +3029,18 @@ if (HTMLWidgets.shinyMode){
 
 //----------------------------------------------------------------
 // HTMLWidgets.widget Definition
-//---------------------------------------------------------------
+//--------------------------------------------------------------- 
 HTMLWidgets.widget({
-
+  
   name: 'visNetwork',
-
+  
   type: 'output',
-
+  
   initialize: function(el, width, height) {
     return {
     };
   },
-
+  
   renderValue: function(el, x, instance) {
     var data;
     var nodes;
@@ -3053,25 +3053,25 @@ HTMLWidgets.widget({
     var lastClusterZoomLevel = 0;
     var clusterFactor;
     var ctrlwait = 0;
-
+    
     // legend control
     var addlegend = false;
 
     // main div el.id
     var el_id = document.getElementById(el.id);
-
+    
     // test background
     el_id.style.background = x.background;
-
+    
     // clear el.id (for shiny...)
-    el_id.innerHTML = "";
-
+    el_id.innerHTML = "";  
+    
     // shared control with proxy function (is there a better way ?)
     el_id.highlightActive = false;
     el_id.selectActive = false;
     el_id.idselection = x.idselection.enabled;
     el_id.byselection = x.byselection.enabled;
-
+    
     if(x.highlight !== undefined){
       el_id.highlight = x.highlight.enabled;
       el_id.highlightColor = x.highlight.hideColor;
@@ -3093,13 +3093,13 @@ HTMLWidgets.widget({
     } else {
       el_id.byselectionColor = 'rgba(200,200,200,0.5)';
     }
-
+    
     if(x.idselection.enabled){
       el_id.idselection_useLabels = true;
     } else {
       el_id.idselection_useLabels = false;
     }
-
+    
     if(x.collapse !== undefined){
       if(x.collapse.enabled){
         el_id.collapse = true;
@@ -3117,7 +3117,7 @@ HTMLWidgets.widget({
       el_id.collapseLabelSuffix = " (cluster)";
       el_id.clusterOptions = undefined;
     }
-
+    
     if(x.tree !== undefined){
       el_id.tree = x.tree;
     }
@@ -3133,11 +3133,11 @@ HTMLWidgets.widget({
         }
       }
     }
-
+    
     var changeInput = function(id, data) {
             Shiny.onInputChange(el.id + '_' + id, data);
     };
-
+          
     //*************************
     //title
     //*************************
@@ -3145,13 +3145,13 @@ HTMLWidgets.widget({
     div_title.id = "title"+el.id;
     div_title.setAttribute('style','font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;');
     div_title.style.display = 'none';
-    el_id.appendChild(div_title);
+    el_id.appendChild(div_title);  
     if(x.main !== null){
       div_title.innerHTML = x.main.text;
       div_title.setAttribute('style',  x.main.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
-
+    
     //*************************
     //subtitle
     //*************************
@@ -3159,13 +3159,13 @@ HTMLWidgets.widget({
     div_subtitle.id = "subtitle"+el.id;
     div_subtitle.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;');
     div_subtitle.style.display = 'none';
-    el_id.appendChild(div_subtitle);
+    el_id.appendChild(div_subtitle); 
     if(x.submain !== null){
       div_subtitle.innerHTML = x.submain.text;
       div_subtitle.setAttribute('style',  x.submain.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
-
+ 
     //*************************
     //init idselection
     //*************************
@@ -3198,7 +3198,7 @@ HTMLWidgets.widget({
         resetList('selectedBy', el.id, 'selectedBy');
       }
     }
-
+      
     // id nodes selection : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     var idList = document.createElement("select");
@@ -3206,17 +3206,17 @@ HTMLWidgets.widget({
     idList.style.display = 'none';
     idList.id = "nodeSelect"+el.id;
     el_id.appendChild(idList);
-
+      
     idList.onchange =  function(){
       if(instance.network){
         onIdChange(document.getElementById("nodeSelect"+el.id).value, false);
       }
     };
-
+      
     var hr = document.createElement("hr");
     hr.setAttribute('style', 'height:0px; visibility:hidden; margin-bottom:-1px;');
-    el_id.appendChild(hr);
-
+    el_id.appendChild(hr);  
+      
     //*************************
     //selectedBy
     //*************************
@@ -3231,7 +3231,7 @@ HTMLWidgets.widget({
           resetList('nodeSelect', el.id, 'selected');
         }
     }
-
+    
     // selectedBy : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     //Create and append select list
@@ -3244,19 +3244,19 @@ HTMLWidgets.widget({
     byList.onchange =  function(){
       onByChange(document.getElementById("selectedBy"+el.id).value);
     };
-
+      
     if(el_id.byselection){
 
       el_id.byselection_values = x.byselection.values;
       el_id.byselection_variable = x.byselection.variable;
       el_id.byselection_multiple = x.byselection.multiple;
       var option2;
-
+      
       //Create and append select list
       var selectList2 = document.getElementById("selectedBy"+el.id);
       selectList2.setAttribute('style', x.byselection.style);
       selectList2.style.display = 'inline';
-
+      
       option2 = document.createElement("option");
       option2.value = "";
       if(x.byselection.main === undefined){
@@ -3266,7 +3266,7 @@ HTMLWidgets.widget({
       }
 
       selectList2.appendChild(option2);
-
+      
       //Create and append the options
       for (var i2 = 0; i2 < x.byselection.values.length; i2++) {
         option2 = document.createElement("option");
@@ -3274,12 +3274,12 @@ HTMLWidgets.widget({
         option2.text = x.byselection.values[i2];
         selectList2.appendChild(option2);
       }
-
+      
       if (window.Shiny){
         changeInput('selectedBy', document.getElementById("selectedBy"+el.id).value);
       }
     }
-
+    
     //*************************
     // pre-treatment for icons (unicode)
     //*************************
@@ -3295,7 +3295,7 @@ HTMLWidgets.widget({
         }
       }
     }
-
+    
     if(x.options.nodes.icon){
         if(x.options.nodes.icon.code){
           x.options.nodes.icon.code = JSON.parse( '"'+'\\u' + x.options.nodes.icon.code + '"');
@@ -3304,72 +3304,72 @@ HTMLWidgets.widget({
           x.options.nodes.color = x.options.nodes.icon.color;
         }
     }
-
+    
     //*************************
     //page structure
     //*************************
-
+    
     // divide page
     var maindiv  = document.createElement('div');
     maindiv.id = "maindiv"+el.id;
     maindiv.setAttribute('style', 'height:95%;background-color: inherit;');
     el_id.appendChild(maindiv);
-
+    
     var graph = document.createElement('div');
     graph.id = "graph"+el.id;
-
+    
     if(x.legend !== undefined){
       if((x.groups && x.legend.useGroups) || (x.legend.nodes !== undefined) || (x.legend.edges !== undefined)){
         addlegend = true;
       }
     }
-
+    
     //legend
     if(addlegend){
       var legendwidth = x.legend.width*100;
       var legend = document.createElement('div');
-
+      
       var pos = x.legend.position;
       var pos2 = "right";
       if(pos == "right"){
         pos2 = "left";
       }
-
+      
       legend.id = "legend"+el.id;
       legend.setAttribute('style', 'float:' + pos + '; width:'+legendwidth+'%;height:100%');
-
+      
       //legend title
       if(x.legend.main !== undefined){
         var legend_title = document.createElement('div');
         legend_title.innerHTML = x.legend.main.text;
         legend_title.setAttribute('style',  x.legend.main.style);
-        legend.appendChild(legend_title);
-
+        legend.appendChild(legend_title);  
+        
         legend.id = "legend_main"+el.id;
         var legend_network = document.createElement('div');
         legend_network.id = "legend"+el.id;
         legend_network.setAttribute('style', 'height:100%');
-        legend.appendChild(legend_network);
+        legend.appendChild(legend_network); 
       }
-
+      
       document.getElementById("maindiv"+el.id).appendChild(legend);
       graph.setAttribute('style', 'float:' + pos2 + '; width:'+(100-legendwidth)+'%;height:100%;background-color: inherit;');
     }else{
       graph.setAttribute('style', 'float:right; width:100%;height:100%;background-color: inherit;');
     }
-
+    
     document.getElementById("maindiv"+el.id).appendChild(graph);
-
+    
     //*************************
     //legend definition
     //*************************
     if(addlegend){
-
+      
       var legendnodes = new vis.DataSet();
       var legendedges = null;
       var datalegend;
       var tmpnodes;
-
+      
       // set some options
       var optionslegend = {
         interaction:{
@@ -3382,7 +3382,7 @@ HTMLWidgets.widget({
           stabilization: false
         }
       };
-
+      
       function range(start, length, step, rep){
         var a=[], b=start;
         while(a.length < length){
@@ -3396,7 +3396,7 @@ HTMLWidgets.widget({
         }
         return a;
       };
-
+      
       var mynetwork = document.getElementById('legend'+el.id);
       var lx = mynetwork.clientWidth / 2 + 50;
       var ly = mynetwork.clientHeight / 2 + 50;
@@ -3411,7 +3411,7 @@ HTMLWidgets.widget({
       if(tmp_lx === 0){
         tmp_lx = 1
       }
-
+      
       // construct nodes data if needed
       if(x.legend.nodes !== undefined){
         if(x.legend.nodesToDataframe){ // data in data.frame
@@ -3419,13 +3419,13 @@ HTMLWidgets.widget({
         } else { // data in list
           tmpnodes = x.legend.nodes;
         }
-        // only one element
+        // only one element   
         if(tmpnodes.length === undefined){
           tmpnodes = new Array(tmpnodes);
         }
       }
-
-      // array of y position
+      
+      // array of y position 
       if(x.groups && x.legend.useGroups && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, x.groups.length + tmpnodes.length, step_y, ncol);
       } else if(x.groups && x.legend.useGroups && x.legend.nodes === undefined){
@@ -3433,23 +3433,23 @@ HTMLWidgets.widget({
       } else if(x.legend.useGroups === false && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, tmpnodes.length, step_y, ncol);
       }
-
+      
       // want to view groups in legend
       if(x.groups && x.legend.useGroups){
         // create data
         for (var g1 = 0; g1 < x.groups.length; g1++){
-
+          
           if(g1 === 0){
             tmp_lx = lx;
           } else {
             tmp_lx = lx + g1%ncol * step_x;
           }
-
+          
           tmp_ly = all_tmp_y[g1];
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-
+          
           legendnodes.add({id: null, x : tmp_lx, y : tmp_ly, label: x.groups[g1], group: x.groups[g1], value: 1, mass:1});
           edge_ly = tmp_ly;
         }
@@ -3465,7 +3465,7 @@ HTMLWidgets.widget({
       }
       // want to add custom nodes
       if(x.legend.nodes !== undefined){
-
+        
         // control icon
         for (var nd in tmpnodes){
           if(tmpnodes[nd].icon  && !x.legend.nodesToDataframe){
@@ -3484,7 +3484,7 @@ HTMLWidgets.widget({
           } else {
             tmp_lx = lx + (g+legendnodes.length)%ncol * step_x;
           }
-
+          
           tmp_ly = all_tmp_y[add_gr_y + g];
           if(tmp_lx === 0){
             tmp_lx = 1
@@ -3494,7 +3494,7 @@ HTMLWidgets.widget({
           }
           tmpnodes[g].x = tmp_lx;
           tmpnodes[g].y = tmp_ly;
-
+          
           if(tmpnodes[g].value === undefined && tmpnodes[g].size === undefined){
             tmpnodes[g].value = 1;
           }
@@ -3513,14 +3513,14 @@ HTMLWidgets.widget({
         } else {  // data in list
           legendedges = x.legend.edges;
         }
-        // only one element
+        // only one element 
         if(legendedges.length === undefined){
           legendedges = new Array(legendedges);
         }
 
         // set coordinates and options
         for (var edg = 0; edg < (legendedges.length); edg++){
-
+          
           var tmp_int = Math.floor(Math.random() * 1001);
           legendedges[edg].from = edg + "tmp_leg_edges_" + tmp_int + "_1";
           legendedges[edg].to = edg + "tmp_leg_edges_" + tmp_int + "_2";
@@ -3531,7 +3531,7 @@ HTMLWidgets.widget({
           if(legendedges[edg].arrows === undefined){
             legendedges[edg].arrows = 'to';
           }
-
+          
           if(legendedges[edg].width === undefined){
             legendedges[edg].width = 1;
           }
@@ -3540,7 +3540,7 @@ HTMLWidgets.widget({
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-
+          
           if(ncol === 1){
             tmp_lx = lx - mynetwork.clientWidth/3;
             tmp_lx2 = lx + mynetwork.clientWidth/3;
@@ -3548,52 +3548,52 @@ HTMLWidgets.widget({
             tmp_lx = lx;
             tmp_lx2 = lx + (ncol-1) * step_x;
           }
-
+          
           if(tmp_lx === 0){
             tmp_lx = 1
           }
-
+          
           if(tmp_lx2 === 0){
             tmp_lx2 = 1
           }
-
+          
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_1", x : tmp_lx, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_2", x : tmp_lx2, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
         }
       }
-
+      
       // render legend network
       datalegend = {
-        nodes: legendnodes,
-        edges: legendedges
+        nodes: legendnodes, 
+        edges: legendedges       
       };
 
-
+      
       instance.legend = new vis.Network(document.getElementById("legend"+el.id), datalegend, optionslegend);
       //link network for update for re-use and update
       document.getElementById("legend"+el.id).network = instance.legend;
     }
-
+    
     //*************************
     // Main Network rendering
     //*************************
     if(x.nodes){
-
+      
       // network
       nodes = new vis.DataSet();
       edges = new vis.DataSet();
-
+      
       var tmpnodes;
       if(x.nodesToDataframe){ // data in data.frame
         tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
       } else { // data in list
         tmpnodes = x.nodes;
       }
-      // only one element
+      // only one element   
       if(tmpnodes.length === undefined){
         tmpnodes = new Array(tmpnodes);
       }
-
+        
       // update coordinates if igraph
       if(x.igraphlayout !== undefined){
         // to improved
@@ -3601,7 +3601,7 @@ HTMLWidgets.widget({
         var igclientWidth = document.getElementById("graph"+el.id).clientWidth;
         var scalex = 100;
         var scaley = 100;
-
+        
         // current div visibled
         if(igclientWidth !== 0){
           var factor = igclientWidth / 1890;
@@ -3624,15 +3624,15 @@ HTMLWidgets.widget({
             }
           }
         }
-
+        
         for (var nd in tmpnodes) {
           tmpnodes[nd].x = tmpnodes[nd].x * scalex;
           tmpnodes[nd].y = tmpnodes[nd].y * scaley;
         }
       }
-
+      
       nodes.add(tmpnodes);
-
+      
       var tmpedges;
       if(x.edgesToDataframe){ // data in data.frame
         tmpedges = visNetworkdataframeToD3(x.edges, "edges")
@@ -3644,17 +3644,17 @@ HTMLWidgets.widget({
         if(tmpedges.length === undefined){
           tmpedges = new Array(tmpedges);
         }
-        edges.add(tmpedges);
+        edges.add(tmpedges);  
       }
-
+      
       // reset tmpnodes
       tmpnodes = null;
-
+      
       data = {
         nodes: nodes,
         edges: edges
       };
-
+      
       //save data for re-use and update
       document.getElementById("graph"+el.id).nodes = nodes;
       document.getElementById("graph"+el.id).edges = edges;
@@ -3667,8 +3667,8 @@ HTMLWidgets.widget({
       data = {
         gephi: x.gephi
       };
-    }
-
+    } 
+    
     var options = x.options;
 
     //*************************
@@ -3747,7 +3747,7 @@ HTMLWidgets.widget({
       } else {
         options.manipulation.editNode = x.options.manipulation.editNode;
       }
-
+  
       if(x.options.manipulation.deleteNode === undefined){
         options.manipulation.deleteNode = function(data, callback) {
             var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
@@ -3856,34 +3856,34 @@ HTMLWidgets.widget({
         options.manipulation.editEdge = x.options.manipulation.editEdge;
       }
     }
-
+    
     // create network
     instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
     if (window.Shiny){
       Shiny.onInputChange(el.id + '_initialized', true);
     }
-
+    
     //*************************
     //add values to idselection
     //*************************
-
-    if(el_id.idselection){
+    
+    if(el_id.idselection){  
       var selectList = document.getElementById("nodeSelect"+el.id)
       setNodeIdList(selectList, x.idselection, nodes)
-
+      
       if (window.Shiny){
         changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
       }
     }
-
+      
     //save data for re-use and update
     document.getElementById("graph"+el.id).chart = instance.network;
     document.getElementById("graph"+el.id).options = options;
-
+    
     /////////
     // popup
     /////////
-
+    
     // Temporary variables to hold mouse x-y pos.s
     var tempX = 0
     var tempY = 0
@@ -3905,15 +3905,15 @@ HTMLWidgets.widget({
     var popupState = false;
     var popupTimeout = null;
     var vispopup = document.createElement("div");
-
-    // disable vis.js tooltip
+   
+    // disable vis.js tooltip 
     var style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = 'div.vis-tooltip {display : none}';
     document.getElementsByTagName('head')[0].appendChild(style);
 
     var popupStyle = 'position: fixed;visibility:hidden;padding: 5px;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);max-width:400px;word-break: break-all'
-
+    
     if(x.tooltipStyle !== undefined){
       popupStyle = x.tooltipStyle
     }
@@ -3922,9 +3922,9 @@ HTMLWidgets.widget({
       popupStay = x.tooltipStay
     }
     vispopup.setAttribute('style', popupStyle)
-
+    
     document.getElementById("graph"+el.id).appendChild(vispopup);
-
+    
     // add some event listeners to avoid it disappearing when the mouse if over it.
     vispopup.addEventListener('mouseover',function () {
       if (popupTimeout !== null) {
@@ -3932,20 +3932,20 @@ HTMLWidgets.widget({
         popupTimeout = null;
       }
     });
-
+  
     // set the timeout when the mouse leaves it.
     vispopup.addEventListener('mouseout',function () {
       if (popupTimeout === null) {
         myHidePopup(100);
       }
     });
-
+    
     // use the popup event to show
     instance.network.on("showPopup", function(params) {
-      popupState = true;
+      popupState = true;  
       myShowPopup(params);
     })
-
+  
     // use the hide event to hide it
     instance.network.on("hidePopup", function(params) {
       // avoid double firing of this event, bug in 4.2.0
@@ -3954,18 +3954,18 @@ HTMLWidgets.widget({
         myHidePopup(popupStay);
       }
     })
-
+  
     // hiding the popup through css and a timeout
     function myHidePopup(delay) {
       popupTimeout = setTimeout(function() {vispopup.style.visibility = 'hidden';}, delay);
     }
-
+  
     // showing the popup
     function myShowPopup(id) {
       // get the data from the vis.DataSet
       var nodeData = nodes.get([id]);
       var edgeData = edges.get([id]);
-
+      
       // a node ?
       if(nodeData[0] !== null && nodeData[0] !== undefined){
         vispopup.innerHTML = nodeData[0].title;
@@ -3973,7 +3973,7 @@ HTMLWidgets.widget({
         vispopup.style.visibility = 'visible';
         vispopup.style.top = tempY - 20 +  "px";
         vispopup.style.left = tempX + 5 + "px";
-
+        
       } else if(edgeData[0] !== null && edgeData[0] !== undefined){
         // so it's perhaps a edge ?
         vispopup.innerHTML = edgeData[0].title;
@@ -3992,7 +3992,7 @@ HTMLWidgets.widget({
           vispopup.style.left = tempX + 5 + "px";
         }
       }
-
+      
       // for sparkline. Eval script...
       var any_script= vispopup.getElementsByTagName('script')
       for (var n = 0; n < any_script.length; n++){
@@ -4001,7 +4001,7 @@ HTMLWidgets.widget({
         }
       }
     }
-
+  
     //*************************
     // Events
     //*************************
@@ -4016,7 +4016,7 @@ HTMLWidgets.widget({
           instance.network.once(key, x.OnceEvents[key]);
       }
     }
-
+    
     if(x.ResetEvents !== undefined){
       for (var key in x.ResetEvents) {
           instance.network.off(key);
@@ -4029,11 +4029,11 @@ HTMLWidgets.widget({
     function selectedHighlight(value) {
       // get current nodes
       var allNodes = nodes.get({returnType:"Object"});
-
+       
       // first resetEdges
       resetAllEdges(edges, el_id.byselectionColor, el_id.highlightColor, instance.network);
-      var connectedNodes = [];
-
+      var connectedNodes = [];  
+      
       // get variable
       var sel = el_id.byselection_variable;
       // need to make an update?
@@ -4042,7 +4042,7 @@ HTMLWidgets.widget({
       if (value !== "") {
         var updateArray = [];
         el_id.selectActive = true;
-
+        
         // mark all nodes as hard to read.
         for (var nodeId in allNodes) {
           var value_in = false;
@@ -4102,7 +4102,7 @@ HTMLWidgets.widget({
             edgeAsHardToRead(edgesHardToRead[i], el_id.byselectionColor, el_id.highlightColor, instance.network, type = "edge")
           }
           edges.update(edgesHardToRead);
-
+            
           nodes.update(updateArray);
         }
       }
@@ -4111,14 +4111,14 @@ HTMLWidgets.widget({
         resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
         el_id.selectActive = false
       }
-    }
-
+    } 
+  
     //*************************
     //Highlight
     //*************************
     var is_hovered = false;
     var is_clicked = false;
-
+    
     function neighbourhoodHighlight(params, action_type, algorithm) {
 
       var nodes_in_clusters = instance.network.body.modules.clustering.clusteredNodes;
@@ -4131,26 +4131,26 @@ HTMLWidgets.widget({
         nodes_in_clusters = [];
         edges_in_clusters = [];
       }
-
+      
       var selectNode;
       // get nodes data
       var allNodes = nodes.get({returnType:"Object"});
 
       // cluster
       var array_cluster_id;
-
-      // update
+      
+      // update 
       var update = !(el_id.highlightActive === false && params.length === 0) | (el_id.selectActive === true && params.length === 0);
 
       if(!(action_type == "hover" && is_clicked)){
-
+        
         // first resetEdges
         resetAllEdges(edges, el_id.highlightColor, el_id.byselectionColor, instance.network);
 
         if (params.length > 0) {
           var is_cluster = instance.network.isCluster(params[0]);
           var selectedNode;
-
+          
           if(is_cluster){
             selectedNode = instance.network.getNodesInCluster(params[0]);
           } else {
@@ -4175,11 +4175,11 @@ HTMLWidgets.widget({
               }
             }
           }
-
+          
           el_id.highlightActive = true;
           var i,j;
           var degrees = el_id.degree;
-
+          
           // mark all nodes as hard to read.
           for (var nodeId in instance.network.body.nodes) {
             if(instance.network.isCluster(nodeId)){
@@ -4193,7 +4193,7 @@ HTMLWidgets.widget({
               }
             }
           }
-
+ 
           if(algorithm === "all"){
             var connectedNodes;
             if(degrees > 0){
@@ -4205,7 +4205,7 @@ HTMLWidgets.widget({
             }else{
               connectedNodes = selectedNode;
             }
-
+            
             var allConnectedNodes = [];
             // get the nodes to color
             if(degrees >= 2){
@@ -4233,13 +4233,13 @@ HTMLWidgets.widget({
                   allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
                   if(have_cluster_nodes){
                     if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
-
+  
                       array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
                     }
                   }
                 }
               }
-
+  
               if(array_cluster_id.length > 0){
                 array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
                 for (i = 0; i < array_cluster_id.length; i++) {
@@ -4250,7 +4250,7 @@ HTMLWidgets.widget({
 
             // all in degree nodes get their own color and their label back + main nodes
             connectedNodes = connectedNodes.concat(selectedNode);
-
+            
             if (window.Shiny){
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(connectedNodes));
             }
@@ -4258,8 +4258,8 @@ HTMLWidgets.widget({
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', allConnectedNodes.filter(function(x){ return !connectedNodes.includes(x)}));
               }
-            }
-
+            }  
+   
             array_cluster_id = [];
             for (i = 0; i < connectedNodes.length; i++) {
               resetOneNode(allNodes[connectedNodes[i]], instance.network.groups, options, instance.network);
@@ -4269,14 +4269,14 @@ HTMLWidgets.widget({
                 }
               }
             }
-
+            
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                 resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
               }
             }
-
+            
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4300,7 +4300,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-
+            
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4309,17 +4309,17 @@ HTMLWidgets.widget({
             }
             edges.update(edgesHardToRead);
           } else if(algorithm === "hierarchical"){
-
+            
             var degree_from = degrees.from;
             var degree_to = degrees.to;
             degrees = Math.max(degree_from, degree_to);
-
+            
             var allConnectedNodes = [];
             var currentConnectedFromNodes = [];
             var currentConnectedToNodes = [];
             var connectedFromNodes = [];
             var connectedToNodes = [];
-
+            
             if(degree_from > 0){
               connectedFromNodes = edges.get({
                 fields: ['from'],
@@ -4343,15 +4343,15 @@ HTMLWidgets.widget({
                 allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
                 currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
             }
-
+            
             for (j = 0; j < connectedToNodes.length; j++) {
                 allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                 currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
             }
-
+            
             var go_from;
             var go_to;
-
+                
             if(degrees > 1){
               for (i = 2; i <= degrees; i++) {
                 go_from = false;
@@ -4391,13 +4391,13 @@ HTMLWidgets.widget({
                   for (j = 0; j < connectedToNodes.length; j++) {
                     allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                     currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
-                  }
+                  } 
                 }
-
+                
                 if (go_from === false &&  go_to === false) { break;}
               }
             }
-
+            
             allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network).concat(selectedNode);
 
             var nodesWithLabel = [];
@@ -4407,7 +4407,7 @@ HTMLWidgets.widget({
                 for (j = 0; j < currentConnectedToNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedToNodes[j]));
                 }
-
+                
                 for (j = 0; j < currentConnectedFromNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedFromNodes[j]));
                 }
@@ -4431,7 +4431,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-
+            
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4449,23 +4449,23 @@ HTMLWidgets.widget({
                 }
               }
             }
-
+            
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                  resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
               }
             }
-
-            if (window.Shiny){
+             
+            if (window.Shiny){ 
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(allConnectedNodes));
             }
             if(el_id.highlightLabelOnly === true){
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', nodesWithLabel.filter(function(x) {return !allConnectedNodes.includes(x)}));
               }
-            }
-
+            }  
+            
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4494,9 +4494,9 @@ HTMLWidgets.widget({
                  edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster");
               }
             }
-
+            
             edges.update(edgesHardToRead);
-
+            
           }
 
           if(update){
@@ -4514,7 +4514,7 @@ HTMLWidgets.widget({
           }else{
             is_clicked = false;
           }
-
+        
         }
         else if (el_id.highlightActive === true | el_id.selectActive === true) {
           // reset nodeSelect list if actived
@@ -4525,7 +4525,7 @@ HTMLWidgets.widget({
           resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
           el_id.highlightActive = false;
           is_clicked = false;
-
+          
           if (window.Shiny){
             Shiny.onInputChange(el.id + '_highlight_label_id', null)
             Shiny.onInputChange(el.id + '_highlight_color_id', null)
@@ -4537,7 +4537,7 @@ HTMLWidgets.widget({
         resetList("selectedBy", el.id, 'selectedBy');
       }
     }
-
+    
     function onClickIDSelection(selectedItems) {
       var selectNode;
       if(el_id.idselection){
@@ -4557,7 +4557,7 @@ HTMLWidgets.widget({
           }
         }else{
           resetList("nodeSelect", el.id, 'selected');
-        }
+        } 
       }
       if(el_id.byselection){
         // reset selectedBy list if actived
@@ -4567,7 +4567,7 @@ HTMLWidgets.widget({
         }
       }
     }
-
+    
     // shared click function (selectedNodes)
     document.getElementById("graph"+el.id).myclick = function(params){
         if(el_id.highlight && x.nodes){
@@ -4576,43 +4576,43 @@ HTMLWidgets.widget({
           onClickIDSelection(params)
         }
     };
-
-    // Set event in relation with highlightNearest
+    
+    // Set event in relation with highlightNearest      
     instance.network.on("click", function(params){
         if(el_id.highlight && x.nodes){
           neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
         }else if((el_id.idselection || el_id.byselection) && x.nodes){
           onClickIDSelection(params)
-        }
+        } 
     });
-
+    
     instance.network.on("hoverNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([params.node], "hover", el_id.highlightAlgorithm);
-      }
+      } 
     });
 
     instance.network.on("blurNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([], "hover", el_id.highlightAlgorithm);
-      }
+      }      
     });
-
+    
     //*************************
     //collapse
     //*************************
     instance.network.on("doubleClick", function(params){
       if(el_id.collapse){
-        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight,
+        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight, 
           el_id.clusterOptions, el_id.collapseLabelSuffix,
-          el_id.tree, instance.network, el.id)
+          el_id.tree, instance.network, el.id) 
       }
-    });
-
+    }); 
+    
     if(el_id.collapse){
       instance.network.on("doubleClick", networkOpenCluster);
     }
-
+    
     //*************************
     //footer
     //*************************
@@ -4621,34 +4621,34 @@ HTMLWidgets.widget({
     div_footer.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;background-color: inherit;');
     div_footer.style.display = 'none';
 
-    document.getElementById("graph" + el.id).appendChild(div_footer);
+    document.getElementById("graph" + el.id).appendChild(div_footer);  
     if(x.footer !== null){
       div_footer.innerHTML = x.footer.text;
       div_footer.setAttribute('style',  x.footer.style + ';background-color: inherit;');
-      div_footer.style.display = 'block';
+      div_footer.style.display = 'block'; 
     }
-
+    
     //*************************
     // export
     //*************************
     if(x.export !== undefined){
-
+      
       var downloaddiv = document.createElement('div');
       downloaddiv.setAttribute('style', 'float:right; width:100%;background-color: inherit;');
-
+      
       var downloadbutton = document.createElement("button");
       downloadbutton.setAttribute('style', x.export.css);
       downloadbutton.style.position = "relative";
       downloadbutton.id = "download"+el.id;
-      downloadbutton.appendChild(document.createTextNode(x.export.label));
+      downloadbutton.appendChild(document.createTextNode(x.export.label)); 
       downloaddiv.appendChild(downloadbutton);
-
+      
       var hr = document.createElement("hr");
       hr.setAttribute('style', 'height:5px; visibility:hidden; margin-bottom:-1px;');
-      downloaddiv.appendChild(hr);
-
+      downloaddiv.appendChild(hr);  
+      
       document.getElementById("maindiv"+el.id).appendChild(downloaddiv);
-
+      
       document.getElementById("download"+el.id).onclick = function() {
 
       // height control for export
@@ -4670,7 +4670,7 @@ HTMLWidgets.widget({
       if(x.background !== "transparent" && x.background !== "rgba(0, 0, 0, 0)"){
         export_background = x.background
       }
-
+      
       if(x.export.type !== "pdf"){
         html2canvas(el_id, {
           background: export_background,
@@ -4688,11 +4688,11 @@ HTMLWidgets.widget({
           onrendered: function(canvas) {
             var myImage = canvas.toDataURL("image/png", 1.0);
             //var imgWidth = (canvas.width * 25.4) / 24;
-            //var imgHeight = (canvas.height * 25.4) / 24;
+            //var imgHeight = (canvas.height * 25.4) / 24; 
             var table = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
             table.addImage(myImage, 'JPEG', 0, 0, canvas.width, canvas.height);
             table.save(x.export.name);
-          }
+          } 
         });
       }
 
@@ -4726,7 +4726,7 @@ HTMLWidgets.widget({
         var obj = {cmd: cmd, id: data.id, from: data.from, to: data.to};
         Shiny.onInputChange(el.id + '_graphChange', obj);
       }
-
+      
     }
 
     function deleteSubGraph(data, callback) {
@@ -4741,19 +4741,19 @@ HTMLWidgets.widget({
       clearPopUp();
       callback(null);
     }
-
+    
     //*************************
     // CLUSTERING
     //*************************
     if(x.clusteringGroup || x.clusteringColor || x.clusteringHubsize || x.clusteringConnection){
-
+      
       var clusterbutton = document.createElement("input");
       clusterbutton.id = "backbtn"+el.id;
-      clusterbutton.setAttribute('type', 'button');
-      clusterbutton.setAttribute('value', 'Reinitialize clustering');
+      clusterbutton.setAttribute('type', 'button');  
+      clusterbutton.setAttribute('value', 'Reinitialize clustering'); 
       clusterbutton.setAttribute('style', 'background-color:#FFFFFF;border: none');
       el_id.appendChild(clusterbutton);
-
+      
       clusterbutton.onclick =  function(){
         // reset some parameters / data before
         if (el_id.selectActive === true | el_id.highlightActive === true) {
@@ -4784,11 +4784,11 @@ HTMLWidgets.widget({
         instance.network.fit();
       }
     }
-
+    
     if(x.clusteringGroup || x.clusteringColor || x.clusteringOutliers || x.clusteringHubsize || x.clusteringConnection){
       // if we click on a node, we want to open it up!
       instance.network.on("doubleClick", function (params){
-
+        
         if (params.nodes.length === 1) {
           if (instance.network.isCluster(params.nodes[0]) === true) {
             is_clicked = false;
@@ -4803,7 +4803,7 @@ HTMLWidgets.widget({
     //clustering Connection
     //*************************
     if(x.clusteringConnection){
-
+      
       function clusterByConnection() {
         for (var i = 0; i < x.clusteringConnection.nodes.length; i++) {
           instance.network.clusterByConnection(x.clusteringConnection.nodes[i])
@@ -4811,12 +4811,12 @@ HTMLWidgets.widget({
       }
       clusterByConnection();
     }
-
+    
     //*************************
     //clustering hubsize
     //*************************
     if(x.clusteringHubsize){
-
+      
       function clusterByHubsize() {
         var clusterOptionsByData = {
           processProperties: function(clusterOptions, childNodes) {
@@ -4852,12 +4852,12 @@ HTMLWidgets.widget({
           instance.network.clusterByHubsize(undefined, clusterOptionsByData);
         }
       }
-
+      
       clusterByHubsize();
     }
-
+    
     if(x.clusteringColor){
-
+      
     //*************************
     //clustering color
     //*************************
@@ -4904,7 +4904,7 @@ HTMLWidgets.widget({
           instance.network.cluster(clusterOptionsByData);
         }
       }
-
+      
       clusterByColor();
     }
 
@@ -4912,7 +4912,7 @@ HTMLWidgets.widget({
     //clustering groups
     //*************************
     if(x.clusteringGroup){
-
+      
       function clusterByGroup() {
         var groups = x.clusteringGroup.groups;
         var clusterOptionsByData;
@@ -4922,7 +4922,7 @@ HTMLWidgets.widget({
           var sh = x.clusteringGroup.shape[i];
           var force = x.clusteringGroup.force[i];
           var sc_size = x.clusteringGroup.scale_size[i];
-
+          
           clusterOptionsByData = {
               joinCondition: function (childOptions) {
                   return childOptions.group == group; //
@@ -4967,14 +4967,14 @@ HTMLWidgets.widget({
       }
       clusterByGroup();
     }
-
+  
     //*************************
     //clustering by zoom
     //*************************
     if(x.clusteringOutliers){
-
+      
       clusterFactor = x.clusteringOutliers.clusterFactor;
-
+      
       // set the first initial zoom level
       instance.network.on('initRedraw', function() {
         if (lastClusterZoomLevel === 0) {
@@ -5017,7 +5017,7 @@ HTMLWidgets.widget({
                 clusterOptions.font = {size: childrenCount*5+30}
                 clusterOptions.id = 'cluster:' + clusterIndex;
                 clusters.push({id:'cluster:' + clusterIndex, scale:scale});
-
+                
                 if(cluster_level !== 9999999){
                   clusterOptions.level = cluster_level
                 }
@@ -5053,20 +5053,20 @@ HTMLWidgets.widget({
         };
         ctrlwait = 0;
     }
-
+    
     //******************
     // init selection
     //******************
-    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){
+    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){ 
       onIdChange(''+ x.idselection.selected, true);
     }
-
-    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){
+      
+    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){ 
       onByChange(x.byselection.selected);
       selectNode = document.getElementById('selectedBy'+el.id);
       selectNode.value = x.byselection.selected;
     }
-
+    
     // try to fix icons loading css bug...
     function iconsRedraw() {
       setTimeout(function(){
@@ -5076,32 +5076,32 @@ HTMLWidgets.widget({
           instance.legend.redraw();
       }, 250);
     };
-
+    
     if(x.iconsRedraw !== undefined){
       if(x.iconsRedraw){
         iconsRedraw();
         instance.network.once("stabilized", function(){iconsRedraw();})
       }
     }
-  },
-
+  }, 
+  
   resize: function(el, width, height, instance) {
       if(instance.network)
         instance.network.fit();
       if(instance.legend)
         instance.legend.fit();
   }
-
+  
 });
 </script>
 </head>
 <body style="background-color: white;">
 <div id="htmlwidget_container">
-<div id="htmlwidget-6a99af2903e77ba04f50" class="visNetwork html-widget" style="width:100%;height:700px;">
+<div id="htmlwidget-ecc24d409edd190a45ba" class="visNetwork html-widget" style="width:100%;height:700px;">
 
 </div>
 </div>
-<script type="application/json" data-for="htmlwidget-6a99af2903e77ba04f50">{"x":{"nodes":{"id":["abilities","qm-action-distance","bell-theorem","blame","bohr-correspondence","determinism-causal","collins","compatibilism","cosmology-30s","free-will-foreknowledge","divine-freedom","providence-divine","spacetime-holearg","einstein-philscience","information-entropy","equivME","ergodic-hierarchy","fatalism","freewill","incompatibilism-theories","future-contingents","genrel-early","geometry-19th","hume-freewill","incompatibilism-arguments","spacetime-iframes","qt-entangle","kochen-specker","legal-punishment","locke-freedom","moral-luck","moral-responsibility","physics-holism","quantum-field-theory","physics-Rpcc","symmetry-breaking","prophecy","punishment","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","quantum-bayesian","qt-consciousness","qt-epr","qt-idind","qt-issues","qt-quantcomp","quantum-gravity","qt-quantlog","qt-uncertainty","qt-nvd","skepticism-moral-responsibility","spacetime-theories","spacetime-convensimul","spacetime-singularities","statphys-Boltzmann","statphys-statmech","time-thermo","weyl"],"indegree":[2,15,13,6,4,15,4,16,3,11,2,7,11,14,2,3,1,6,16,13,7,9,5,10,13,11,13,8,4,6,10,10,11,9,6,7,6,5,24,22,10,5,11,11,15,13,10,20,4,6,17,6,26,8,13,11,10,7,11,6,4,4,4,6,6,16],"outdegree":[2,15,13,6,4,15,4,16,3,11,2,7,11,14,2,3,1,6,16,13,7,9,5,10,13,11,13,8,4,6,10,10,11,9,6,7,6,5,24,22,10,5,11,11,15,13,10,20,4,6,17,6,26,8,13,11,10,7,11,6,4,4,4,6,6,16],"degree":[2,15,13,6,4,15,4,16,3,11,2,7,11,14,2,3,1,6,16,13,7,9,5,10,13,11,13,8,4,6,10,10,11,9,6,7,6,5,24,22,10,5,11,11,15,13,10,20,4,6,17,6,26,8,13,11,10,7,11,6,4,4,4,6,6,16],"betweenness":[0,0.00393200549450549,0.00246108058608059,0.00644220362970363,0.00692326229775622,0.0488216106966814,0.0054703701746971,0.0668248298176183,0.000881410256410256,0.00998880591827202,0,0.00167280636030636,0.0143411276223776,0.111060779845651,0,0,0,0.000240384615384615,0.0897927901301584,0.0419831206404237,0.0372327489753439,0.0364530315472876,0.00728985888147668,0.0453359527758566,0.0181096754866551,0.0209862186424686,0.00807482448107448,0.000480769230769231,0,0.00635531135531135,0.000505952380952381,0.0581740829400615,0.0109065687172305,0.0213687791466987,0.0369602299253035,0.00198896409020843,0,0.000293040293040293,0.0397354071346577,0.406387934868924,0.038804788348906,0.0132470947153386,0.0487804914115382,0.00161763042962436,0.0146100347773142,0.00264880952380952,0.00728880494505494,0.0391943646631147,0.000789835164835165,0.0458292864938011,0.0102264749139749,0.0143599282661783,0.025625,0,0.116630537401889,0.0783930389946741,0.00220009157509157,0,0.341038602043629,0.0150920426669861,0,0.0402133171551299,0.0324237221112221,0.0430051478969748,0.0610334672633174,0.204660571318797],"closeness":[0.167095115681234,0.224913494809689,0.231316725978648,0.171503957783641,0.242537313432836,0.225694444444444,0.197568389057751,0.199386503067485,0.230496453900709,0.196374622356495,0.166240409207161,0.171503957783641,0.235507246376812,0.292792792792793,0.123106060606061,0.191176470588235,0.158536585365854,0.169270833333333,0.224137931034483,0.211726384364821,0.198776758409786,0.224913494809689,0.25390625,0.198170731707317,0.194610778443114,0.239852398523985,0.231316725978648,0.226480836236934,0.192878338278932,0.201863354037267,0.187319884726225,0.225694444444444,0.242537313432836,0.252918287937743,0.271966527196653,0.213815789473684,0.145089285714286,0.192307692307692,0.256916996047431,0.318627450980392,0.266393442622951,0.245283018867925,0.283842794759825,0.251937984496124,0.246212121212121,0.235507246376812,0.223367697594502,0.257936507936508,0.191176470588235,0.246212121212121,0.223367697594502,0.236363636363636,0.245283018867925,0.191740412979351,0.290178571428571,0.287610619469027,0.240740740740741,0.246212121212121,0.264227642276423,0.26,0.206349206349206,0.246212121212121,0.189504373177843,0.232142857142857,0.224913494809689,0.270833333333333],"eigenvector":[0.00321780180899648,0.375096615317966,0.474848305692195,0.00519985119324294,0.0406565271845351,0.243920704302081,0.00839620415889527,0.0526230933761884,0.0034808563444891,0.0289874483916418,0.00318373167004468,0.0132745924778857,0.109025498569414,0.12380062280212,0.00573945945940463,0.0106572967506289,0.000100259048799638,0.0162245170337329,0.079079255844498,0.0665225321407358,0.00809222462083608,0.0227769351597194,0.0112912824013831,0.0127414721980695,0.044228046975752,0.0365363548569692,0.504455867399216,0.491323468519225,0.00407639003907772,0.0161302474536972,0.0248910517865308,0.0229700145037729,0.28800294411945,0.229972302473241,0.109608228714638,0.0816072829105673,0.0335626415901228,0.0041873951659076,0.581506194249725,0.693216985729904,0.330270591622154,0.157206923477006,0.310866656808259,0.407924773432768,0.48881051850197,0.495343880785343,0.305643879297988,0.547731739608804,0.0998107151709606,0.13549225845185,0.593859568750796,0.0652585199487566,1,0.381572554619742,0.261844048476115,0.276037400665084,0.33006008759849,0.21217139409544,0.0518184020175861,0.0186163931023277,0.0128070045196056,0.0104928693860542,0.00439569183140997,0.0585135801107892,0.0526365660895907,0.093299087449192],"color":["#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5"],"size":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"label":["abilities","qm-action-distance","bell-theorem","blame","bohr-correspondence","determinism-causal","collins","compatibilism","cosmology-30s","free-will-foreknowledge","divine-freedom","providence-divine","spacetime-holearg","einstein-philscience","information-entropy","equivME","ergodic-hierarchy","fatalism","freewill","incompatibilism-theories","future-contingents","genrel-early","geometry-19th","hume-freewill","incompatibilism-arguments","spacetime-iframes","qt-entangle","kochen-specker","legal-punishment","locke-freedom","moral-luck","moral-responsibility","physics-holism","quantum-field-theory","physics-Rpcc","symmetry-breaking","prophecy","punishment","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","quantum-bayesian","qt-consciousness","qt-epr","qt-idind","qt-issues","qt-quantcomp","quantum-gravity","qt-quantlog","qt-uncertainty","qt-nvd","skepticism-moral-responsibility","spacetime-theories","spacetime-convensimul","spacetime-singularities","statphys-Boltzmann","statphys-statmech","time-thermo","weyl"],"label.family":["mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono"],"font.size":[40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40],"font":["14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black"],"title":["<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/abilities/\">SEP/abilities<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-action-distance/\">SEP/qm-action-distance<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.01<\/p><p><b>Eigenvector: <\/b>0.375<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bell-theorem/\">SEP/bell-theorem<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.006<\/p><p><b>Eigenvector: <\/b>0.475<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/blame/\">SEP/blame<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.016<\/p><p><b>Eigenvector: <\/b>0.005<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bohr-correspondence/\">SEP/bohr-correspondence<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.017<\/p><p><b>Eigenvector: <\/b>0.041<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/determinism-causal/\">SEP/determinism-causal<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.12<\/p><p><b>Eigenvector: <\/b>0.244<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/collins/\">SEP/collins<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.013<\/p><p><b>Eigenvector: <\/b>0.008<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/compatibilism/\">SEP/compatibilism<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.164<\/p><p><b>Eigenvector: <\/b>0.053<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/cosmology-30s/\">SEP/cosmology-30s<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.002<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/free-will-foreknowledge/\">SEP/free-will-foreknowledge<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.025<\/p><p><b>Eigenvector: <\/b>0.029<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/divine-freedom/\">SEP/divine-freedom<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/providence-divine/\">SEP/providence-divine<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.004<\/p><p><b>Eigenvector: <\/b>0.013<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-holearg/\">SEP/spacetime-holearg<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.035<\/p><p><b>Eigenvector: <\/b>0.109<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/einstein-philscience/\">SEP/einstein-philscience<\/a><\/h4><p><b>Degree: <\/b>14&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>14&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>14&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.273<\/p><p><b>Eigenvector: <\/b>0.124<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/information-entropy/\">SEP/information-entropy<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.006<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/equivME/\">SEP/equivME<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.011<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/ergodic-hierarchy/\">SEP/ergodic-hierarchy<\/a><\/h4><p><b>Degree: <\/b>1&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fatalism/\">SEP/fatalism<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.016<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/freewill/\">SEP/freewill<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.221<\/p><p><b>Eigenvector: <\/b>0.079<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/incompatibilism-theories/\">SEP/incompatibilism-theories<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.103<\/p><p><b>Eigenvector: <\/b>0.067<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/future-contingents/\">SEP/future-contingents<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.092<\/p><p><b>Eigenvector: <\/b>0.008<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/genrel-early/\">SEP/genrel-early<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.09<\/p><p><b>Eigenvector: <\/b>0.023<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/geometry-19th/\">SEP/geometry-19th<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.018<\/p><p><b>Eigenvector: <\/b>0.011<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/hume-freewill/\">SEP/hume-freewill<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.112<\/p><p><b>Eigenvector: <\/b>0.013<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/incompatibilism-arguments/\">SEP/incompatibilism-arguments<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.045<\/p><p><b>Eigenvector: <\/b>0.044<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-iframes/\">SEP/spacetime-iframes<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.052<\/p><p><b>Eigenvector: <\/b>0.037<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-entangle/\">SEP/qt-entangle<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.02<\/p><p><b>Eigenvector: <\/b>0.504<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/kochen-specker/\">SEP/kochen-specker<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.491<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/legal-punishment/\">SEP/legal-punishment<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/locke-freedom/\">SEP/locke-freedom<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.016<\/p><p><b>Eigenvector: <\/b>0.016<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/moral-luck/\">SEP/moral-luck<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.025<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/moral-responsibility/\">SEP/moral-responsibility<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.143<\/p><p><b>Eigenvector: <\/b>0.023<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/physics-holism/\">SEP/physics-holism<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.027<\/p><p><b>Eigenvector: <\/b>0.288<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-field-theory/\">SEP/quantum-field-theory<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.053<\/p><p><b>Eigenvector: <\/b>0.23<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/physics-Rpcc/\">SEP/physics-Rpcc<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.091<\/p><p><b>Eigenvector: <\/b>0.11<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/symmetry-breaking/\">SEP/symmetry-breaking<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.005<\/p><p><b>Eigenvector: <\/b>0.082<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/prophecy/\">SEP/prophecy<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.034<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/punishment/\">SEP/punishment<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm/\">SEP/qm<\/a><\/h4><p><b>Degree: <\/b>24&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>24&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>24&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.098<\/p><p><b>Eigenvector: <\/b>0.582<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-bohm/\">SEP/qm-bohm<\/a><\/h4><p><b>Degree: <\/b>22&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>22&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>22&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>1<\/p><p><b>Eigenvector: <\/b>0.693<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-collapse/\">SEP/qm-collapse<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.095<\/p><p><b>Eigenvector: <\/b>0.33<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-consistent-histories/\">SEP/qm-consistent-histories<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.033<\/p><p><b>Eigenvector: <\/b>0.157<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-copenhagen/\">SEP/qm-copenhagen<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.12<\/p><p><b>Eigenvector: <\/b>0.311<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-everett/\">SEP/qm-everett<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.004<\/p><p><b>Eigenvector: <\/b>0.408<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-manyworlds/\">SEP/qm-manyworlds<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.036<\/p><p><b>Eigenvector: <\/b>0.489<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-modal/\">SEP/qm-modal<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.007<\/p><p><b>Eigenvector: <\/b>0.495<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-relational/\">SEP/qm-relational<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.018<\/p><p><b>Eigenvector: <\/b>0.306<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-decoherence/\">SEP/qm-decoherence<\/a><\/h4><p><b>Degree: <\/b>20&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>20&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>20&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.096<\/p><p><b>Eigenvector: <\/b>0.548<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-bayesian/\">SEP/quantum-bayesian<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.002<\/p><p><b>Eigenvector: <\/b>0.1<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-consciousness/\">SEP/qt-consciousness<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.113<\/p><p><b>Eigenvector: <\/b>0.135<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-epr/\">SEP/qt-epr<\/a><\/h4><p><b>Degree: <\/b>17&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>17&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>17&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.025<\/p><p><b>Eigenvector: <\/b>0.594<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-idind/\">SEP/qt-idind<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.035<\/p><p><b>Eigenvector: <\/b>0.065<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-issues/\">SEP/qt-issues<\/a><\/h4><p><b>Degree: <\/b>26&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>26&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>26&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.063<\/p><p><b>Eigenvector: <\/b>1<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-quantcomp/\">SEP/qt-quantcomp<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.382<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-gravity/\">SEP/quantum-gravity<\/a><\/h4><p><b>Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.287<\/p><p><b>Eigenvector: <\/b>0.262<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-quantlog/\">SEP/qt-quantlog<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.193<\/p><p><b>Eigenvector: <\/b>0.276<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-uncertainty/\">SEP/qt-uncertainty<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>10&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.005<\/p><p><b>Eigenvector: <\/b>0.33<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-nvd/\">SEP/qt-nvd<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.212<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/skepticism-moral-responsibility/\">SEP/skepticism-moral-responsibility<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.839<\/p><p><b>Eigenvector: <\/b>0.052<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-theories/\">SEP/spacetime-theories<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.037<\/p><p><b>Eigenvector: <\/b>0.019<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-convensimul/\">SEP/spacetime-convensimul<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.013<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-singularities/\">SEP/spacetime-singularities<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.099<\/p><p><b>Eigenvector: <\/b>0.01<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statphys-Boltzmann/\">SEP/statphys-Boltzmann<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.08<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statphys-statmech/\">SEP/statphys-statmech<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.106<\/p><p><b>Eigenvector: <\/b>0.059<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/time-thermo/\">SEP/time-thermo<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.15<\/p><p><b>Eigenvector: <\/b>0.053<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/weyl/\">SEP/weyl<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>26<\/p><p><b>Betweenness: <\/b>0.504<\/p><p><b>Eigenvector: <\/b>0.093<\/p><p><b>Group: <\/b><\/p>"],"x":[0.107258871841384,-0.66435536760173,-0.664379171896743,-0.706403751063446,-0.14685362952666,-0.225333986143482,-0.603548726068002,-0.2830372469742,0.33547508738589,-0.449856553390813,-0.57518988742199,-0.052030208715878,0.215843544096436,0.124533295383952,0.791513560721795,0.4854820505273,1,-0.348798693576998,-0.337070083672319,-0.247516334920454,-0.148355326852656,0.414545513189859,0.499082622856474,-0.513812154606615,-0.166250524967865,0.398216254056269,-0.614001446653555,-0.833186903332123,-1,-0.058710380915389,-0.676816737481101,-0.506992547153821,-0.192707662461226,-0.0061039716791158,-0.782955905835136,0.0984473202960332,0.0523849353937011,-0.948531981815812,-0.340132010872973,-0.367035224618106,-0.660084266674092,-0.41405244276173,-0.177573196337503,-0.543034411110762,-0.454836380446724,-0.46044468744697,-0.776421397605628,-0.22364553335247,-0.641169533882459,-0.254889981806306,-0.330330279578672,-0.0283014406627317,-0.339266762653679,-0.61500520168923,-0.0525948458633496,-0.449059985508381,-0.0901352508554102,-0.158532237758932,-0.520920946417367,0.368565314419506,0.571474426555383,0.444289143083253,0.586357062897295,0.257557908341334,0.100277859928795,0.0770128133382617],"y":[0.933537493085501,-0.407673366392292,-0.561483805928817,0.79463701510031,-1,0.169470498598565,0.364588756656929,0.616883295570175,-0.962127327325761,0.706421560851612,1,0.833789069711999,-0.0892563309137639,-0.474379431265566,-0.1884503553506,-0.845815429168863,0.309137824153096,0.978862010217338,0.533837412746129,0.394222307943603,0.873526319804294,-0.620684302570184,-0.40896394099806,0.386825030040342,0.580722111831536,-0.502253789224948,-0.440344268265602,-0.460207279756138,0.297574165513324,0.436963691732619,0.429085941017876,0.54493640152392,-0.315258760244767,-0.389570259478981,-0.219265252665797,-0.226360244798759,0.545471865930823,0.472072463569178,-0.301597354055462,-0.208533361686237,-0.23085431566521,-0.952650989680145,-0.662946239067832,-0.225720590598659,-0.407030849038408,-0.560126138871022,-0.587409388894759,-0.457505617710104,-0.853605656910078,-0.0147310245417492,-0.667757819148012,-0.69516964280039,-0.488435493921567,-0.692426798387,-0.184253574300078,-0.719913625027664,-0.536003242682262,-0.728019109674346,0.22070036191367,-0.333171718393885,-0.274971291786351,-0.0515465294077,0.156190135192883,-0.202342667993601,0.0525722355826517,-0.62263779085934]},"edges":{"from":["qm-action-distance","determinism-causal","abilities","blame","determinism-causal","collins","compatibilism","compatibilism","free-will-foreknowledge","compatibilism","free-will-foreknowledge","determinism-causal","spacetime-holearg","einstein-philscience","free-will-foreknowledge","providence-divine","blame","determinism-causal","collins","compatibilism","free-will-foreknowledge","providence-divine","fatalism","determinism-causal","compatibilism","free-will-foreknowledge","providence-divine","freewill","compatibilism","free-will-foreknowledge","fatalism","freewill","incompatibilism-theories","cosmology-30s","spacetime-holearg","einstein-philscience","equivME","spacetime-holearg","einstein-philscience","genrel-early","determinism-causal","compatibilism","freewill","incompatibilism-theories","abilities","blame","determinism-causal","compatibilism","free-will-foreknowledge","providence-divine","fatalism","freewill","incompatibilism-theories","future-contingents","hume-freewill","cosmology-30s","spacetime-holearg","einstein-philscience","equivME","genrel-early","geometry-19th","bell-theorem","qm-action-distance","bell-theorem","hume-freewill","determinism-causal","collins","compatibilism","freewill","incompatibilism-theories","hume-freewill","blame","determinism-causal","compatibilism","freewill","incompatibilism-theories","hume-freewill","legal-punishment","blame","determinism-causal","compatibilism","fatalism","freewill","incompatibilism-theories","hume-freewill","incompatibilism-arguments","moral-luck","qm-action-distance","bell-theorem","einstein-philscience","qt-entangle","qm-action-distance","bell-theorem","qt-entangle","physics-holism","spacetime-holearg","spacetime-iframes","quantum-field-theory","determinism-causal","compatibilism","free-will-foreknowledge","providence-divine","freewill","future-contingents","blame","hume-freewill","legal-punishment","moral-luck","qm-action-distance","bell-theorem","determinism-causal","kochen-specker","physics-holism","quantum-field-theory","physics-Rpcc","symmetry-breaking","qm-action-distance","bell-theorem","determinism-causal","einstein-philscience","qt-entangle","kochen-specker","physics-holism","physics-Rpcc","qm","qm-action-distance","bell-theorem","qm","qm-bohm","bell-theorem","bohr-correspondence","einstein-philscience","qt-entangle","qm","qm-bohm","qm-action-distance","qt-entangle","qm","qm-bohm","qm-action-distance","qt-entangle","qm","qm-bohm","qm-collapse","qm-copenhagen","qm-everett","qm-action-distance","kochen-specker","physics-holism","qm","qm-bohm","qm-everett","qm-manyworlds","qm-action-distance","qt-entangle","qm","qm-collapse","qm-everett","qm-manyworlds","qm-modal","bohr-correspondence","qt-entangle","quantum-field-theory","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-action-distance","kochen-specker","qm-decoherence","incompatibilism-theories","quantum-field-theory","symmetry-breaking","qm-collapse","qm-action-distance","bell-theorem","bohr-correspondence","einstein-philscience","qt-entangle","qm-bohm","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","physics-holism","quantum-field-theory","symmetry-breaking","qm","qm-manyworlds","qm-action-distance","bell-theorem","einstein-philscience","qt-entangle","kochen-specker","physics-holism","quantum-field-theory","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","quantum-bayesian","qt-consciousness","qt-epr","bell-theorem","qt-entangle","qm","qm-collapse","qm-manyworlds","qm-decoherence","qt-epr","qt-issues","spacetime-holearg","quantum-field-theory","qm","qm-bohm","qm-everett","qm-manyworlds","qm-decoherence","qt-consciousness","qt-issues","bell-theorem","qt-entangle","kochen-specker","qm","qm-bohm","qm-consistent-histories","qm-modal","qm-relational","qt-issues","qm-action-distance","bohr-correspondence","einstein-philscience","qm","qm-bohm","qm-copenhagen","qm-decoherence","qt-epr","qt-issues","quantum-gravity","quantum-field-theory","qm","qm-bohm","qm-decoherence","qt-issues","qt-quantlog","determinism-causal","compatibilism","free-will-foreknowledge","freewill","incompatibilism-theories","incompatibilism-arguments","legal-punishment","moral-luck","moral-responsibility","punishment","qm-bohm","spacetime-holearg","einstein-philscience","genrel-early","spacetime-iframes","quantum-gravity","spacetime-holearg","einstein-philscience","genrel-early","spacetime-iframes","spacetime-holearg","spacetime-iframes","quantum-gravity","information-entropy","ergodic-hierarchy","information-entropy","physics-holism","qm-decoherence","quantum-gravity","statphys-Boltzmann","determinism-causal","symmetry-breaking","qm-decoherence","spacetime-singularities","statphys-Boltzmann","statphys-statmech","cosmology-30s","spacetime-holearg","einstein-philscience","genrel-early","geometry-19th","spacetime-iframes","quantum-field-theory","qm","qm-copenhagen","qm-modal","qt-epr","qt-idind","qt-issues","qt-quantlog","qt-nvd","spacetime-theories"],"to":["bell-theorem","collins","compatibilism","compatibilism","compatibilism","free-will-foreknowledge","free-will-foreknowledge","divine-freedom","divine-freedom","providence-divine","providence-divine","spacetime-holearg","einstein-philscience","equivME","fatalism","fatalism","freewill","freewill","freewill","freewill","freewill","freewill","freewill","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","future-contingents","future-contingents","future-contingents","future-contingents","future-contingents","genrel-early","genrel-early","genrel-early","genrel-early","geometry-19th","geometry-19th","geometry-19th","hume-freewill","hume-freewill","hume-freewill","hume-freewill","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","spacetime-iframes","spacetime-iframes","spacetime-iframes","spacetime-iframes","spacetime-iframes","spacetime-iframes","qt-entangle","kochen-specker","kochen-specker","legal-punishment","locke-freedom","locke-freedom","locke-freedom","locke-freedom","locke-freedom","locke-freedom","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","physics-holism","physics-holism","physics-holism","physics-holism","physics-Rpcc","physics-Rpcc","physics-Rpcc","physics-Rpcc","symmetry-breaking","symmetry-breaking","symmetry-breaking","prophecy","prophecy","prophecy","prophecy","prophecy","prophecy","punishment","punishment","punishment","punishment","qm","qm","qm","qm","qm","qm","qm","qm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-collapse","qm-collapse","qm-collapse","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-copenhagen","qm-copenhagen","qm-copenhagen","qm-copenhagen","qm-everett","qm-everett","qm-everett","qm-everett","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","quantum-bayesian","quantum-bayesian","quantum-bayesian","qt-consciousness","qt-consciousness","qt-consciousness","qt-consciousness","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-idind","qt-idind","qt-idind","qt-idind","qt-idind","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-nvd","qt-nvd","qt-nvd","qt-nvd","qt-nvd","qt-nvd","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","spacetime-theories","spacetime-theories","spacetime-theories","spacetime-theories","spacetime-theories","spacetime-convensimul","spacetime-convensimul","spacetime-convensimul","spacetime-convensimul","spacetime-singularities","spacetime-singularities","spacetime-singularities","statphys-Boltzmann","statphys-Boltzmann","statphys-statmech","statphys-statmech","statphys-statmech","statphys-statmech","statphys-statmech","time-thermo","time-thermo","time-thermo","time-thermo","time-thermo","time-thermo","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl"],"weight":[2,1,1,1,5,1,1,1,3,2,2,8,3,3,4,1,1,8,1,5,7,2,5,6,3,3,2,6,1,1,1,1,1,1,4,2,1,1,1,1,1,1,1,1,2,1,3,2,4,1,3,5,4,1,1,1,4,5,2,4,4,4,2,4,1,2,1,1,1,1,1,1,2,2,2,2,1,2,1,1,2,2,3,3,1,1,3,3,2,2,1,2,1,4,1,6,2,4,4,3,2,2,3,2,1,1,3,2,2,2,4,5,3,4,1,2,2,6,8,1,2,8,4,1,3,2,2,2,1,1,1,1,4,2,1,2,4,2,1,3,5,2,4,1,1,4,2,8,2,2,3,3,2,1,1,2,1,3,1,4,1,1,1,4,4,2,1,3,4,5,3,2,2,3,2,2,2,2,3,6,1,3,7,4,1,4,2,2,3,3,4,1,4,6,1,1,4,4,1,4,6,4,4,6,5,8,5,4,5,5,6,5,5,1,4,5,3,7,2,2,2,4,3,5,6,7,2,1,2,2,1,2,4,2,4,1,3,1,1,1,2,4,2,1,1,2,5,3,2,4,4,2,2,2,2,2,4,4,1,2,2,1,2,4,2,2,1,2,2,1,1,2,5,1,2,2,1,2,1,1,1,4,1,4,2,3,1,2,4,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"arrow.size":[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],"curved":[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true},"manipulation":{"enabled":false},"edges":{"arrows":{"to":{"enabled":true,"scaleFactor":0.5}},"smooth":false},"physics":{"solver":"forceAtlas2Based","minVelocity":1,"stabilization":false,"forceAtlas2Based":{"gravitationalConstant":-80,"centralGravity":0.01,"avoidOverlap":1,"springConstant":0.1,"damping":1}},"interaction":{"hover":true,"hideEdgesOnDrag":true,"keyboard":true,"tooltipDelay":200}},"groups":null,"width":"100%","height":"700px","idselection":{"enabled":true,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","multiple":false,"hideColor":"rgba(200,200,200,0.5)","variable":"group","main":"Select by group"},"main":{"text":"<h1>Spring 2018 &mdash; QM & Free Will<\/h1>","style":"font-family: \"Inconsolata\", monospace;"},"submain":null,"footer":{"text":"<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality<\/a>:<\/h3><p>qt-issues, qm, qm-bohm, qm-decoherence, qt-epr, weyl, freewill, compatibilism, qm-manyworlds, determinism-causal<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality<\/a>:<\/h3><p>qm-bohm, skepticism-moral-responsibility, weyl, quantum-gravity, einstein-philscience, freewill, qt-quantlog, compatibilism, time-thermo, moral-responsibility<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality<\/a>:<\/h3><p>qt-issues, qm-bohm, qt-epr, qm, qm-decoherence, qt-entangle, qm-modal, kochen-specker, qm-manyworlds, bell-theorem<\/p>","style":"font-family: \"Inconsolata\", monospace;"},"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(0,0,0,.1)","labelOnly":false},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;"},"evals":[],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-6a99af2903e77ba04f50">{"viewer":{"width":"100%","height":"700px","padding":15,"fill":false},"browser":{"width":"100%","height":"700px","padding":40,"fill":false}}</script>
+<script type="application/json" data-for="htmlwidget-ecc24d409edd190a45ba">{"x":{"nodes":{"id":["abilities","qm-action-distance","bell-theorem","blame","bohr-correspondence","determinism-causal","collins","compatibilism","cosmology-30s","free-will-foreknowledge","divine-freedom","providence-divine","spacetime-holearg","einstein-philscience","information-entropy","equivME","ergodic-hierarchy","fatalism","freewill","incompatibilism-theories","future-contingents","genrel-early","geometry-19th","hume-freewill","incompatibilism-arguments","spacetime-iframes","qt-entangle","kochen-specker","legal-punishment","locke-freedom","moral-luck","moral-responsibility","physics-holism","quantum-field-theory","physics-Rpcc","symmetry-breaking","prophecy","punishment","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","quantum-bayesian","qt-consciousness","qt-epr","qt-idind","qt-issues","qt-quantcomp","quantum-gravity","qt-quantlog","qt-uncertainty","qt-nvd","skepticism-moral-responsibility","spacetime-theories","spacetime-convensimul","spacetime-singularities","statphys-Boltzmann","statphys-statmech","time-thermo","weyl"],"indegree":[1,6,11,0,0,12,1,14,1,9,2,3,10,9,0,2,0,4,16,12,1,6,4,1,9,7,8,8,4,0,4,9,5,6,3,3,1,5,24,17,8,1,11,10,10,12,6,11,0,2,14,4,13,3,6,7,9,3,0,3,4,2,4,6,3,0],"outdegree":[2,12,4,6,4,7,3,7,2,5,0,4,6,12,2,2,1,5,7,6,6,5,1,9,9,5,8,4,1,6,7,6,9,4,3,5,5,1,9,15,3,5,3,6,13,9,8,15,4,4,12,2,23,8,9,5,3,5,11,3,1,2,1,1,3,16],"degree":[3,18,15,6,4,19,4,21,3,14,2,7,16,21,2,4,1,9,23,18,7,11,5,10,18,12,16,12,5,6,11,15,14,10,6,8,6,6,33,32,11,6,14,16,23,21,14,26,4,6,26,6,36,11,15,12,12,8,11,6,5,4,5,7,6,16],"betweenness":[0,0.0106303418803419,0.000221974206349206,0,0,0.226734291349676,0.00098385989010989,0.163101262386118,0,0.00184294871794872,0,0.00166266025641026,0.203375365953491,0.20984897047397,0,0,0,0.0291088598901099,0.00200320512820513,0.0631317800788955,0.0163467261904762,0.0189142021173271,0.00330128205128205,0.00242616758241758,0.0288507326007326,0.000420673076923077,0,0.000240384615384615,0,0,0.0259615384615385,0.107972484913591,0.0397256736319236,0.00404380341880342,0.00837742118992119,0.00929115155677656,0,0.000240384615384615,0.173618761046646,0.178803636267579,0.0464612977834132,0,0.0267149517149517,0.00749022011642204,0.0508959550065319,0.0160833524114774,0.00703557927115619,0.0410607814994834,0,0.069180505658871,0.0280701676795427,0.0023838141025641,0.0259018412143412,0.000193643162393162,0.0739738126456876,0.0141324040542791,0,0.00276804792429792,0,0.0119133470695971,0.0100360576923077,0.0263905105311355,0.000240384615384615,0.00892227564102564,0.0100761217948718,0],"closeness":[0.184659090909091,0.240740740740741,0.238095238095238,0.187319884726225,0.25,0.25390625,0.213114754098361,0.227272727272727,0.238095238095238,0.213114754098361,0.185185185185185,0.18413597733711,0.267489711934156,0.321782178217822,0.124760076775432,0.212418300653595,0.173333333333333,0.209003215434084,0.255905511811024,0.224137931034483,0.194610778443114,0.26,0.261044176706827,0.226480836236934,0.218855218855219,0.268595041322314,0.255905511811024,0.250965250965251,0.206349206349206,0.218855218855219,0.208333333333333,0.255905511811024,0.308056872037915,0.274261603375527,0.288888888888889,0.232974910394265,0.154028436018957,0.208333333333333,0.318627450980392,0.363128491620112,0.292792792792793,0.261044176706827,0.305164319248826,0.292792792792793,0.305164319248826,0.269709543568465,0.258964143426295,0.286343612334802,0.245283018867925,0.251937984496124,0.26530612244898,0.271966527196653,0.320197044334975,0.25,0.302325581395349,0.296803652968037,0.292792792792793,0.25390625,0.292792792792793,0.271966527196653,0.244360902255639,0.254901960784314,0.207667731629393,0.246212121212121,0.237226277372263,0.273109243697479],"eigenvector":[0.000215566113209683,0.199087003535958,0.54631276288538,0,0,0.0241826535681402,0,0.00875808712036924,0,0.00276411136642273,0.000963420906142192,0.00039278760964018,0.0886198839485791,0.159617642749779,0,0.0105590046872073,0,0.00309687892308146,0.00806213540337184,0.00891416553012897,0.000174986756036927,0.0272534085521074,0.0162101303205429,0,0.00381504387902776,0.025003109180828,0.449330700911199,0.586068798788813,1.91596616684718e-005,0,0.00015944965593743,0.00282190658280993,0.1761868888492,0.154798255333571,0.134010159015126,0.0651109562312393,1.97749834907111e-005,2.01843635880642e-005,1,0.902437188883162,0.414229337272101,0.0883163719006386,0.6058340391719,0.732345868742997,0.669398708119105,0.652554213255681,0.416193562116818,0.543563894162514,0,0.0893237480026023,0.698616256985182,0.094885148554955,0.390751158682498,0.22769656922544,0.242611220258404,0.310835858641336,0.451801191528318,0.105879912456975,0,0.0227276318094465,0.0233993639474521,0.0179040608484308,0.011575501895147,0.130609710659784,0.0742510951237207,0],"color":["#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5","#66C2A5"],"size":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"label":["abilities","qm-action-distance","bell-theorem","blame","bohr-correspondence","determinism-causal","collins","compatibilism","cosmology-30s","free-will-foreknowledge","divine-freedom","providence-divine","spacetime-holearg","einstein-philscience","information-entropy","equivME","ergodic-hierarchy","fatalism","freewill","incompatibilism-theories","future-contingents","genrel-early","geometry-19th","hume-freewill","incompatibilism-arguments","spacetime-iframes","qt-entangle","kochen-specker","legal-punishment","locke-freedom","moral-luck","moral-responsibility","physics-holism","quantum-field-theory","physics-Rpcc","symmetry-breaking","prophecy","punishment","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","quantum-bayesian","qt-consciousness","qt-epr","qt-idind","qt-issues","qt-quantcomp","quantum-gravity","qt-quantlog","qt-uncertainty","qt-nvd","skepticism-moral-responsibility","spacetime-theories","spacetime-convensimul","spacetime-singularities","statphys-Boltzmann","statphys-statmech","time-thermo","weyl"],"label.family":["mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono","mono"],"font.size":[40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40],"font":["14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black","14px monospace black"],"title":["<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/abilities/\">SEP/abilities<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-action-distance/\">SEP/qm-action-distance<\/a><\/h4><p><b>Degree: <\/b>18&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>12&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.047<\/p><p><b>Eigenvector: <\/b>0.199<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bell-theorem/\">SEP/bell-theorem<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.546<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/blame/\">SEP/blame<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/bohr-correspondence/\">SEP/bohr-correspondence<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/determinism-causal/\">SEP/determinism-causal<\/a><\/h4><p><b>Degree: <\/b>19&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>12&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>1<\/p><p><b>Eigenvector: <\/b>0.024<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/collins/\">SEP/collins<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.004<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/compatibilism/\">SEP/compatibilism<\/a><\/h4><p><b>Degree: <\/b>21&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>14&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.719<\/p><p><b>Eigenvector: <\/b>0.009<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/cosmology-30s/\">SEP/cosmology-30s<\/a><\/h4><p><b>Degree: <\/b>3&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/free-will-foreknowledge/\">SEP/free-will-foreknowledge<\/a><\/h4><p><b>Degree: <\/b>14&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.008<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/divine-freedom/\">SEP/divine-freedom<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>0&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.001<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/providence-divine/\">SEP/providence-divine<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.007<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-holearg/\">SEP/spacetime-holearg<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.897<\/p><p><b>Eigenvector: <\/b>0.089<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/einstein-philscience/\">SEP/einstein-philscience<\/a><\/h4><p><b>Degree: <\/b>21&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>12&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.926<\/p><p><b>Eigenvector: <\/b>0.16<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/information-entropy/\">SEP/information-entropy<\/a><\/h4><p><b>Degree: <\/b>2&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/equivME/\">SEP/equivME<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.011<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/ergodic-hierarchy/\">SEP/ergodic-hierarchy<\/a><\/h4><p><b>Degree: <\/b>1&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/fatalism/\">SEP/fatalism<\/a><\/h4><p><b>Degree: <\/b>9&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.128<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/freewill/\">SEP/freewill<\/a><\/h4><p><b>Degree: <\/b>23&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>16&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.009<\/p><p><b>Eigenvector: <\/b>0.008<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/incompatibilism-theories/\">SEP/incompatibilism-theories<\/a><\/h4><p><b>Degree: <\/b>18&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>12&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.278<\/p><p><b>Eigenvector: <\/b>0.009<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/future-contingents/\">SEP/future-contingents<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.072<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/genrel-early/\">SEP/genrel-early<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.083<\/p><p><b>Eigenvector: <\/b>0.027<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/geometry-19th/\">SEP/geometry-19th<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.015<\/p><p><b>Eigenvector: <\/b>0.016<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/hume-freewill/\">SEP/hume-freewill<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/incompatibilism-arguments/\">SEP/incompatibilism-arguments<\/a><\/h4><p><b>Degree: <\/b>18&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.127<\/p><p><b>Eigenvector: <\/b>0.004<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-iframes/\">SEP/spacetime-iframes<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.002<\/p><p><b>Eigenvector: <\/b>0.025<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-entangle/\">SEP/qt-entangle<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.449<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/kochen-specker/\">SEP/kochen-specker<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.586<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/legal-punishment/\">SEP/legal-punishment<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/locke-freedom/\">SEP/locke-freedom<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/moral-luck/\">SEP/moral-luck<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>7&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.115<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/moral-responsibility/\">SEP/moral-responsibility<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.476<\/p><p><b>Eigenvector: <\/b>0.003<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/physics-holism/\">SEP/physics-holism<\/a><\/h4><p><b>Degree: <\/b>14&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.175<\/p><p><b>Eigenvector: <\/b>0.176<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-field-theory/\">SEP/quantum-field-theory<\/a><\/h4><p><b>Degree: <\/b>10&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.018<\/p><p><b>Eigenvector: <\/b>0.155<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/physics-Rpcc/\">SEP/physics-Rpcc<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.037<\/p><p><b>Eigenvector: <\/b>0.134<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/symmetry-breaking/\">SEP/symmetry-breaking<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.041<\/p><p><b>Eigenvector: <\/b>0.065<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/prophecy/\">SEP/prophecy<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/punishment/\">SEP/punishment<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>5&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm/\">SEP/qm<\/a><\/h4><p><b>Degree: <\/b>33&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>24&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.766<\/p><p><b>Eigenvector: <\/b>1<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-bohm/\">SEP/qm-bohm<\/a><\/h4><p><b>Degree: <\/b>32&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>17&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.789<\/p><p><b>Eigenvector: <\/b>0.902<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-collapse/\">SEP/qm-collapse<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>8&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.205<\/p><p><b>Eigenvector: <\/b>0.414<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-consistent-histories/\">SEP/qm-consistent-histories<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>1&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.088<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-copenhagen/\">SEP/qm-copenhagen<\/a><\/h4><p><b>Degree: <\/b>14&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.118<\/p><p><b>Eigenvector: <\/b>0.606<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-everett/\">SEP/qm-everett<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>6&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.033<\/p><p><b>Eigenvector: <\/b>0.732<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-manyworlds/\">SEP/qm-manyworlds<\/a><\/h4><p><b>Degree: <\/b>23&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>10&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>13&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.224<\/p><p><b>Eigenvector: <\/b>0.669<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-modal/\">SEP/qm-modal<\/a><\/h4><p><b>Degree: <\/b>21&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>12&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.071<\/p><p><b>Eigenvector: <\/b>0.653<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-relational/\">SEP/qm-relational<\/a><\/h4><p><b>Degree: <\/b>14&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.031<\/p><p><b>Eigenvector: <\/b>0.416<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qm-decoherence/\">SEP/qm-decoherence<\/a><\/h4><p><b>Degree: <\/b>26&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>11&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>15&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.181<\/p><p><b>Eigenvector: <\/b>0.544<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-bayesian/\">SEP/quantum-bayesian<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-consciousness/\">SEP/qt-consciousness<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>4&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.305<\/p><p><b>Eigenvector: <\/b>0.089<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-epr/\">SEP/qt-epr<\/a><\/h4><p><b>Degree: <\/b>26&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>14&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>12&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.124<\/p><p><b>Eigenvector: <\/b>0.699<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-idind/\">SEP/qt-idind<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.011<\/p><p><b>Eigenvector: <\/b>0.095<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-issues/\">SEP/qt-issues<\/a><\/h4><p><b>Degree: <\/b>36&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>13&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>23&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.114<\/p><p><b>Eigenvector: <\/b>0.391<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-quantcomp/\">SEP/qt-quantcomp<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>8&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.228<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/quantum-gravity/\">SEP/quantum-gravity<\/a><\/h4><p><b>Degree: <\/b>15&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>9&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.326<\/p><p><b>Eigenvector: <\/b>0.243<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-quantlog/\">SEP/qt-quantlog<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>7&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.062<\/p><p><b>Eigenvector: <\/b>0.311<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-uncertainty/\">SEP/qt-uncertainty<\/a><\/h4><p><b>Degree: <\/b>12&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>9&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0.452<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/qt-nvd/\">SEP/qt-nvd<\/a><\/h4><p><b>Degree: <\/b>8&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>5&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.012<\/p><p><b>Eigenvector: <\/b>0.106<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/skepticism-moral-responsibility/\">SEP/skepticism-moral-responsibility<\/a><\/h4><p><b>Degree: <\/b>11&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>11&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-theories/\">SEP/spacetime-theories<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.053<\/p><p><b>Eigenvector: <\/b>0.023<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-convensimul/\">SEP/spacetime-convensimul<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.044<\/p><p><b>Eigenvector: <\/b>0.023<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/spacetime-singularities/\">SEP/spacetime-singularities<\/a><\/h4><p><b>Degree: <\/b>4&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>2&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>2&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.116<\/p><p><b>Eigenvector: <\/b>0.018<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statphys-Boltzmann/\">SEP/statphys-Boltzmann<\/a><\/h4><p><b>Degree: <\/b>5&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>4&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.001<\/p><p><b>Eigenvector: <\/b>0.012<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/statphys-statmech/\">SEP/statphys-statmech<\/a><\/h4><p><b>Degree: <\/b>7&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>6&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>1&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.039<\/p><p><b>Eigenvector: <\/b>0.131<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/time-thermo/\">SEP/time-thermo<\/a><\/h4><p><b>Degree: <\/b>6&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>3&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>3&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0.044<\/p><p><b>Eigenvector: <\/b>0.074<\/p><p><b>Group: <\/b><\/p>","<h4><a href=\"https://plato.stanford.edu/archives/sprNA/entries/weyl/\">SEP/weyl<\/a><\/h4><p><b>Degree: <\/b>16&emsp;<b>Max: <\/b>36<\/p><p><b>In-Degree: <\/b>0&emsp;<b>Max: <\/b>24<\/p><p><b>Out-Degree: <\/b>16&emsp;<b>Max: <\/b>23<\/p><p><b>Betweenness: <\/b>0<\/p><p><b>Eigenvector: <\/b>0<\/p><p><b>Group: <\/b><\/p>"],"x":[0.107258871841384,-0.66435536760173,-0.664379171896743,-0.706403751063446,-0.14685362952666,-0.225333986143482,-0.603548726068002,-0.2830372469742,0.33547508738589,-0.449856553390813,-0.57518988742199,-0.052030208715878,0.215843544096436,0.124533295383952,0.791513560721795,0.4854820505273,1,-0.348798693576998,-0.337070083672319,-0.247516334920454,-0.148355326852656,0.414545513189859,0.499082622856474,-0.513812154606615,-0.166250524967865,0.398216254056269,-0.614001446653555,-0.833186903332123,-1,-0.058710380915389,-0.676816737481101,-0.506992547153821,-0.192707662461226,-0.0061039716791158,-0.782955905835136,0.0984473202960332,0.0523849353937011,-0.948531981815812,-0.340132010872973,-0.367035224618106,-0.660084266674092,-0.41405244276173,-0.177573196337503,-0.543034411110762,-0.454836380446724,-0.46044468744697,-0.776421397605628,-0.22364553335247,-0.641169533882459,-0.254889981806306,-0.330330279578672,-0.0283014406627317,-0.339266762653679,-0.61500520168923,-0.0525948458633496,-0.449059985508381,-0.0901352508554102,-0.158532237758932,-0.520920946417367,0.368565314419506,0.571474426555383,0.444289143083253,0.586357062897295,0.257557908341334,0.100277859928795,0.0770128133382617],"y":[0.933537493085501,-0.407673366392292,-0.561483805928817,0.79463701510031,-1,0.169470498598565,0.364588756656929,0.616883295570175,-0.962127327325761,0.706421560851612,1,0.833789069711999,-0.0892563309137639,-0.474379431265566,-0.1884503553506,-0.845815429168863,0.309137824153096,0.978862010217338,0.533837412746129,0.394222307943603,0.873526319804294,-0.620684302570184,-0.40896394099806,0.386825030040342,0.580722111831536,-0.502253789224948,-0.440344268265602,-0.460207279756138,0.297574165513324,0.436963691732619,0.429085941017876,0.54493640152392,-0.315258760244767,-0.389570259478981,-0.219265252665797,-0.226360244798759,0.545471865930823,0.472072463569178,-0.301597354055462,-0.208533361686237,-0.23085431566521,-0.952650989680145,-0.662946239067832,-0.225720590598659,-0.407030849038408,-0.560126138871022,-0.587409388894759,-0.457505617710104,-0.853605656910078,-0.0147310245417492,-0.667757819148012,-0.69516964280039,-0.488435493921567,-0.692426798387,-0.184253574300078,-0.719913625027664,-0.536003242682262,-0.728019109674346,0.22070036191367,-0.333171718393885,-0.274971291786351,-0.0515465294077,0.156190135192883,-0.202342667993601,0.0525722355826517,-0.62263779085934]},"edges":{"from":["abilities","abilities","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","qm-action-distance","bell-theorem","bell-theorem","bell-theorem","bell-theorem","blame","blame","blame","blame","blame","blame","bohr-correspondence","bohr-correspondence","bohr-correspondence","bohr-correspondence","determinism-causal","determinism-causal","determinism-causal","determinism-causal","determinism-causal","determinism-causal","determinism-causal","collins","collins","collins","compatibilism","compatibilism","compatibilism","compatibilism","compatibilism","compatibilism","compatibilism","cosmology-30s","cosmology-30s","free-will-foreknowledge","free-will-foreknowledge","free-will-foreknowledge","free-will-foreknowledge","free-will-foreknowledge","providence-divine","providence-divine","providence-divine","providence-divine","spacetime-holearg","spacetime-holearg","spacetime-holearg","spacetime-holearg","spacetime-holearg","spacetime-holearg","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","einstein-philscience","information-entropy","information-entropy","equivME","equivME","ergodic-hierarchy","fatalism","fatalism","fatalism","fatalism","fatalism","freewill","freewill","freewill","freewill","freewill","freewill","freewill","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","incompatibilism-theories","future-contingents","future-contingents","future-contingents","future-contingents","future-contingents","future-contingents","genrel-early","genrel-early","genrel-early","genrel-early","genrel-early","geometry-19th","hume-freewill","hume-freewill","hume-freewill","hume-freewill","hume-freewill","hume-freewill","hume-freewill","hume-freewill","hume-freewill","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","incompatibilism-arguments","spacetime-iframes","spacetime-iframes","spacetime-iframes","spacetime-iframes","spacetime-iframes","qt-entangle","qt-entangle","qt-entangle","qt-entangle","qt-entangle","qt-entangle","qt-entangle","qt-entangle","kochen-specker","kochen-specker","kochen-specker","kochen-specker","legal-punishment","locke-freedom","locke-freedom","locke-freedom","locke-freedom","locke-freedom","locke-freedom","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-luck","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","moral-responsibility","physics-holism","physics-holism","physics-holism","physics-holism","physics-holism","physics-holism","physics-holism","physics-holism","physics-holism","quantum-field-theory","quantum-field-theory","quantum-field-theory","quantum-field-theory","physics-Rpcc","physics-Rpcc","physics-Rpcc","symmetry-breaking","symmetry-breaking","symmetry-breaking","symmetry-breaking","symmetry-breaking","prophecy","prophecy","prophecy","prophecy","prophecy","punishment","qm","qm","qm","qm","qm","qm","qm","qm","qm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-bohm","qm-collapse","qm-collapse","qm-collapse","qm-consistent-histories","qm-consistent-histories","qm-consistent-histories","qm-consistent-histories","qm-consistent-histories","qm-copenhagen","qm-copenhagen","qm-copenhagen","qm-everett","qm-everett","qm-everett","qm-everett","qm-everett","qm-everett","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-manyworlds","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-modal","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-relational","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","qm-decoherence","quantum-bayesian","quantum-bayesian","quantum-bayesian","quantum-bayesian","qt-consciousness","qt-consciousness","qt-consciousness","qt-consciousness","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-epr","qt-idind","qt-idind","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-issues","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","qt-quantcomp","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","quantum-gravity","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-quantlog","qt-uncertainty","qt-uncertainty","qt-uncertainty","qt-nvd","qt-nvd","qt-nvd","qt-nvd","qt-nvd","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","skepticism-moral-responsibility","spacetime-theories","spacetime-theories","spacetime-theories","spacetime-convensimul","spacetime-singularities","spacetime-singularities","statphys-Boltzmann","statphys-statmech","time-thermo","time-thermo","time-thermo","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl","weyl"],"to":["compatibilism","incompatibilism-arguments","bell-theorem","kochen-specker","physics-holism","physics-Rpcc","qm","qm-bohm","qm-collapse","qm-everett","qm-manyworlds","qm-modal","qt-epr","qt-uncertainty","kochen-specker","qm","qm-bohm","qt-epr","compatibilism","freewill","incompatibilism-arguments","moral-luck","moral-responsibility","punishment","qm-copenhagen","qm-decoherence","qt-epr","qt-uncertainty","compatibilism","spacetime-holearg","freewill","incompatibilism-theories","qm","qm-bohm","time-thermo","determinism-causal","free-will-foreknowledge","freewill","determinism-causal","free-will-foreknowledge","divine-freedom","freewill","incompatibilism-theories","incompatibilism-arguments","moral-responsibility","genrel-early","spacetime-iframes","divine-freedom","fatalism","freewill","incompatibilism-theories","incompatibilism-arguments","compatibilism","free-will-foreknowledge","freewill","incompatibilism-theories","determinism-causal","einstein-philscience","genrel-early","symmetry-breaking","quantum-gravity","spacetime-convensimul","spacetime-holearg","equivME","genrel-early","geometry-19th","spacetime-iframes","physics-holism","qm-copenhagen","qt-epr","qt-issues","qt-uncertainty","spacetime-theories","spacetime-convensimul","statphys-Boltzmann","statphys-statmech","einstein-philscience","spacetime-iframes","statphys-Boltzmann","free-will-foreknowledge","providence-divine","freewill","future-contingents","moral-responsibility","determinism-causal","compatibilism","free-will-foreknowledge","fatalism","incompatibilism-theories","incompatibilism-arguments","moral-responsibility","determinism-causal","compatibilism","freewill","incompatibilism-arguments","moral-responsibility","qt-consciousness","compatibilism","free-will-foreknowledge","freewill","incompatibilism-theories","incompatibilism-arguments","prophecy","spacetime-holearg","einstein-philscience","equivME","geometry-19th","spacetime-convensimul","spacetime-holearg","determinism-causal","compatibilism","freewill","incompatibilism-theories","incompatibilism-arguments","legal-punishment","moral-luck","moral-responsibility","punishment","abilities","determinism-causal","compatibilism","free-will-foreknowledge","providence-divine","fatalism","freewill","incompatibilism-theories","moral-responsibility","spacetime-holearg","einstein-philscience","genrel-early","geometry-19th","spacetime-convensimul","bell-theorem","physics-Rpcc","qm-copenhagen","qm-everett","qm-manyworlds","qt-epr","qt-quantcomp","qt-quantlog","qm","qm-bohm","qm-modal","qt-issues","punishment","determinism-causal","collins","compatibilism","freewill","incompatibilism-theories","hume-freewill","determinism-causal","compatibilism","freewill","incompatibilism-theories","legal-punishment","moral-responsibility","punishment","determinism-causal","compatibilism","fatalism","freewill","incompatibilism-theories","moral-luck","qm-action-distance","bell-theorem","einstein-philscience","qt-entangle","physics-Rpcc","qm","qm-bohm","qm-modal","statphys-statmech","symmetry-breaking","qm","qt-idind","quantum-gravity","bell-theorem","qm","qm-bohm","spacetime-holearg","spacetime-iframes","qm","qt-idind","time-thermo","determinism-causal","compatibilism","free-will-foreknowledge","providence-divine","freewill","legal-punishment","kochen-specker","qm-bohm","qm-collapse","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","bell-theorem","einstein-philscience","qt-entangle","kochen-specker","physics-holism","qm","qm-copenhagen","qm-manyworlds","qm-modal","qm-decoherence","qt-epr","qt-issues","quantum-gravity","qt-quantlog","qt-uncertainty","bell-theorem","qm","qm-bohm","bell-theorem","qm-decoherence","qt-epr","qt-issues","qt-quantlog","qm","qt-epr","qt-uncertainty","qm","qm-bohm","qm-manyworlds","qm-modal","qm-relational","qt-issues","qm-action-distance","qt-entangle","qm","qm-bohm","qm-collapse","qm-copenhagen","qm-everett","qm-relational","qm-decoherence","qt-epr","qt-idind","qt-issues","qt-quantcomp","kochen-specker","qm","qm-bohm","qm-everett","qm-manyworlds","qm-relational","qm-decoherence","qt-epr","qt-issues","qm-action-distance","qt-entangle","qm","qm-collapse","qm-everett","qm-modal","qt-issues","qt-quantlog","qt-entangle","quantum-field-theory","qm","qm-bohm","qm-collapse","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qt-epr","qt-issues","quantum-gravity","qt-uncertainty","statphys-statmech","time-thermo","qm-action-distance","kochen-specker","qm-decoherence","qt-issues","quantum-field-theory","symmetry-breaking","qm-collapse","quantum-gravity","qm-action-distance","bell-theorem","einstein-philscience","qt-entangle","qm-bohm","qm-copenhagen","qm-everett","qm-modal","qm-relational","qm-decoherence","qt-issues","qt-uncertainty","physics-holism","qm","qm-action-distance","bell-theorem","qt-entangle","kochen-specker","physics-holism","quantum-field-theory","qm","qm-bohm","qm-collapse","qm-consistent-histories","qm-copenhagen","qm-everett","qm-manyworlds","qm-modal","qm-relational","qm-decoherence","qt-consciousness","qt-epr","qt-quantcomp","quantum-gravity","qt-quantlog","qt-uncertainty","qt-nvd","bell-theorem","qt-entangle","qm","qm-collapse","qm-manyworlds","qm-decoherence","qt-epr","qt-issues","spacetime-holearg","quantum-field-theory","qm","qm-everett","qm-manyworlds","qt-uncertainty","spacetime-theories","spacetime-singularities","statphys-statmech","bell-theorem","kochen-specker","qm","qm-modal","qt-nvd","qm","qm-bohm","qm-copenhagen","quantum-field-theory","qm","qm-bohm","qm-decoherence","qt-quantlog","determinism-causal","compatibilism","free-will-foreknowledge","freewill","incompatibilism-theories","incompatibilism-arguments","legal-punishment","moral-luck","moral-responsibility","punishment","qm-bohm","spacetime-holearg","genrel-early","spacetime-iframes","einstein-philscience","spacetime-holearg","spacetime-iframes","statphys-statmech","statphys-Boltzmann","spacetime-singularities","statphys-Boltzmann","statphys-statmech","cosmology-30s","spacetime-holearg","einstein-philscience","genrel-early","geometry-19th","spacetime-iframes","quantum-field-theory","qm","qm-copenhagen","qm-modal","qt-epr","qt-idind","qt-issues","qt-quantlog","qt-nvd","spacetime-theories"],"weight":[1,1,2,2,2,2,2,2,2,2,2,2,2,2,4,2,4,4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,8,4,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,2,2,2,2,4,2,2,4,2,2,1,1,1,1,1,1,1,1,1,1,1,1,4,4,2,2,1,1,1,1,1,1,4,4,4,4,4,4,2,2,2,2,2,2,2,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,3,1,2,1,4,4,4,4,2,4,4,4,4,4,4,4,4,4,4,6,2,2,2,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1,1,2,1,1,1,3,3,2,2,4,4,4,6,1,1,1,2,2,2,6,2,4,3,2,2,3,1,1,1,1,1,1,1,1,1,1,2,1,2,4,1,2,1,3,1,2,2,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,2,2,1,1,1,2,1,2,2,2,2,2,1,2,1,1,1,1,2,2,1,2,1,1,3,2,2,3,4,3,1,2,1,1,2,3,2,2,2,3,1,2,2,2,2,1,2,2,3,2,3,2,2,3,2,1,4,1,1,4,4,4,4,4,4,6,4,8,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,2,2,1,4,3,1,4,1,2,2,2,2,1,1,1,2,1,3,1,1,2,4,2,2,2,2,2,3,1,2,2,1,2,4,2,2,1,2,2,1,2,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"arrow.size":[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],"curved":[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true},"manipulation":{"enabled":false},"edges":{"arrows":{"to":{"enabled":true,"scaleFactor":0.5}},"smooth":false},"physics":{"solver":"forceAtlas2Based","minVelocity":1,"stabilization":false,"forceAtlas2Based":{"gravitationalConstant":-80,"centralGravity":0.01,"avoidOverlap":1,"springConstant":0.1,"damping":1}},"interaction":{"hover":true,"hideEdgesOnDrag":true,"keyboard":true,"tooltipDelay":200}},"groups":null,"width":"100%","height":"700px","idselection":{"enabled":true,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"font-family: \"Inconsolata\", monospace; width: 200px; height: 32px; background: #f2f2f2; color:black; border:none; border-radius:12px; outline:none;","multiple":false,"hideColor":"rgba(200,200,200,0.5)","variable":"group","main":"Select by group"},"main":{"text":"<h1>The SEP in the year NA<\/h1>","style":"font-family: \"Inconsolata\", monospace;"},"submain":null,"footer":{"text":"<h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Degree_(graph_theory)\">degree centrality<\/a>:<\/h3><p>qt-issues, qm, qm-bohm, qt-epr, qm-decoherence, qm-manyworlds, freewill, qm-modal, einstein-philscience, compatibilism<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Betweenness_centrality\">betweenness centrality<\/a>:<\/h3><p>determinism-causal, einstein-philscience, spacetime-holearg, qm-bohm, qm, compatibilism, moral-responsibility, quantum-gravity, qt-consciousness, incompatibilism-theories<\/p><h3>Top nodes by <a href=\"https://en.wikipedia.org/wiki/Eigenvector_centrality\">eigenvector centrality<\/a>:<\/h3><p>qm, qm-bohm, qm-everett, qt-epr, qm-manyworlds, qm-modal, qm-copenhagen, kochen-specker, bell-theorem, qm-decoherence<\/p>","style":"font-family: \"Inconsolata\", monospace;"},"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(0,0,0,.1)","labelOnly":false},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"font-family: \"Inconsolata\", monospace; font-size:16px; background: #f2f2f2; color:black; padding:2px 12px; border:none; border-radius:12px; outline:none; position:fixed; visibility:hidden;"},"evals":[],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-ecc24d409edd190a45ba">{"viewer":{"width":"100%","height":"700px","padding":15,"fill":false},"browser":{"width":"100%","height":"700px","padding":40,"fill":false}}</script>
 </body>
 </html>

@@ -183,7 +183,7 @@ sep.viznet <- function(graphlist,subgroups=FALSE) {
   
   for(i in 1:length(graphlist)) {
     c <- colorRampPalette(brewer.pal(11, "Spectral"))(length(graphlist))
-    visnet <- toVisNetworkData(graphics(graphlist[[i]],color=c[i],undir=TRUE))
+    visnet <- toVisNetworkData(graphics(graphlist[[i]],color=c[i],undir=FALSE))
     
     visnet$nodes$font <- "14px monospace black"
     visnet$nodes$title <- paste("<h4><a href=\"https://plato.stanford.edu/archives/spr",years[i],"/entries/",visnet$nodes$label,"/\">SEP/",visnet$nodes$label,"</a></h4>",
